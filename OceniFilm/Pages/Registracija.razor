@@ -1,0 +1,136 @@
+﻿@page "/registracija"
+@using OceniFilm.Models
+@using System.Timers
+@inject NavigationManager NavigationManager
+
+<div style="margin-left: 350px !important; margin-right: 350px !important;">
+    <Validations @ref="validations" Mode="ValidationMode.Auto" Model="@registracija" ValidateOnLoad="false">
+        <Validation>
+            <Field>
+                <FieldLabel>Ime</FieldLabel>
+                <FieldBody>
+                    <TextEdit @bind-Text="@registracija.Ime">
+                        <Feedback>
+                            <ValidationNone>Vnesite svoje ime</ValidationNone>
+                            <ValidationError/>
+                        </Feedback>
+                    </TextEdit>
+                </FieldBody>
+            </Field>
+        </Validation>
+        <Validation>
+            <Field>
+                <FieldLabel>Priimek</FieldLabel>
+                <FieldBody>
+                    <TextEdit @bind-Text="@registracija.Priimek">
+                        <Feedback>
+                            <ValidationError />
+                            <ValidationNone>Vnesite svoj priimek</ValidationNone>
+                        </Feedback>
+                    </TextEdit>
+                </FieldBody>
+            </Field>
+        </Validation>
+        <Validation>
+            <Field>
+                <FieldLabel>Prikazno ime</FieldLabel>
+                <FieldBody>
+                    <TextEdit @bind-Text="@registracija.PrikaznoIme">
+                        <Feedback>
+                            <ValidationError />
+                            <ValidationNone>Vnesite svoje želeno prikazno ime</ValidationNone>
+                        </Feedback>
+                    </TextEdit>
+                </FieldBody>
+            </Field>
+        </Validation>
+        <Validation>
+            <Field>
+                <FieldLabel>Email</FieldLabel>
+                <FieldBody>
+                    <TextEdit @bind-Text="@registracija.Email">
+                        <Feedback>
+                            <ValidationError />
+                            <ValidationNone>Vnesite svoj email naslov</ValidationNone>
+                        </Feedback>
+                    </TextEdit>
+                </FieldBody>
+            </Field>
+        </Validation>
+        <Validation>
+            <Field>
+                <FieldLabel>Geslo</FieldLabel>
+                <FieldBody>
+                    <TextEdit Role="TextRole.Password" @bind-Text="@registracija.Geslo">
+                        <Feedback>
+                            <ValidationError />
+                            <ValidationNone>Vnesite geslo</ValidationNone>
+                        </Feedback>
+                    </TextEdit>
+                </FieldBody>
+            </Field>
+        </Validation>
+        <Validation>
+            <Field>
+                <FieldLabel>Geslo ponovno</FieldLabel>
+                <FieldBody>
+                    <TextEdit Role="TextRole.Password" @bind-Text="@registracija.GesloPonovno">
+                        <Feedback>
+                            <ValidationError />
+                            <ValidationNone>Ponovno vnesite geslo</ValidationNone>
+                        </Feedback>
+                    </TextEdit>
+                </FieldBody>
+            </Field>
+        </Validation>
+        <Validation>
+            <Field>
+                <FieldLabel>Datum rojstva</FieldLabel>
+                <FieldBody>
+                    <DateEdit TValue="DateTime?" @bind-Date="@registracija.DatumRojstva">
+                        <Feedback>
+                            <ValidationError/>
+                            <ValidationNone>Izberite svoj datum rojstva</ValidationNone>
+                        </Feedback>
+                    </DateEdit>
+                </FieldBody>
+            </Field>
+        </Validation>
+    </Validations>
+    <Button style="float: right" Color="Color.Light" Outline Clicked="@OnRegistrationSubmit">Registracija</Button>
+</div>
+<Snackbar @ref="snackbarRegistrationSuccess">
+  <SnackbarBody>
+    Registracija uspešna! Čez 5 sekund boste avtomatsko preusmerjeni...
+  </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarRegistrationFailure" Color="SnackbarColor.Danger">
+  <SnackbarBody>
+    Registracija neuspešna! Prosimo preverite vnesene podatke
+  </SnackbarBody>
+</Snackbar>
+
+@code {
+    RegistracijaUporabnika registracija = new();
+    Validations validations;
+    private Snackbar snackbarRegistrationSuccess;
+    private Snackbar snackbarRegistrationFailure;
+
+    async Task OnRegistrationSubmit()
+    {
+        if (await validations.ValidateAll())
+        {
+            registracija = new RegistracijaUporabnika();
+            await validations.ClearAll();
+            await snackbarRegistrationSuccess.Show();
+            await Task.Delay(5000);
+    // TODO Dodaj log in na uspešno registracijo
+            StateHasChanged();
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            await snackbarRegistrationFailure.Show();
+        }
+    }
+}

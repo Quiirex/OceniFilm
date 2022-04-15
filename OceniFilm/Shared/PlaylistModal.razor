@@ -1,0 +1,142 @@
+﻿@using OceniFilm.Models.Seznami
+
+@*Modalno okno za dodajanje filma na seznam*@
+<Modal @bind-Visible="@playlistModalVisible" Closing="@OnModalClosing">
+    <ModalContent Centered style="background-color: black; border-color: white;">
+        <ModalHeader>
+            <ModalTitle>Us (2020)</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field Horizontal>
+                <FieldBody ColumnSize="ColumnSize.Is12">
+                    <FieldLabel>Izberi obstoječi seznam predvajanja"</FieldLabel>
+                    <DropdownList 
+                      style="margin-bottom: 30px"
+                      TItem="SeznamFilmov" 
+                      TValue="string"
+                      Data="@MojiSeznamiFilmov"
+                      TextField="@((item)=>item.NazivSeznama)"
+                      ValueField="@((item)=>item.NazivSeznama)"
+                      @bind-SelectedValue="@selectedDropValue"
+                      Color="Color.Light"
+                      MaxMenuHeight="200px">
+                        Moji seznami
+                    </DropdownList>
+                </FieldBody>
+                <FieldBody ColumnSize="ColumnSize.Is10">
+                    <FieldLabel>Ustvari nov seznam predvajanja</FieldLabel>
+                    <TextEdit @bind-Text="@seznam" Placeholder="Vnesi ime seznama.."></TextEdit>
+                </FieldBody>
+                <FieldBody ColumnSize="ColumnSize.Is2">
+                    <Button Color="Color.Light" Outline>
+                        <Icon Name="IconName.PlusSquare"></Icon>
+                    </Button>
+                </FieldBody>
+            </Field>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+@code {
+    [Parameter]
+    public bool playlistModalVisible { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> playlistModalVisibleChanged { get; set; }
+
+    string selectedDropValue { get; set; } = "prazno";
+
+    public IEnumerable<SeznamFilmov>? MojiSeznamiFilmov;
+
+    public List<SeznamFilmov> mockSeznam = new();
+
+    public string seznam;
+
+    private bool cancelClose;
+
+    protected override async Task OnInitializedAsync()
+    {
+        mockSeznam.Add(
+            new SeznamFilmov
+                {
+                    Uporabnik = new Uporabnik { UporabniskoIme = "Janez123" },
+                    NazivSeznama = "Zdravo",
+                    Filmi = new List<Film>
+                        {
+                        new()
+                        {
+                            Naslov = "The Batman"
+                        },
+                        new()
+                        {
+                            Naslov = "Spider-Man: Homecoming"
+                        },
+                        new()
+                        {
+                            Naslov = "Titanic"
+                        }
+                        }
+                }
+        );
+        mockSeznam.Add(
+            new SeznamFilmov
+                {
+                    Uporabnik = new Uporabnik { UporabniskoIme = "Janez123" },
+                    NazivSeznama = "Ko te jebe",
+                    Filmi = new List<Film>
+                        {
+                        new()
+                        {
+                            Naslov = "The Batman"
+                        },
+                        new()
+                        {
+                            Naslov = "Spider-Man: Homecoming"
+                        },
+                        new()
+                        {
+                            Naslov = "Titanic"
+                        }
+                        }
+                }
+        );
+        mockSeznam.Add(
+            new SeznamFilmov
+                {
+                    Uporabnik = new Uporabnik { UporabniskoIme = "Janez123" },
+                    NazivSeznama = "Slabi filmi",
+                    Filmi = new List<Film>
+                        {
+                        new()
+                        {
+                            Naslov = "The Batman"
+                        },
+                        new()
+                        {
+                            Naslov = "Spider-Man: Homecoming"
+                        },
+                        new()
+                        {
+                            Naslov = "Titanic"
+                        }
+                        }
+                }
+        );
+        MojiSeznamiFilmov = mockSeznam;
+        await base.OnInitializedAsync();
+    }
+
+    private async Task HidePlaylistModal()
+    {
+        await Task.Delay(2000);
+        playlistModalVisible = false;
+    }
+
+    private async Task OnModalClosing(ModalClosingEventArgs e)
+    {
+        playlistModalVisible = false;
+        await playlistModalVisibleChanged.InvokeAsync(playlistModalVisible);
+        return;
+    }
+}

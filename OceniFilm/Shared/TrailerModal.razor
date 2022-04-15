@@ -1,0 +1,25 @@
+﻿<Modal @bind-Visible="@trailerModalVisible" Closing="@OnModalClosing">
+    <ModalContent Centered>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/@url" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </ModalContent>
+</Modal>
+
+@code {
+    [Parameter]
+    public bool trailerModalVisible { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> trailerModalVisibleChanged { get; set; }
+
+    [Parameter]
+    public string url { get; set; } = string.Empty;
+
+    private bool cancelClose;
+
+    private async Task OnModalClosing(ModalClosingEventArgs e)
+    {
+        trailerModalVisible = false;
+        await trailerModalVisibleChanged.InvokeAsync(trailerModalVisible);
+        return;
+    }
+}

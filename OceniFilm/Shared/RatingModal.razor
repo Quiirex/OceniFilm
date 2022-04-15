@@ -1,0 +1,49 @@
+﻿@*Modalno okno za ocenjevanje*@
+<Modal @bind-Visible="@ratingModalVisible" Closing="@OnModalClosing">
+    <ModalContent Centered style="background-color: black; border-color: white;">
+        <ModalHeader>
+            <ModalTitle>Us (2020)</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <FieldLabel style="padding-right: 10px; margin-right: 20px;">IMDB Ocena (@imdbOcena/10)</FieldLabel><Rating Color="Color.Warning" @bind-SelectedValue="@imdbOcena" MaxValue="10" ReadOnly="true"/>
+            </Field>
+            <Field>
+                <FieldLabel style="padding-right: 10px; margin-right: 23px;">Tvoja ocena (@mojaOcena/10) </FieldLabel><Rating Color="Color.Warning" @bind-SelectedValue="@mojaOcena" MaxValue="10" @onclick="@onRatingClick"/>
+            </Field>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+@code {
+    [Parameter]
+    public bool ratingModalVisible { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> ratingModalVisibleChanged { get; set; }
+
+    [Parameter]
+    public int imdbOcena { get; set; } = 0;
+
+    [Parameter]
+    public int mojaOcena { get; set; } = 0;
+
+    [Parameter]
+    public EventCallback<int> mojaOcenaChanged { get; set; }
+
+    private bool cancelClose;
+
+    private async Task onRatingClick()
+    {
+        await mojaOcenaChanged.InvokeAsync(mojaOcena);
+        return;
+    }
+
+    private async Task OnModalClosing(ModalClosingEventArgs e)
+    {
+        ratingModalVisible = false;
+        await ratingModalVisibleChanged.InvokeAsync(ratingModalVisible);
+        return;
+    }
+}

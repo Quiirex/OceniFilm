@@ -1,0 +1,83 @@
+﻿@using OceniFilm.Models.Videoteka
+
+<Card style="margin: 0">
+    <CardImage Source="@poster" Alt="@naslov" style="height: 500px !important;"></CardImage>
+    <CardBody>
+        <p style="margin: 0">
+            <Icon Name="IconName.Star" style="color: gold"></Icon> @imdbOcena/10
+            <Button class="card-btn" Color="Color.Light" Outline style="float: right" data-toggle="tooltip" data-placement="top" title="Oceni ta film" Clicked="@ShowRatingModal">
+                <Icon Name="IconName.Star" IconStyle="IconStyle.Regular"></Icon>
+            </Button>
+        </p>
+        <CardTitle Size="5" style="margin-bottom: 0">@naslov (@letoIzdaje)</CardTitle>
+        <div style="margin-bottom: 10px;">
+            @foreach (var zanr in seznamZanrov) { 
+                <Badge Color="Color.Dark" style="margin-right: 5px">@zanr.Naziv</Badge>
+            }
+        </div>
+        <CardSubtitle style="font-size: 12px">
+            @foreach (var igralec in seznamIgralcev) { 
+                    @($"{igralec.Ime} {igralec.Priimek} - ")
+            }
+        </CardSubtitle>
+        <CardText style="margin-bottom: 10px">
+
+        </CardText>
+        <Button class="card-btn" Color="Color.Light" Outline style="float: left" data-toggle="tooltip" data-placement="top" title="Oglej si napovednik filma" Clicked="@ShowTrailerModal"><Icon Name="IconName.PlayCircle"></Icon> Napovednik</Button>
+        <Button class="card-btn" Color="Color.Light" Outline style="float: right" data-toggle="tooltip" data-placement="top" title="Dodaj ta film na seznam" Clicked="@ShowPlaylistModal">
+            <Icon Name="IconName.PlusSquare"></Icon>
+        </Button>
+    </CardBody>
+</Card>
+
+<PlaylistModal @bind-playlistModalVisible="playlistModalVisible"/>
+<RatingModal @bind-ratingModalVisible="ratingModalVisible" @bind-mojaOcena="mojaOcena" imdbOcena="@imdbOcena"/>
+<TrailerModal @bind-trailerModalVisible="trailerModalVisible" Url="@napovednikUrl"/>
+
+@code {
+    public bool ratingModalVisible { get; set; } = false;
+    public bool playlistModalVisible { get; set; } = false;
+    public bool trailerModalVisible { get; set; } = false;
+
+    [Parameter]
+    public string poster { get; set; } = string.Empty;
+
+    [Parameter]
+    public int imdbOcena { get; set; }
+
+    [Parameter]
+    public int mojaOcena { get; set; }
+
+    [Parameter]
+    public string naslov { get; set; } = string.Empty;
+
+    [Parameter]
+    public int letoIzdaje { get; set; }
+
+    [Parameter]
+    public List<Zanr> seznamZanrov { get; set; } = new List<Zanr>();
+
+    [Parameter]
+    public List<IgralecFilma> seznamIgralcev { get; set; } = new List<IgralecFilma>();
+
+    [Parameter]
+    public string napovednikUrl { get; set; } = string.Empty;
+
+    private Task ShowRatingModal()
+    {
+        ratingModalVisible = true;
+        return Task.CompletedTask;
+    }
+
+    private Task ShowPlaylistModal()
+    {
+        playlistModalVisible = true;
+        return Task.CompletedTask;
+    }
+
+    private Task ShowTrailerModal()
+    {
+        trailerModalVisible = true;
+        return Task.CompletedTask;
+    }
+}

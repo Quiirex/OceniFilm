@@ -1,0 +1,31 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/identiteta",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 80 // TODO Check
+        }
+      ],
+      "UpstreamPathTemplate": "/api/identiteta",
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Limit": 1,
+        "Period": "5s",
+        "PeriodTimespan": 1
+      },
+      "FileCacheOptions": {"TtlSeconds": 5}
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7248"
+  }
+}
