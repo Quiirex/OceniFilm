@@ -1,7 +1,9 @@
 ﻿@using OceniFilm.Models.Videoteka
 
 <Card style="margin: 0">
-    <CardImage Source="@poster" Alt="@naslov" style="height: 500px !important;"></CardImage>
+    <a href="/film/@naslov" target="_blank">
+        <CardImage Source="@poster" Alt="@naslov" style="height: 500px !important;"></CardImage>
+    </a>
     <CardBody>
         <p style="margin: 0">
             <Icon Name="IconName.Star" style="color: gold"></Icon> @imdbOcena/10
@@ -55,10 +57,10 @@
     public int letoIzdaje { get; set; }
 
     [Parameter]
-    public List<Zanr> seznamZanrov { get; set; } = new List<Zanr>();
+    public List<Zanr> seznamZanrov { get; set; } = new();
 
     [Parameter]
-    public List<IgralecFilma> seznamIgralcev { get; set; } = new List<IgralecFilma>();
+    public List<IgralecFilma> seznamIgralcev { get; set; } = new();
 
     [Parameter]
     public string napovednikUrl { get; set; } = string.Empty;

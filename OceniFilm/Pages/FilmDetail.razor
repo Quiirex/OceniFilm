@@ -1,5 +1,45 @@
-﻿<h3>FilmDetail</h3>
+﻿@page "/film/{naslovFilma}"
+@using OceniFilm.Models.Videoteka
+
+<Div style="margin-top: 50px !important;">
+    <Row class="customRowStyling">
+        <Column class="customColumnStyling" ColumnSize="ColumnSize.Is2">
+            <Alert Color="Color.Dark" Visible>
+                @naslovFilma
+            </Alert>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is6">
+            <Alert Color="Color.Dark" Visible>
+                Is6
+            </Alert>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is4">
+            <Alert Color="Color.Dark" Visible>
+                Is4
+            </Alert>
+        </Column>
+    </Row>
+    <Row>
+        <Column ColumnSize="ColumnSize.Is12">
+            <Alert Color="Color.Dark" Visible>
+                Is12
+            </Alert>
+        </Column>
+    </Row>
+    <Row>
+        <Column ColumnSize="ColumnSize.Is4">
+            <Card>
+                <CardImage Source="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" Alt="@naslovFilma" style="height: 480px !important;"></CardImage>
+            </Card>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is8">
+            <iframe style="border: 1px solid white;" width="728" height="482" src="https://www.youtube.com/embed/mqqft2x_Aa4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </Column>
+    </Row>
+</Div>
+
 
 @code {
-
+    [Parameter]
+    public string naslovFilma { get; set; } = string.Empty;
 }
