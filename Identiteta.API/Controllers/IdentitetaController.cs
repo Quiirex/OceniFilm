@@ -69,8 +69,8 @@ public class IdentitetaController : ControllerBase
         return Ok(uporabnik);
     }
 
-    // POST api/Uporabnik/login
-    [HttpPost("~/prijava")]
+    // POST api/Uporabnik/prijava
+    [HttpPost("prijava")]
     public ActionResult<Uporabnik> PrijavaUporabnika([FromBody] UporabnikPrijava uporabnik)
     {
         Uporabnik iskaniUporabnik = _context.Uporabniki.Single(u => u.Email == uporabnik.Email);
@@ -84,8 +84,8 @@ public class IdentitetaController : ControllerBase
         return Ok(new { Token = generiranToken });
     }
 
-    // POST: api/Uporabnik/register
-    [HttpPost("~/registracija")]
+    // POST: api/Uporabnik/registracija
+    [HttpPost("registracija")]
     public async Task<ActionResult<Uporabnik>> RegistracijaUporabnika([FromBody] Uporabnik noviUporabnik)
     {
         noviUporabnik = _authService.HashPassword(noviUporabnik);

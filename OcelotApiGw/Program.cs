@@ -13,7 +13,7 @@ builder.Services.AddAuthentication(option =>
     option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-.AddJwtBearer("OcelotAuthKey", options =>
+.AddJwtBearer("OcelotGWKey", options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {

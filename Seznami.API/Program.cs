@@ -19,13 +19,17 @@ builder.Services.AddAuthentication(authenticationOptions =>
 })
 .AddJwtBearer(jwtBearerOptions =>
 {
+    jwtBearerOptions.RequireHttpsMetadata = false;
+    jwtBearerOptions.Audience = "seznami";
+
     jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidateAudience = false,
+        ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ValidIssuer = configuration["JWT:Issuer"],
+        ValidAudience = "seznami",
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]))
     };
 });

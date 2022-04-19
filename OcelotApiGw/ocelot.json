@@ -1,28 +1,134 @@
 {
   "Routes": [
+     //Identiteta API
     {
-      "DownstreamPathTemplate": "/identiteta",
+      "DownstreamPathTemplate": "/api/identiteta{params}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 80 // TODO Check
+          "Port": 7165
         }
       ],
-      "UpstreamPathTemplate": "/api/identiteta",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamPathTemplate": "/identiteta{params}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "RouteIsCaseSensitive": false
+    },
+    {
+      "DownstreamPathTemplate": "/api/identiteta/prijava",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7165
+        }
+      ],
+      "UpstreamPathTemplate": "/identiteta/prijava",
+      "UpstreamHttpMethod": [ "Post" ],
+      "RouteIsCaseSensitive": false
+    },
+    {
+      "DownstreamPathTemplate": "/api/identiteta/registracija",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7165
+        }
+      ],
+      "UpstreamPathTemplate": "/identiteta/registracija",
+      "UpstreamHttpMethod": [ "Post" ],
+      "RouteIsCaseSensitive": false
+    },
+     //Igralci API
+    {
+      "DownstreamPathTemplate": "/api/igralec{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7025 //internal
+        }
+      ],
+      "UpstreamPathTemplate": "/igralec{params}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "RouteIsCaseSensitive": false,
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
+        "AuthenticationProviderKey": "OcelotGWKey",
         "AllowedScopes": []
-      },
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Limit": 1,
-        "Period": "5s",
-        "PeriodTimespan": 1
-      },
-      "FileCacheOptions": {"TtlSeconds": 5}
+      }
+    },
+    // Komentiranje API
+    {
+      "DownstreamPathTemplate": "/api/komentiranje{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7101 //internal
+        }
+      ],
+      "UpstreamPathTemplate": "/komentiranje{params}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "RouteIsCaseSensitive": false,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "OcelotGWKey",
+        "AllowedScopes": []
+      }
+    },
+    // Ocenjevanje API
+    {
+      "DownstreamPathTemplate": "/api/ocenjevanje{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7088 //internal
+        }
+      ],
+      "UpstreamPathTemplate": "/ocenjevanje{params}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "RouteIsCaseSensitive": false,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "OcelotGWKey",
+        "AllowedScopes": []
+      }
+    },
+    // SeznamiFilmov API
+    {
+      "DownstreamPathTemplate": "/api/seznamfilmov{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7019 //internal
+        }
+      ],
+      "UpstreamPathTemplate": "/seznamfilmov{params}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "RouteIsCaseSensitive": false,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "OcelotGWKey",
+        "AllowedScopes": []
+      }
+    },
+    // Videoteka API
+    {
+      "DownstreamPathTemplate": "/api/videoteka{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7145 //internal
+        }
+      ],
+      "UpstreamPathTemplate": "/videoteka{params}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "RouteIsCaseSensitive": false,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "OcelotGWKey",
+        "AllowedScopes": []
+      }
     }
   ],
   "GlobalConfiguration": {
