@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAuthorization();
+//builder.Services.AddAuthorization();
 //builder.Services.AddAuthentication(authenticationOptions =>
 //{
 //    authenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -43,7 +43,7 @@ app.UseHttpsRedirection();
 
 //app.UseAuthentication();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 app.MapControllers();
 
