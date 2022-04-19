@@ -20,8 +20,6 @@ builder.Services.AddAuthentication(authenticationOptions =>
 .AddJwtBearer(jwtBearerOptions =>
 {
     jwtBearerOptions.RequireHttpsMetadata = false;
-    jwtBearerOptions.Audience = "igralci";
-
     jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -29,7 +27,7 @@ builder.Services.AddAuthentication(authenticationOptions =>
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ValidIssuer = configuration["JWT:Issuer"],
-        ValidAudience = "igralci",
+        ValidAudience = configuration["JWT:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]))
     };
 });

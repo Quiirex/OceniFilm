@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Igralci.API.Controllers;
 
 [Route("api/[controller]")]
+[Authorize]
 [ApiController]
 public class IgralecController : ControllerBase
 {

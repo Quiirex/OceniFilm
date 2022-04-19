@@ -74,6 +74,7 @@ public class AuthService : IAuthService
 
         JwtSecurityToken? tokenOptions = new JwtSecurityToken(
             issuer: _configuration.GetSection("JWT:Issuer").Value,
+            audience: _configuration.GetSection("JWT:Audience").Value,
             claims: claims,
             expires: DateTime.Now.AddDays(1), // TODO Check if the token needs to be refreshed
             signingCredentials: signinCredentials

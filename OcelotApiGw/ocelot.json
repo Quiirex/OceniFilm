@@ -54,7 +54,7 @@
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "RouteIsCaseSensitive": false,
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "OcelotGWKey",
+        "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
       }
     },
@@ -72,7 +72,7 @@
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "RouteIsCaseSensitive": false,
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "OcelotGWKey",
+        "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
       }
     },
@@ -90,7 +90,7 @@
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "RouteIsCaseSensitive": false,
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "OcelotGWKey",
+        "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
       }
     },
@@ -108,7 +108,7 @@
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "RouteIsCaseSensitive": false,
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "OcelotGWKey",
+        "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
       }
     },
@@ -126,7 +126,7 @@
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "RouteIsCaseSensitive": false,
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "OcelotGWKey",
+        "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
       }
     }
