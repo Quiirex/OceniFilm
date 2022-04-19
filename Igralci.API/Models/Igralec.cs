@@ -4,7 +4,7 @@ namespace Igralci.API.Models;
 
 public class Igralec
 {
-    [Key] [Required] public int Id { get; set; }
+    [Key][Required] public int Id { get; set; }
 
     public string Ime { get; set; } = string.Empty;
     public string Priimek { get; set; } = string.Empty;

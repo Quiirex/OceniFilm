@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Ocenjevanje.API.Data;
 using Ocenjevanje.API.Models;
@@ -27,18 +28,25 @@ public class OcenaController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Ocena>> GetOcena(int id)
     {
-        var ocena = await _context.Ocene.FindAsync(id);
+        Ocena? ocena = await _context.Ocene.FindAsync(id);
 
-        if (ocena == null) return NotFound();
+        if (ocena == null)
+        {
+            return NotFound();
+        }
 
         return ocena;
     }
 
     // PUT: api/Ocena/5
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> PutOcena(int id, Ocena ocena)
     {
-        if (id != ocena.Id) return BadRequest();
+        if (id != ocena.Id)
+        {
+            return BadRequest();
+        }
 
         _context.Entry(ocena).State = EntityState.Modified;
 
@@ -49,7 +57,10 @@ public class OcenaController : ControllerBase
         catch (DbUpdateConcurrencyException)
         {
             if (!OcenaExists(id))
+            {
                 return NotFound();
+            }
+
             throw;
         }
 
@@ -58,20 +69,25 @@ public class OcenaController : ControllerBase
 
     // POST: api/Ocena
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<Ocena>> PostOcena(Ocena ocena)
     {
         _context.Ocene.Add(ocena);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetOcena", new {id = ocena.Id}, ocena);
+        return CreatedAtAction("GetOcena", new { id = ocena.Id }, ocena);
     }
 
     // DELETE: api/Ocena/5
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> DeleteOcena(int id)
     {
-        var ocena = await _context.Ocene.FindAsync(id);
-        if (ocena == null) return NotFound();
+        Ocena? ocena = await _context.Ocene.FindAsync(id);
+        if (ocena == null)
+        {
+            return NotFound();
+        }
 
         _context.Ocene.Remove(ocena);
         await _context.SaveChangesAsync();

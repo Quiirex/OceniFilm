@@ -1,38 +1,40 @@
-using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using System.Text;
 
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
-builder.Services.AddOcelot().AddCacheManager(settings => settings.WithDictionaryHandle());
-
-var secret = "Thisismytestprivatekey";
-var key = Encoding.UTF8.GetBytes(secret);
+WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
+ConfigurationManager configuration = builder.Configuration;
 
 builder.Services.AddAuthentication(option =>
 {
     option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
+})
+.AddJwtBearer("OcelotAuthKey", options =>
 {
-    options.RequireHttpsMetadata = false;
-    options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = true,
+        ValidateAudience = false,
+        ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidateIssuer = false
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]))
     };
 });
-builder.WebHost.ConfigureAppConfiguration(config => config.AddJsonFile("ocelot.json"));
-var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Services.AddAuthorization();
+builder.Configuration.AddJsonFile("ocelot.json");
+builder.Services.AddOcelot().AddCacheManager(settings => settings.WithDictionaryHandle());
+
+WebApplication? app = builder.Build();
+
 app.UseAuthentication();
+app.UseAuthorization();
 app.UseOcelot().Wait();
 app.Run();

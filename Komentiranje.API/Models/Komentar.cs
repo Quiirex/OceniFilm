@@ -4,7 +4,7 @@ namespace Komentiranje.API.Models;
 
 public class Komentar
 {
-    [Key] [Required] public int Id { get; set; }
+    [Key][Required] public int Id { get; set; }
 
     public string Vsebina { get; set; } = string.Empty;
     public DateTime DatumZapisa { get; set; }

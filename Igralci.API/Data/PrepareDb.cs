@@ -6,7 +6,7 @@ public static class PrepareDb
 {
     public static void InitializeDataSeed(IApplicationBuilder app)
     {
-        using var serviceScope = app.ApplicationServices.CreateScope();
+        using IServiceScope? serviceScope = app.ApplicationServices.CreateScope();
         SeedData(serviceScope.ServiceProvider.GetService<IgralciDbContext>());
     }
 

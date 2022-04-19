@@ -1,5 +1,6 @@
 ﻿using Komentiranje.API.Data;
 using Komentiranje.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,18 +28,25 @@ public class KomentarController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Komentar>> GetKomentar(int id)
     {
-        var komentar = await _context.Komentarji.FindAsync(id);
+        Komentar? komentar = await _context.Komentarji.FindAsync(id);
 
-        if (komentar == null) return NotFound();
+        if (komentar == null)
+        {
+            return NotFound();
+        }
 
         return komentar;
     }
 
     // PUT: api/Komentar/5
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> PutKomentar(int id, Komentar komentar)
     {
-        if (id != komentar.Id) return BadRequest();
+        if (id != komentar.Id)
+        {
+            return BadRequest();
+        }
 
         _context.Entry(komentar).State = EntityState.Modified;
 
@@ -49,7 +57,10 @@ public class KomentarController : ControllerBase
         catch (DbUpdateConcurrencyException)
         {
             if (!KomentarExists(id))
+            {
                 return NotFound();
+            }
+
             throw;
         }
 
@@ -58,20 +69,25 @@ public class KomentarController : ControllerBase
 
     // POST: api/Komentar
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<Komentar>> PostKomentar(Komentar komentar)
     {
         _context.Komentarji.Add(komentar);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetKomentar", new {id = komentar.Id}, komentar);
+        return CreatedAtAction("GetKomentar", new { id = komentar.Id }, komentar);
     }
 
     // DELETE: api/Komentar/5
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> DeleteKomentar(int id)
     {
-        var komentar = await _context.Komentarji.FindAsync(id);
-        if (komentar == null) return NotFound();
+        Komentar? komentar = await _context.Komentarji.FindAsync(id);
+        if (komentar == null)
+        {
+            return NotFound();
+        }
 
         _context.Komentarji.Remove(komentar);
         await _context.SaveChangesAsync();

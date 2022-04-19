@@ -6,7 +6,7 @@ public static class PrepareDb
 {
     public static void InitializeDataSeed(IApplicationBuilder app)
     {
-        using var serviceScope = app.ApplicationServices.CreateScope();
+        using IServiceScope? serviceScope = app.ApplicationServices.CreateScope();
         SeedData(serviceScope.ServiceProvider.GetService<SeznamiFilmovDbContext>());
     }
 
@@ -19,7 +19,7 @@ public static class PrepareDb
             database.SeznamiFilmov.AddRange(
                 new SeznamFilmov
                 {
-                    Uporabnik = new Uporabnik {UporabniskoIme = "Janez123"},
+                    Uporabnik = new Uporabnik { UporabniskoIme = "Janez123" },
                     NazivSeznama = "Favoriti",
                     Filmi = new List<Film>
                     {
@@ -39,7 +39,7 @@ public static class PrepareDb
                 },
                 new SeznamFilmov
                 {
-                    Uporabnik = new Uporabnik {UporabniskoIme = "Marjan123"},
+                    Uporabnik = new Uporabnik { UporabniskoIme = "Marjan123" },
                     NazivSeznama = "Za kasneje",
                     Filmi = new List<Film>
                     {
@@ -59,7 +59,7 @@ public static class PrepareDb
                 },
                 new SeznamFilmov
                 {
-                    Uporabnik = new Uporabnik {UporabniskoIme = "Bojan123"},
+                    Uporabnik = new Uporabnik { UporabniskoIme = "Bojan123" },
                     NazivSeznama = "Poglej",
                     Filmi = new List<Film>
                     {

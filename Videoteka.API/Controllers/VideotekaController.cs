@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Videoteka.API.Data;
 using Videoteka.API.Models;
@@ -27,18 +28,25 @@ public class VideotekaController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Film>> GetFilm(int id)
     {
-        var film = await _context.Filmi.FindAsync(id);
+        Film? film = await _context.Filmi.FindAsync(id);
 
-        if (film == null) return NotFound();
+        if (film == null)
+        {
+            return NotFound();
+        }
 
         return film;
     }
 
     // PUT: api/Videoteka/5
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> PutFilm(int id, Film film)
     {
-        if (id != film.Id) return BadRequest();
+        if (id != film.Id)
+        {
+            return BadRequest();
+        }
 
         _context.Entry(film).State = EntityState.Modified;
 
@@ -49,7 +57,10 @@ public class VideotekaController : ControllerBase
         catch (DbUpdateConcurrencyException)
         {
             if (!FilmExists(id))
+            {
                 return NotFound();
+            }
+
             throw;
         }
 
@@ -58,20 +69,25 @@ public class VideotekaController : ControllerBase
 
     // POST: api/Videoteka
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<Film>> PostFilm(Film film)
     {
         _context.Filmi.Add(film);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetFilm", new {id = film.Id}, film);
+        return CreatedAtAction("GetFilm", new { id = film.Id }, film);
     }
 
     // DELETE: api/Videoteka/5
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> DeleteFilm(int id)
     {
-        var film = await _context.Filmi.FindAsync(id);
-        if (film == null) return NotFound();
+        Film? film = await _context.Filmi.FindAsync(id);
+        if (film == null)
+        {
+            return NotFound();
+        }
 
         _context.Filmi.Remove(film);
         await _context.SaveChangesAsync();

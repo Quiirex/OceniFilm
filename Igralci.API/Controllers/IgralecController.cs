@@ -1,5 +1,6 @@
 ﻿using Igralci.API.Data;
 using Igralci.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,18 +28,25 @@ public class IgralecController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Igralec>> GetIgralec(int id)
     {
-        var igralec = await _context.Igralci.FindAsync(id);
+        Igralec? igralec = await _context.Igralci.FindAsync(id);
 
-        if (igralec == null) return NotFound();
+        if (igralec == null)
+        {
+            return NotFound();
+        }
 
         return igralec;
     }
 
     // PUT: api/Igralec/5
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> PutIgralec(int id, Igralec igralec)
     {
-        if (id != igralec.Id) return BadRequest();
+        if (id != igralec.Id)
+        {
+            return BadRequest();
+        }
 
         _context.Entry(igralec).State = EntityState.Modified;
 
@@ -49,7 +57,10 @@ public class IgralecController : ControllerBase
         catch (DbUpdateConcurrencyException)
         {
             if (!IgralecExists(id))
+            {
                 return NotFound();
+            }
+
             throw;
         }
 
@@ -58,20 +69,25 @@ public class IgralecController : ControllerBase
 
     // POST: api/Igralec
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<Igralec>> PostIgralec(Igralec igralec)
     {
         _context.Igralci.Add(igralec);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetIgralec", new {id = igralec.Id}, igralec);
+        return CreatedAtAction("GetIgralec", new { id = igralec.Id }, igralec);
     }
 
     // DELETE: api/Igralec/5
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> DeleteIgralec(int id)
     {
-        var igralec = await _context.Igralci.FindAsync(id);
-        if (igralec == null) return NotFound();
+        Igralec? igralec = await _context.Igralci.FindAsync(id);
+        if (igralec == null)
+        {
+            return NotFound();
+        }
 
         _context.Igralci.Remove(igralec);
         await _context.SaveChangesAsync();

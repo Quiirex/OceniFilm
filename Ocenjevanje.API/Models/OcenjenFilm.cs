@@ -4,7 +4,7 @@ namespace Ocenjevanje.API.Models;
 
 public class OcenjenFilm
 {
-    [Key] [Required] public int Id { get; set; }
+    [Key][Required] public int Id { get; set; }
 
     public string Naslov { get; set; }
 }

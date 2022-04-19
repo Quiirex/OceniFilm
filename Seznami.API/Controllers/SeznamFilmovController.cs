@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Seznami.API.Data;
 using Seznami.API.Models;
@@ -18,6 +19,7 @@ public class SeznamFilmovController : ControllerBase
 
     // GET: api/SeznamFilmov
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<SeznamFilmov>>> GetSeznamiFilmov()
     {
         return await _context.SeznamiFilmov.ToListAsync();
@@ -25,20 +27,28 @@ public class SeznamFilmovController : ControllerBase
 
     // GET: api/SeznamFilmov/5
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<ActionResult<SeznamFilmov>> GetSeznamFilmov(int id)
     {
-        var seznamFilmov = await _context.SeznamiFilmov.FindAsync(id);
+        SeznamFilmov? seznamFilmov = await _context.SeznamiFilmov.FindAsync(id);
 
-        if (seznamFilmov == null) return NotFound();
+        if (seznamFilmov == null)
+        {
+            return NotFound();
+        }
 
         return seznamFilmov;
     }
 
     // PUT: api/SeznamFilmov/5
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> PutSeznamFilmov(int id, SeznamFilmov seznamFilmov)
     {
-        if (id != seznamFilmov.Id) return BadRequest();
+        if (id != seznamFilmov.Id)
+        {
+            return BadRequest();
+        }
 
         _context.Entry(seznamFilmov).State = EntityState.Modified;
 
@@ -49,7 +59,10 @@ public class SeznamFilmovController : ControllerBase
         catch (DbUpdateConcurrencyException)
         {
             if (!SeznamFilmovExists(id))
+            {
                 return NotFound();
+            }
+
             throw;
         }
 
@@ -58,20 +71,25 @@ public class SeznamFilmovController : ControllerBase
 
     // POST: api/SeznamFilmov
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<SeznamFilmov>> PostSeznamFilmov(SeznamFilmov seznamFilmov)
     {
         _context.SeznamiFilmov.Add(seznamFilmov);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetSeznamFilmov", new {id = seznamFilmov.Id}, seznamFilmov);
+        return CreatedAtAction("GetSeznamFilmov", new { id = seznamFilmov.Id }, seznamFilmov);
     }
 
     // DELETE: api/SeznamFilmov/5
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> DeleteSeznamFilmov(int id)
     {
-        var seznamFilmov = await _context.SeznamiFilmov.FindAsync(id);
-        if (seznamFilmov == null) return NotFound();
+        SeznamFilmov? seznamFilmov = await _context.SeznamiFilmov.FindAsync(id);
+        if (seznamFilmov == null)
+        {
+            return NotFound();
+        }
 
         _context.SeznamiFilmov.Remove(seznamFilmov);
         await _context.SaveChangesAsync();

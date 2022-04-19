@@ -9,12 +9,12 @@ namespace Identiteta.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UporabnikController : ControllerBase
+public class IdentitetaController : ControllerBase
 {
     private readonly AuthService _authService;
     private readonly IdentitetaDbContext _context;
 
-    public UporabnikController(IdentitetaDbContext context, AuthService authService)
+    public IdentitetaController(IdentitetaDbContext context, AuthService authService)
     {
         _context = context;
         _authService = authService;
@@ -31,9 +31,12 @@ public class UporabnikController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Uporabnik>> GetUporabnik(string id)
     {
-        var uporabnik = await _context.Uporabniki.FindAsync(id);
+        Uporabnik uporabnik = await _context.Uporabniki.FindAsync(id);
 
-        if (uporabnik == null) return NotFound();
+        if (uporabnik == null)
+        {
+            return NotFound();
+        }
 
         return Ok(uporabnik);
     }
@@ -42,7 +45,10 @@ public class UporabnikController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutUporabnik(string id, [FromBody] Uporabnik uporabnik)
     {
-        if (id != uporabnik.Id) return BadRequest();
+        if (id != uporabnik.Id)
+        {
+            return BadRequest();
+        }
 
         _context.Entry(uporabnik).State = EntityState.Modified;
 
@@ -53,7 +59,10 @@ public class UporabnikController : ControllerBase
         catch (DbUpdateConcurrencyException)
         {
             if (!UporabnikExists(id))
+            {
                 return NotFound();
+            }
+
             throw;
         }
 
@@ -61,35 +70,40 @@ public class UporabnikController : ControllerBase
     }
 
     // POST api/Uporabnik/login
-    [HttpPost("~/login")]
+    [HttpPost("~/prijava")]
     public ActionResult<Uporabnik> PrijavaUporabnika([FromBody] UporabnikPrijava uporabnik)
     {
-        var iskaniUporabnik = _context.Uporabniki.Single(u => u.Email == uporabnik.Email);
+        Uporabnik iskaniUporabnik = _context.Uporabniki.Single(u => u.Email == uporabnik.Email);
 
         if (!_authService.VerifyPassword(uporabnik.Geslo, iskaniUporabnik.Geslo, iskaniUporabnik.Sol))
+        {
             return Unauthorized();
+        }
 
-        var generiranToken = _authService.GenerateJwtToken(iskaniUporabnik);
-        return Ok(new {Token = generiranToken});
+        string generiranToken = _authService.GenerateJwtToken(iskaniUporabnik);
+        return Ok(new { Token = generiranToken });
     }
 
     // POST: api/Uporabnik/register
-    [HttpPost("~/register")]
+    [HttpPost("~/registracija")]
     public async Task<ActionResult<Uporabnik>> RegistracijaUporabnika([FromBody] Uporabnik noviUporabnik)
     {
         noviUporabnik = _authService.HashPassword(noviUporabnik);
         _context.Uporabniki.Add(noviUporabnik);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetUporabnik", new {id = noviUporabnik.Id}, noviUporabnik);
+        return CreatedAtAction("GetUporabnik", new { id = noviUporabnik.Id }, noviUporabnik);
     }
 
     // DELETE: api/Uporabnik/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUporabnik(string id)
     {
-        var uporabnik = await _context.Uporabniki.FindAsync(id);
-        if (uporabnik == null) return NotFound();
+        Uporabnik uporabnik = await _context.Uporabniki.FindAsync(id);
+        if (uporabnik == null)
+        {
+            return NotFound();
+        }
 
         _context.Uporabniki.Remove(uporabnik);
         await _context.SaveChangesAsync();

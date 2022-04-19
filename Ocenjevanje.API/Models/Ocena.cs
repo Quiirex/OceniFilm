@@ -4,7 +4,7 @@ namespace Ocenjevanje.API.Models;
 
 public class Ocena
 {
-    [Key] [Required] public int Id { get; set; }
+    [Key][Required] public int Id { get; set; }
 
     public int Vrednost { get; set; }
     public DateTime DatumOcene { get; set; }
