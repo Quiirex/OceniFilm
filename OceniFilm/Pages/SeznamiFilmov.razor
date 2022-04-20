@@ -4,35 +4,97 @@
 
 <Row>
     <Column ColumnSize="ColumnSize.Is12">
-        <Alert Class="custom-alert-dark" Color="Color.Dark" Visible>
-            <b style="font-size: 25px !important; margin-bottom: 10px !important;">Tvoji seznami filmov</b>
-            <Button class="card-btn" Color="Color.Light" Style="margin-bottom: 8px; margin-left: 5px;" Outline data-toggle="tooltip" data-placement="top" title="Dodaj ta film na seznam" Clicked="@ShowAddPlaylistModal">
-                <Icon Name="IconName.PlusSquare"></Icon>
-            </Button>
-            <ListGroup Flush>
-                <ListGroupItem style="background-color: black !important; border-bottom: 1px solid white !important;">
-                    <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                        <Heading Size="HeadingSize.Is6" Margin="Margin.Is1.FromBottom"><b>janezekN</b></Heading>
-                        <Small TextColor="TextColor.Muted">pred 3 dnevi</Small>
+        <b style="font-size: 25px !important; margin-bottom: 10px !important;">Tvoji seznami filmov</b>
+        <Button class="card-btn" Color="Color.Light" Style="margin-bottom: 8px; margin-left: 5px;" Outline data-toggle="tooltip" data-placement="top" title="Dodaj ta film na seznam" Clicked="@ShowAddPlaylistModal">
+            <Icon Name="IconName.PlusSquare"></Icon>
+        </Button>
+        <Accordion Style="margin-top: 10px;">
+            <Collapse Visible="@collapse1Visible">
+                <CollapseHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <Button Clicked="@(()=>collapse1Visible = !collapse1Visible)" Style="color: white !important">Prvi seznam <Icon Name="IconName.List" style="padding-left: 5px"></Icon></Button>
+                    </Heading>
+                </CollapseHeader>
+                <CollapseBody>
+                    <Div class="container">
+                        <CardDeck>
+                            <Row Gutter="(32, 32)">
+                                <Column ColumnSize="ColumnSize.Is2">
+                                    <a href="#" target="_blank">
+                                        <img src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
+                                    </a>
+                                </Column>
+                                <Column ColumnSize="ColumnSize.Is2">
+                                    <a href="#" target="_blank">
+                                        <img src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
+                                    </a>
+                                </Column>
+                                <Column ColumnSize="ColumnSize.Is2">
+                                    <a href="#" target="_blank">
+                                        <img src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
+                                    </a>
+                                </Column>
+                                <Column ColumnSize="ColumnSize.Is2">
+                                    <a href="#" target="_blank">
+                                        <img src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
+                                    </a>
+                                </Column>
+                                <Column ColumnSize="ColumnSize.Is2">
+                                    <a href="#" target="_blank">
+                                        <img src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
+                                    </a>
+                                </Column>
+                                <Column ColumnSize="ColumnSize.Is2">
+                                    <a href="#" target="_blank">
+                                        <img src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
+                                    </a>
+                                </Column>
+                                <Column ColumnSize="ColumnSize.Is2">
+                                    <a href="#" target="_blank">
+                                        <img src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
+                                    </a>
+                                </Column>
+                                <Column ColumnSize="ColumnSize.Is2">
+                                    <a href="#" target="_blank">
+                                        <img src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
+                                    </a>
+                                </Column>
+                                <Column ColumnSize="ColumnSize.Is2">
+                                    <a href="#" target="_blank">
+                                        <img src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
+                                    </a>
+                                </Column>
+                                <Column ColumnSize="ColumnSize.Is2">
+                                    <a href="#" target="_blank">
+                                        <img src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
+                                    </a>
+                                </Column>
+                            </Row>
+                        </CardDeck>
                     </Div>
-                    <Paragraph Style="font-size: 0.9rem" Margin="Margin.Is1.FromBottom">Hja morn rečt, da mi je bil ta film všeč.</Paragraph>
-                </ListGroupItem>
-                <ListGroupItem style="background-color: black !important; border-bottom: 1px solid white !important;">
-                    <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                        <Heading Size="HeadingSize.Is6" Margin="Margin.Is1.FromBottom"><b>bojko12</b></Heading>
-                        <Small TextColor="TextColor.Muted">pred 3 dnevi</Small>
-                    </Div>
-                    <Paragraph Style="font-size: 0.9rem" Margin="Margin.Is1.FromBottom">Najs</Paragraph>
-                </ListGroupItem>
-                <ListGroupItem style="background-color: black !important;">
-                    <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                        <Heading Size="HeadingSize.Is6" Margin="Margin.Is1.FromBottom"><b>marjanZilla</b></Heading>
-                        <Small TextColor="TextColor.Muted">pred 3 dnevi</Small>
-                    </Div>
-                    <Paragraph Style="font-size: 0.9rem" Margin="Margin.Is1.FromBottom">Dober dan ponovno</Paragraph>
-                </ListGroupItem>
-            </ListGroup>
-        </Alert>
+                </CollapseBody>
+            </Collapse>
+            <Collapse Visible="@collapse2Visible">
+                <CollapseHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <Button Clicked="@(()=>collapse2Visible = !collapse2Visible)" Style="color: white !important">Drugi seznam <Icon Name="IconName.List" style="padding-left: 5px"></Icon></Button>
+                    </Heading>
+                </CollapseHeader>
+                <CollapseBody>
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </CollapseBody>
+            </Collapse>
+            <Collapse Visible="@collapse3Visible">
+                <CollapseHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <Button Clicked="@(()=>collapse3Visible = !collapse3Visible)" Style="color: white !important">Tretji seznam <Icon Name="IconName.List" style="padding-left: 5px"></Icon></Button>
+                    </Heading>
+                </CollapseHeader>
+                <CollapseBody>
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </CollapseBody>
+            </Collapse>
+        </Accordion>
     </Column>
 </Row>
 
@@ -40,6 +102,9 @@
 
 @code {
     public bool addPlaylistModalVisible { get; set; } = false;
+    bool collapse1Visible = false;
+    bool collapse2Visible = false;
+    bool collapse3Visible = false;
 
     private Task ShowAddPlaylistModal()
     {
