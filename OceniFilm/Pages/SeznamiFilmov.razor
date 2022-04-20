@@ -1,0 +1,49 @@
+﻿@page "/seznamifilmov"
+@using OceniFilm.Models.Seznami
+@inject NavigationManager NavigationManager
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is12">
+        <Alert Class="custom-alert-dark" Color="Color.Dark" Visible>
+            <b style="font-size: 25px !important; margin-bottom: 10px !important;">Tvoji seznami filmov</b>
+            <Button class="card-btn" Color="Color.Light" Style="margin-bottom: 8px; margin-left: 5px;" Outline data-toggle="tooltip" data-placement="top" title="Dodaj ta film na seznam" Clicked="@ShowAddPlaylistModal">
+                <Icon Name="IconName.PlusSquare"></Icon>
+            </Button>
+            <ListGroup Flush>
+                <ListGroupItem style="background-color: black !important; border-bottom: 1px solid white !important;">
+                    <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                        <Heading Size="HeadingSize.Is6" Margin="Margin.Is1.FromBottom"><b>janezekN</b></Heading>
+                        <Small TextColor="TextColor.Muted">pred 3 dnevi</Small>
+                    </Div>
+                    <Paragraph Style="font-size: 0.9rem" Margin="Margin.Is1.FromBottom">Hja morn rečt, da mi je bil ta film všeč.</Paragraph>
+                </ListGroupItem>
+                <ListGroupItem style="background-color: black !important; border-bottom: 1px solid white !important;">
+                    <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                        <Heading Size="HeadingSize.Is6" Margin="Margin.Is1.FromBottom"><b>bojko12</b></Heading>
+                        <Small TextColor="TextColor.Muted">pred 3 dnevi</Small>
+                    </Div>
+                    <Paragraph Style="font-size: 0.9rem" Margin="Margin.Is1.FromBottom">Najs</Paragraph>
+                </ListGroupItem>
+                <ListGroupItem style="background-color: black !important;">
+                    <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                        <Heading Size="HeadingSize.Is6" Margin="Margin.Is1.FromBottom"><b>marjanZilla</b></Heading>
+                        <Small TextColor="TextColor.Muted">pred 3 dnevi</Small>
+                    </Div>
+                    <Paragraph Style="font-size: 0.9rem" Margin="Margin.Is1.FromBottom">Dober dan ponovno</Paragraph>
+                </ListGroupItem>
+            </ListGroup>
+        </Alert>
+    </Column>
+</Row>
+
+<AddPlaylistModal @bind-addPlaylistModalVisible="addPlaylistModalVisible"></AddPlaylistModal>
+
+@code {
+    public bool addPlaylistModalVisible { get; set; } = false;
+
+    private Task ShowAddPlaylistModal()
+    {
+        addPlaylistModalVisible = true;
+        return Task.CompletedTask;
+    }
+}

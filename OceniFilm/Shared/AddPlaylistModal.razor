@@ -1,0 +1,73 @@
+﻿@using OceniFilm.Models.Seznami
+
+@*Modalno okno za dodajanje novega seznama*@
+<Modal @bind-Visible="@addPlaylistModalVisible" Closing="@OnModalClosing">
+    <ModalContent Centered style="background-color: black; border-color: white;">
+        <ModalHeader>
+            <ModalTitle>Dodaj nov seznam filmov</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody Style="padding-top: 0 !important;">
+            <Field Horizontal>
+                <FieldBody ColumnSize="ColumnSize.Is12">
+                    <FieldLabel>Ustvari nov seznam predvajanja</FieldLabel>
+                    <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                        <TextEdit @bind-Text="@noviSeznam" Placeholder="Vnesi ime seznama.."></TextEdit>
+                        <Button Color="Color.Light" Outline Clicked="@OnAddPlaylist">
+                            <Icon Name="IconName.PlusSquare"></Icon>
+                        </Button>
+                    </Div>
+                </FieldBody>
+            </Field>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+<Snackbar @ref="snackbarPlaylistAddSuccess">
+  <SnackbarBody>
+    Nov seznam filmov uspešno dodan
+  </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarPlaylistAddFailure" Color="SnackbarColor.Danger">
+  <SnackbarBody>
+    Vnesite naziv novega seznama!
+  </SnackbarBody>
+</Snackbar>
+
+@code {
+    private Snackbar snackbarPlaylistAddSuccess;
+    private Snackbar snackbarPlaylistAddFailure;
+
+    [Parameter]
+    public bool addPlaylistModalVisible { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> addPlaylistModalVisibleChanged { get; set; }
+
+    public string noviSeznam;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
+    private async Task OnModalClosing(ModalClosingEventArgs e)
+    {
+        addPlaylistModalVisible = false;
+        await addPlaylistModalVisibleChanged.InvokeAsync(addPlaylistModalVisible);
+        return;
+    }
+
+    async Task OnAddPlaylist()
+    {
+        if (!String.IsNullOrEmpty(noviSeznam)) 
+        {
+            await snackbarPlaylistAddFailure.Hide();
+            await snackbarPlaylistAddSuccess.Show();
+        }
+        else
+        {
+            await snackbarPlaylistAddSuccess.Hide();
+            await snackbarPlaylistAddFailure.Show();
+        }
+    }
+}

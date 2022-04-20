@@ -12,13 +12,13 @@
                 <FieldBody ColumnSize="ColumnSize.Is12">
                     <FieldLabel>Izberi obstoječi seznam predvajanja</FieldLabel>
                     <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                        <Select @bind-SelectedValue="@selectedValue">
+                        <Select @bind-SelectedValue="@izbraniSeznam">
                             @foreach(var sez in mockSeznam)
                             {
                                 <SelectItem Value="@sez.NazivSeznama">@sez.NazivSeznama</SelectItem>
                             }
                         </Select>
-                        <Button Color="Color.Light" Outline>
+                        <Button Color="Color.Light" Outline Clicked="@OnAddToPlaylist">
                             <Icon Name="IconName.PlusSquare"></Icon>
                         </Button>
                     </Div>
@@ -27,7 +27,7 @@
                     <FieldLabel>Ustvari nov seznam predvajanja</FieldLabel>
                     <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
                         <TextEdit @bind-Text="@noviSeznam" Placeholder="Vnesi ime seznama.."></TextEdit>
-                        <Button Color="Color.Light" Outline>
+                        <Button Color="Color.Light" Outline Clicked="@OnAddPlaylist">
                             <Icon Name="IconName.PlusSquare"></Icon>
                         </Button>
                     </Div>
@@ -36,9 +36,34 @@
         </ModalBody>
     </ModalContent>
 </Modal>
+<Snackbar @ref="snackbarToPlaylistAddSuccess">
+  <SnackbarBody>
+    Film uspešno dodan na seznam
+  </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarToPlaylistAddFailure" Color="SnackbarColor.Danger">
+  <SnackbarBody>
+    Prišlo je do napake pri dodajanju filma na izbrani seznam!
+  </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarPlaylistAddSuccess">
+  <SnackbarBody>
+    Nov seznam filmov uspešno dodan
+  </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarPlaylistAddFailure" Color="SnackbarColor.Danger">
+  <SnackbarBody>
+    Vnesite naziv novega seznama!
+  </SnackbarBody>
+</Snackbar>
 
 @code {
-    int selectedValue;
+    private string izbraniSeznam;
+    private string noviSeznam;
+    private Snackbar snackbarToPlaylistAddSuccess;
+    private Snackbar snackbarToPlaylistAddFailure;
+    private Snackbar snackbarPlaylistAddSuccess;
+    private Snackbar snackbarPlaylistAddFailure;
 
     [Parameter]
     public bool playlistModalVisible { get; set; }
@@ -46,11 +71,9 @@
     [Parameter]
     public EventCallback<bool> playlistModalVisibleChanged { get; set; }
 
-    string selectedDropValue { get; set; } = "prazno";
+    private string selectedDropValue { get; set; } = "prazno";
 
-    public List<SeznamFilmov> mockSeznam = new();
-
-    public string noviSeznam;
+    private List<SeznamFilmov> mockSeznam = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -128,5 +151,34 @@
         playlistModalVisible = false;
         await playlistModalVisibleChanged.InvokeAsync(playlistModalVisible);
         return;
+    }
+
+    private async Task OnAddToPlaylist()
+    {
+        if (!String.IsNullOrEmpty(izbraniSeznam)) 
+        {
+            await snackbarToPlaylistAddFailure.Hide();
+            await snackbarToPlaylistAddSuccess.Show();
+        }
+        else
+        {
+            await snackbarToPlaylistAddSuccess.Hide();
+            await snackbarToPlaylistAddFailure.Show();
+        }
+    }
+
+    private async Task OnAddPlaylist()
+    {
+        if (!String.IsNullOrEmpty(noviSeznam)) 
+        {
+            noviSeznam = string.Empty;
+            await snackbarPlaylistAddFailure.Hide();
+            await snackbarPlaylistAddSuccess.Show();
+        }
+        else
+        {
+            await snackbarPlaylistAddSuccess.Hide();
+            await snackbarPlaylistAddFailure.Show();
+        }
     }
 }

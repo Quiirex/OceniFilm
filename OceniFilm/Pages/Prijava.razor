@@ -59,8 +59,8 @@
 
 
 @code {
-    PrijavaUporabnika prijava = new();
-    Validations validations;
+    private PrijavaUporabnika prijava = new();
+    private Validations validations;
     private Snackbar snackbarLoginSuccess;
     private Snackbar snackbarLoginFailure;
 
@@ -70,6 +70,7 @@
         {
             prijava = new PrijavaUporabnika();
             await validations.ClearAll();
+            await snackbarLoginFailure.Hide();
             await snackbarLoginSuccess.Show();
             await Task.Delay(2000);
     // TODO Dodaj log in
@@ -78,6 +79,7 @@
         }
         else
         {
+            await snackbarLoginSuccess.Hide();
             await snackbarLoginFailure.Show();
         }
     }

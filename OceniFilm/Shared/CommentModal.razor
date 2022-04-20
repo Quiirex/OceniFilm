@@ -6,15 +6,29 @@
             <CloseButton />
         </ModalHeader>
         <ModalBody>
-            <MemoEdit Rows="5" AutoSize />
-            <Button Style="margin-top: 15px;" Float="Float.End" Color="Color.Light" Outline>
+            <MemoEdit @bind-Text="@komentar" Rows="5" AutoSize />
+            <Button Style="margin-top: 15px;" Float="Float.End" Color="Color.Light" Outline Clicked="@OnCommentAdd">
                 <Icon Name="IconName.PlusSquare"></Icon>
             </Button>
         </ModalBody>
     </ModalContent>
 </Modal>
+<Snackbar @ref="snackbarCommentAddSuccess">
+  <SnackbarBody>
+    Komentar je bil uspešno dodan
+  </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarCommentAddFailure" Color="SnackbarColor.Danger">
+  <SnackbarBody>
+    Dodajte komentar!
+  </SnackbarBody>
+</Snackbar>
 
 @code {
+    private Snackbar snackbarCommentAddSuccess;
+    private Snackbar snackbarCommentAddFailure;
+    private string komentar;
+
     [Parameter]
     public bool commentModalVisible { get; set; }
 
@@ -28,5 +42,19 @@
         commentModalVisible = false;
         await commentModalVisibleChanged.InvokeAsync(commentModalVisible);
         return;
+    }
+
+    private async Task OnCommentAdd()
+    {
+        if (!String.IsNullOrEmpty(komentar)) 
+        {
+            await snackbarCommentAddFailure.Hide();
+            await snackbarCommentAddSuccess.Show();
+        }
+        else
+        {
+            await snackbarCommentAddSuccess.Hide();
+            await snackbarCommentAddFailure.Show();
+        }
     }
 }
