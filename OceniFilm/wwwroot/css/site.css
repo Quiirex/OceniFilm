@@ -16,6 +16,14 @@ button.close {
     color: white !important;
 }
 
+.custom-alert-dark {
+    color: white !important;
+    background-color: black !important;
+    padding-left: 1rem !important;
+    padding-bottom: 0.5rem !important;
+    padding-top: 0.5rem !important;
+}
+
 
 /*Od tu*/
 
@@ -68,9 +76,9 @@ div.form-group:last-child {
 .custom-nav-bg-color { background-color: #1A1A1A }
 
 .custom-frontpage-bg-color {
-    background: #200122; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to top, #420107, #200122); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to top, #420107, #200122); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #000000; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #240003, #000000); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #240003, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .navbar-custom-styling {

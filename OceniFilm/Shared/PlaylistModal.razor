@@ -4,34 +4,33 @@
 <Modal @bind-Visible="@playlistModalVisible" Closing="@OnModalClosing">
     <ModalContent Centered style="background-color: black; border-color: white;">
         <ModalHeader>
-            <ModalTitle>Us (2020)</ModalTitle>
+            <ModalTitle>!naslovFilma! (!letoIzdaje!)</ModalTitle>
             <CloseButton />
         </ModalHeader>
-        <ModalBody>
+        <ModalBody Style="padding-top: 0 !important;">
             <Field Horizontal>
                 <FieldBody ColumnSize="ColumnSize.Is12">
-                    <FieldLabel>Izberi obstoječi seznam predvajanja"</FieldLabel>
-                    <DropdownList 
-                      style="margin-bottom: 30px"
-                      TItem="SeznamFilmov" 
-                      TValue="string"
-                      Data="@MojiSeznamiFilmov"
-                      TextField="@((item)=>item.NazivSeznama)"
-                      ValueField="@((item)=>item.NazivSeznama)"
-                      @bind-SelectedValue="@selectedDropValue"
-                      Color="Color.Light"
-                      MaxMenuHeight="200px">
-                        Moji seznami
-                    </DropdownList>
+                    <FieldLabel>Izberi obstoječi seznam predvajanja</FieldLabel>
+                    <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                        <Select @bind-SelectedValue="@selectedValue">
+                            @foreach(var sez in mockSeznam)
+                            {
+                                <SelectItem Value="@sez.NazivSeznama">@sez.NazivSeznama</SelectItem>
+                            }
+                        </Select>
+                        <Button Color="Color.Light" Outline>
+                            <Icon Name="IconName.PlusSquare"></Icon>
+                        </Button>
+                    </Div>
                 </FieldBody>
-                <FieldBody ColumnSize="ColumnSize.Is10">
+                <FieldBody ColumnSize="ColumnSize.Is12">
                     <FieldLabel>Ustvari nov seznam predvajanja</FieldLabel>
-                    <TextEdit @bind-Text="@seznam" Placeholder="Vnesi ime seznama.."></TextEdit>
-                </FieldBody>
-                <FieldBody ColumnSize="ColumnSize.Is2">
-                    <Button Color="Color.Light" Outline>
-                        <Icon Name="IconName.PlusSquare"></Icon>
-                    </Button>
+                    <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                        <TextEdit @bind-Text="@noviSeznam" Placeholder="Vnesi ime seznama.."></TextEdit>
+                        <Button Color="Color.Light" Outline>
+                            <Icon Name="IconName.PlusSquare"></Icon>
+                        </Button>
+                    </Div>
                 </FieldBody>
             </Field>
         </ModalBody>
@@ -39,6 +38,8 @@
 </Modal>
 
 @code {
+    int selectedValue;
+
     [Parameter]
     public bool playlistModalVisible { get; set; }
 
@@ -47,11 +48,9 @@
 
     string selectedDropValue { get; set; } = "prazno";
 
-    public IEnumerable<SeznamFilmov>? MojiSeznamiFilmov;
-
     public List<SeznamFilmov> mockSeznam = new();
 
-    public string seznam;
+    public string noviSeznam;
 
     private bool cancelClose;
 
@@ -123,14 +122,7 @@
                         }
                 }
         );
-        MojiSeznamiFilmov = mockSeznam;
         await base.OnInitializedAsync();
-    }
-
-    private async Task HidePlaylistModal()
-    {
-        await Task.Delay(2000);
-        playlistModalVisible = false;
     }
 
     private async Task OnModalClosing(ModalClosingEventArgs e)

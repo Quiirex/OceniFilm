@@ -1,45 +1,154 @@
 ﻿@page "/film/{naslovFilma}"
 @using OceniFilm.Models.Videoteka
 
-<Div style="margin-top: 50px !important;">
-    <Row class="customRowStyling">
-        <Column class="customColumnStyling" ColumnSize="ColumnSize.Is2">
-            <Alert Color="Color.Dark" Visible>
-                @naslovFilma
+<Div style="margin-top: 16px !important; margin-bottom: 16px !important;">
+    <Row>
+        <Column ColumnSize="ColumnSize.Is12">
+            <Alert Class="custom-alert-dark" Color="Color.Dark" Visible>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is10">
+                        <b style="font-size: 30px !important;">@naslovFilma</b> 
+                        <Button class="card-btn" Color="Color.Light" Style="margin-bottom: 8px; margin-left: 5px;" Outline data-toggle="tooltip" data-placement="top" title="Dodaj ta film na seznam" Clicked="@ShowPlaylistModal">
+                            <Icon Name="IconName.PlusSquare"></Icon>
+                        </Button>
+                        <p style="margin-bottom: 5px !important;">2022 • PG-18 • 2h 15m</p>
+                        <Badge Color="Color.Dark" style="margin-right: 5px">Dark</Badge>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is2">
+                        <Row Class="align-items-center justify-content-center">                            
+                            <b>IMDB Ocena</b>
+                        </Row>
+                        <Row Class="align-items-center justify-content-center">
+                            <Icon Name="IconName.Star" style="color: gold; padding-right: 5px; margin-bottom: 4px;"></Icon> 8/10
+                        </Row>
+                        <Row Class="align-items-center justify-content-center">
+                            <b>Moja Ocena</b>
+                        </Row>
+                        <Row Class="align-items-center justify-content-center">
+                            <Button class="card-btn" Color="Color.Light" Outline data-toggle="tooltip" data-placement="top" title="Oceni ta film" Clicked="@ShowRatingModal">
+                                <Icon Name="IconName.Star" IconStyle="IconStyle.Regular" style="padding-right: 5px; margin-bottom: 4px;"></Icon>
+                            </Button>
+                             6/10
+                        </Row>
+                    </Column>
+                </Row>
             </Alert>
         </Column>
-        <Column ColumnSize="ColumnSize.Is6">
-            <Alert Color="Color.Dark" Visible>
-                Is6
-            </Alert>
+    </Row>
+    <Row Style="margin-bottom: 0.5rem !important" Class="customRowStyling">
+        <Column Class="customColumnStyling" ColumnSize="ColumnSize.Is4">
+            <Card>
+                <CardImage Source="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" Alt="@naslovFilma" style="height: 480px !important;"></CardImage>
+            </Card>
         </Column>
-        <Column ColumnSize="ColumnSize.Is4">
-            <Alert Color="Color.Dark" Visible>
-                Is4
+        <Column Class="customColumnStyling" ColumnSize="ColumnSize.Is8">
+            <iframe style="border: 1px solid white;" width="728" height="482" src="https://www.youtube.com/embed/mqqft2x_Aa4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </Column>
+    </Row>
+    <Row>
+        <Column ColumnSize="ColumnSize.Is12">
+            <Alert Class="custom-alert-dark" Color="Color.Dark" Visible>
+                <b style="font-size: 25px !important; margin-bottom: 10px !important;">Opis</b> <Icon Name="IconName.AlignJustify" Style="padding-left: 5px;"></Icon>
+                <p style="font-size: 0.9rem !important;">
+                    Po letih tavanja po ulicah Gothama in z le nekaj zanesljivimi zavezniki, osamljen maščevalec Batman postane edino utelešenje pravice med svojimi someščani. Ko elito Gothama napade sadističen morilec, vrsta skrivnostnih namigov popelje »viteza teme« globoko v podzemlje, kjer naleti na Selino Kyle aka. Catwoman, Pingvina, Carminea Falconea in seveda Ugankarja. Ko se dokazi začnejo kopičiti in vodijo vedno bliže in bliže domu ter razkrivajo veličino storilčevega zloveščega plana, mora Batman skovati nova zavezništva, razkriti krivca in vrniti pravico mestu Gotham, kateri je bil preveč dolgo zlorabljen s strani pokvarjene oblasti.
+                </p>
             </Alert>
         </Column>
     </Row>
     <Row>
         <Column ColumnSize="ColumnSize.Is12">
-            <Alert Color="Color.Dark" Visible>
-                Is12
+            <Alert Class="custom-alert-dark" Color="Color.Dark" Visible>
+                <b style="font-size: 25px !important; margin-bottom: 10px !important;">Igralci</b> <Icon Name="IconName.Users" Style="padding-left: 5px;"></Icon>
+                <ListGroup Flush>
+                    <ListGroupItem style="background-color: black !important; border-bottom: 1px solid white !important;">Režiser <Icon Name="IconName.AngleRight" Style="padding-left: 5px; padding-right: 5px;"></Icon><a>Matt Reeves</a></ListGroupItem>
+                    <ListGroupItem style="background-color: black !important;">Glavni igralci <Icon Name="IconName.AngleRight" Style="padding-left: 5px; padding-right: 5px;"></Icon><a href="#">Robert Pattinson</a> • <a href="#">Zoë Kravitz</a> • <a href="#">Paul Dano</a> • <a href="#">Jeffrey Wright</a> • <a href="#">Peter Sarsgaard</a></ListGroupItem>
+                </ListGroup>
             </Alert>
         </Column>
     </Row>
     <Row>
-        <Column ColumnSize="ColumnSize.Is4">
-            <Card>
-                <CardImage Source="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" Alt="@naslovFilma" style="height: 480px !important;"></CardImage>
-            </Card>
-        </Column>
-        <Column ColumnSize="ColumnSize.Is8">
-            <iframe style="border: 1px solid white;" width="728" height="482" src="https://www.youtube.com/embed/mqqft2x_Aa4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <Column ColumnSize="ColumnSize.Is12">
+            <Alert Class="custom-alert-dark" Color="Color.Dark" Visible>
+                <b style="font-size: 25px !important; margin-bottom: 10px !important;">Komentarji</b> <Icon Name="IconName.Comments" IconStyle="IconStyle.Regular" Style="padding-left: 5px;"></Icon> 
+                <Button class="card-btn" Color="Color.Light" Outline style="float: right;" data-toggle="tooltip" data-placement="top" title="Komentiraj" Clicked="@ShowCommentModal">
+                    <Icon Name="IconName.Comment"></Icon>
+                </Button>
+                <ListGroup Flush>
+                    <ListGroupItem style="background-color: black !important; border-bottom: 1px solid white !important;">
+                        <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                            <Heading Size="HeadingSize.Is6" Margin="Margin.Is1.FromBottom"><b>janezekN</b></Heading>
+                            <Small TextColor="TextColor.Muted">pred 3 dnevi</Small>
+                        </Div>
+                        <Paragraph Style="font-size: 0.9rem" Margin="Margin.Is1.FromBottom">Hja morn rečt, da mi je bil ta film všeč.</Paragraph>
+                    </ListGroupItem>
+                    <ListGroupItem style="background-color: black !important; border-bottom: 1px solid white !important;">
+                        <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                            <Heading Size="HeadingSize.Is6" Margin="Margin.Is1.FromBottom"><b>bojko12</b></Heading>
+                            <Small TextColor="TextColor.Muted">pred 3 dnevi</Small>
+                        </Div>
+                        <Paragraph Style="font-size: 0.9rem" Margin="Margin.Is1.FromBottom">Najs</Paragraph>
+                    </ListGroupItem>
+                    <ListGroupItem style="background-color: black !important;">
+                        <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                            <Heading Size="HeadingSize.Is6" Margin="Margin.Is1.FromBottom"><b>marjanZilla</b></Heading>
+                            <Small TextColor="TextColor.Muted">pred 3 dnevi</Small>
+                        </Div>
+                        <Paragraph Style="font-size: 0.9rem" Margin="Margin.Is1.FromBottom">Dober dan ponovno</Paragraph>
+                    </ListGroupItem>
+                </ListGroup>
+            </Alert>
         </Column>
     </Row>
 </Div>
 
+<PlaylistModal @bind-playlistModalVisible="playlistModalVisible"/>
+<RatingModal @bind-ratingModalVisible="ratingModalVisible" @bind-mojaOcena="mojaOcena" imdbOcena="@imdbOcena"/>
+<CommentModal @bind-commentModalVisible="commentModalVisible"></CommentModal>
 
 @code {
+    public bool ratingModalVisible { get; set; } = false;
+    public bool playlistModalVisible { get; set; } = false;
+    public bool commentModalVisible { get; set; } = false;
+
+    [Parameter]
+    public string poster { get; set; } = string.Empty;
+
+    [Parameter]
+    public int imdbOcena { get; set; }
+
+    [Parameter]
+    public int mojaOcena { get; set; }
+
     [Parameter]
     public string naslovFilma { get; set; } = string.Empty;
+
+    [Parameter]
+    public int letoIzdaje { get; set; }
+
+    [Parameter]
+    public List<Zanr> seznamZanrov { get; set; } = new();
+
+    [Parameter]
+    public List<IgralecFilma> seznamIgralcev { get; set; } = new();
+
+    [Parameter]
+    public string napovednikUrl { get; set; } = string.Empty;
+
+    private Task ShowRatingModal()
+    {
+        ratingModalVisible = true;
+        return Task.CompletedTask;
+    }
+
+    private Task ShowPlaylistModal()
+    {
+        playlistModalVisible = true;
+        return Task.CompletedTask;
+    }
+
+    private Task ShowCommentModal()
+    {
+        commentModalVisible = true;
+        return Task.CompletedTask;
+    }
 }

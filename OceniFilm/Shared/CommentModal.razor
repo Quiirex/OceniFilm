@@ -1,0 +1,32 @@
+﻿@*Modalno okno za komentiranje*@
+<Modal @bind-Visible="@commentModalVisible" Closing="@OnModalClosing">
+    <ModalContent Centered style="background-color: black; border-color: white;">
+        <ModalHeader>
+            <ModalTitle>Komentiraj film !naslovFilma!</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <MemoEdit Rows="5" AutoSize />
+            <Button Style="margin-top: 15px;" Float="Float.End" Color="Color.Light" Outline>
+                <Icon Name="IconName.PlusSquare"></Icon>
+            </Button>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+@code {
+    [Parameter]
+    public bool commentModalVisible { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> commentModalVisibleChanged { get; set; }
+
+    private bool cancelClose;
+
+    private async Task OnModalClosing(ModalClosingEventArgs e)
+    {
+        commentModalVisible = false;
+        await commentModalVisibleChanged.InvokeAsync(commentModalVisible);
+        return;
+    }
+}
