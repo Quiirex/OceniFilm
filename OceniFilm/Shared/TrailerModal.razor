@@ -14,8 +14,6 @@
     [Parameter]
     public string url { get; set; } = string.Empty;
 
-    private bool cancelClose;
-
     private async Task OnModalClosing(ModalClosingEventArgs e)
     {
         trailerModalVisible = false;

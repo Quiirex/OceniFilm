@@ -32,8 +32,6 @@
     [Parameter]
     public EventCallback<int> mojaOcenaChanged { get; set; }
 
-    private bool cancelClose;
-
     private async Task onRatingClick()
     {
         await mojaOcenaChanged.InvokeAsync(mojaOcena);
