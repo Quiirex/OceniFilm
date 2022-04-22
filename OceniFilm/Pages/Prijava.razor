@@ -1,6 +1,9 @@
 ﻿@page "/prijava"
 @using OceniFilm.Models
+@using OceniFilm.Services
+@using System.Net;
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
 
 <div class="login-container" style="margin-left: 350px !important; margin-right: 350px !important; margin-top: 150px;">
     <img src="images/avatar.png" style="display: block; height: 150px; margin: auto;"/><br/>
@@ -59,6 +62,9 @@
 
 
 @code {
+    [Inject]
+    public IAuthService AuthService { get; set; }
+
     private PrijavaUporabnika prijava = new();
     private Validations validations;
     private Snackbar snackbarLoginSuccess;
@@ -68,20 +74,32 @@
     {
         if (await validations.ValidateAll())
         {
-            prijava = new PrijavaUporabnika();
-            await validations.ClearAll();
-            await snackbarLoginFailure.Hide();
-            await snackbarLoginSuccess.Show();
-            await Task.Delay(2000);
-    // TODO Dodaj log in
-            StateHasChanged();
-            NavigationManager.NavigateTo("/");
+            HttpResponseMessage httpResponseMessage = (await AuthService.Login(prijava));
+
+            if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
+            {
+                JwtToken jwt = await httpResponseMessage.Content.ReadAsAsync<JwtToken>();
+                await JsRuntime.InvokeVoidAsync("localStorage.setItem", "jwt", jwt.Token);
+                prijava = new PrijavaUporabnika();
+                await validations.ClearAll();
+                await snackbarLoginFailure.Hide();
+                await snackbarLoginSuccess.Show();
+                await Task.Delay(2000);
+                StateHasChanged();
+                NavigationManager.NavigateTo("/", true);
+            }
+            else
+            {
+                await validations.ClearAll();
+                await snackbarLoginSuccess.Hide();
+                await snackbarLoginFailure.Show();
+            }
         }
         else
         {
+            await validations.ClearAll();
             await snackbarLoginSuccess.Hide();
             await snackbarLoginFailure.Show();
         }
     }
-
 }

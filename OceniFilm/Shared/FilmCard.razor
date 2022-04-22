@@ -7,9 +7,14 @@
     <CardBody>
         <p style="margin: 0">
             <Icon Name="IconName.Star" style="color: gold"></Icon> @imdbOcena/10
-            <Button class="card-btn" Color="Color.Light" Outline style="float: right" data-toggle="tooltip" data-placement="top" title="Oceni ta film" Clicked="@ShowRatingModal">
-                <Icon Name="IconName.Star" IconStyle="IconStyle.Regular"></Icon>
-            </Button>
+            <AuthorizeView>
+                <Authorized>
+                    <Button class="card-btn" Color="Color.Light" Outline style="float: right" data-toggle="tooltip" data-placement="top" title="Oceni ta film" Clicked="@ShowRatingModal">
+                        <Icon Name="IconName.Star" IconStyle="IconStyle.Regular"></Icon>
+                    </Button>
+                </Authorized>
+                <NotAuthorized></NotAuthorized>
+            </AuthorizeView>
         </p>
         <CardTitle Size="5" style="margin-bottom: 0">@naslov (@letoIzdaje)</CardTitle>
         <div style="margin-bottom: 10px;">
@@ -26,9 +31,14 @@
 
         </CardText>
         <Button class="card-btn" Color="Color.Light" Outline style="float: left" data-toggle="tooltip" data-placement="top" title="Oglej si napovednik filma" Clicked="@ShowTrailerModal"><Icon Name="IconName.PlayCircle"></Icon> Napovednik</Button>
-        <Button class="card-btn" Color="Color.Light" Outline style="float: right" data-toggle="tooltip" data-placement="top" title="Dodaj ta film na seznam" Clicked="@ShowPlaylistModal">
-            <Icon Name="IconName.PlusSquare"></Icon>
-        </Button>
+        <AuthorizeView>
+            <Authorized>
+                <Button class="card-btn" Color="Color.Light" Outline style="float: right" data-toggle="tooltip" data-placement="top" title="Dodaj ta film na seznam" Clicked="@ShowPlaylistModal">
+                    <Icon Name="IconName.PlusSquare"></Icon>
+                </Button>
+            </Authorized>
+            <NotAuthorized></NotAuthorized>
+        </AuthorizeView>
     </CardBody>
 </Card>
 

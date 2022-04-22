@@ -64,6 +64,7 @@ public class AuthService : IAuthService
         List<Claim>? claims = new()
         {
             new("email", uporabnik.Email ?? string.Empty),
+            new("prikaznoIme", uporabnik.PrikaznoIme ?? string.Empty),
             new("id", uporabnik.Id)
         };
 

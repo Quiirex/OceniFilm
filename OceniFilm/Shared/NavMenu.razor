@@ -1,4 +1,7 @@
 ﻿@using OceniFilm.Models.Videoteka
+@using OceniFilm.Services
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
 
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm custom-nav-bg-color border-bottom mb-3">
     <div class="container">
@@ -14,64 +17,96 @@
                         <Icon Name="IconName.Video" style="padding-right: 5px"></Icon>Videoteka
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="seznamifilmov" Match="NavLinkMatch.All">
-                        <Icon Name="IconName.List" style="padding-right: 5px"></Icon>Moji seznami
-                    </a>
-                </li>
+                <AuthorizeView>
+                    <Authorized>
+                        <li class="nav-item">
+                            <a class="nav-link" href="seznamifilmov" Match="NavLinkMatch.All">
+                                <Icon Name="IconName.List" style="padding-right: 5px"></Icon>Moji seznami
+                            </a>
+                        </li>
+                    </Authorized>
+                    <NotAuthorized></NotAuthorized>
+                </AuthorizeView>
             </ul>
-                <Autocomplete style="width: 50% !important; margin-right: 25px !important;" TItem="Film"
-                              TValue="string"
-                              Data="@Filmi"
-                              TextField="@(( item ) => item.Naslov)"
-                              ValueField="@(( item ) => item.Naslov)"
-                              @bind-SelectedValue="@selectedSearchValue"
-                              @bind-SelectedText="selectedAutoCompleteText"
-                              Placeholder="Išči film..."
-                              Filter="AutocompleteFilter.StartsWith"
-                              FreeTyping
-                              CustomFilter="@(( item, searchValue ) => item.Naslov.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
-                    <NotFoundContent>Filma z naslovom "@context"" ni bilo mogoče najti</NotFoundContent>
-                </Autocomplete>
-            @*Tu pride login in register komponenta*@
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link text-black" href="registracija" Match="NavLinkMatch.All"><Icon Name="IconName.User" style="padding-right: 5px"></Icon>Registracija</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black" href="prijava" Match="NavLinkMatch.All">
-                        <Icon Name="IconName.ArrowRight" style="padding-right: 5px"></Icon>
-                        Prijava
-                    </a>
-                </li>
-            </ul>
+            <Autocomplete style="width: 50% !important; margin-right: 25px !important;" TItem="Film"
+                            TValue="string"
+                            Data="@Filmi"
+                            TextField="@(( item ) => item.Naslov)"
+                            ValueField="@(( item ) => item.Naslov)"
+                            @bind-SelectedValue="@selectedSearchValue"
+                            @bind-SelectedText="selectedAutoCompleteText"
+                            Placeholder="Išči film..."
+                            Filter="AutocompleteFilter.StartsWith"
+                            FreeTyping
+                            CustomFilter="@(( item, searchValue ) => item.Naslov.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
+                <NotFoundContent>Filma z naslovom "@context"" ni bilo mogoče najti</NotFoundContent>
+            </Autocomplete>
+            <AuthorizeView>
+                <Authorized>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-black" Match="NavLinkMatch.All">
+                                <Icon Name="IconName.User" style="padding-right: 5px"></Icon>
+                                @prikaznoIme
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black" Match="NavLinkMatch.All" @onclick="LogOut">
+                                <Icon Name="IconName.ArrowRight" style="padding-right: 5px"></Icon>
+                                Izpis
+                            </a>
+                        </li>
+                    </ul>
+                </Authorized>
+                <NotAuthorized>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="registracija" Match="NavLinkMatch.All"><Icon Name="IconName.User" style="padding-right: 5px"></Icon>Registracija</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="prijava" Match="NavLinkMatch.All">
+                                <Icon Name="IconName.ArrowRight" style="padding-right: 5px"></Icon>
+                                Prijava
+                            </a>
+                        </li>
+                    </ul>
+                </NotAuthorized>
+            </AuthorizeView>
         </div>
     </div>
 </nav>
 
 
 @code {
+    [Inject]
+    public IAuthService AuthService { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; } = null!;
+
+    public string prikaznoIme { get; set; } = null!;
+
     public Film Film { get; set; }
     public IEnumerable<Film> Filmi;
 
     public List<Film> listFilmov = new()
-    {
-        new Film
         {
-            Naslov = "The Batman",
-            Opis =
-                "Po letih tavanja po ulicah Gothama in z le nekaj zanesljivimi zavezniki, osamljen maščevalec Batman postane edino utelešenje pravice med svojimi someščani. Ko elito Gothama napade sadističen morilec, vrsta skrivnostnih namigov popelje »viteza teme« globoko v podzemlje, kjer naleti na Selino Kyle aka. Catwoman, Pingvina, Carminea Falconea in seveda Ugankarja. Ko se dokazi začnejo kopičiti in vodijo vedno bliže in bliže domu ter razkrivajo veličino storilčevega zloveščega plana, mora Batman skovati nova zavezništva, razkriti krivca in vrniti pravico mestu Gotham, kateri je bil preveč dolgo zlorabljen s strani pokvarjene oblasti.",
-            Dolzina = 178,
-            ImdbOcena = 8,
-            Poster =
-                "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817",
-            LetoIzdaje = 2022,
-            Reziser = new Reziser
+            new Film
             {
-                Ime = "Matt",
-                Priimek = "Reeves"
-            },
-            SeznamIgralcev = new List<IgralecFilma>
+                Naslov = "The Batman",
+                Opis =
+                    "Po letih tavanja po ulicah Gothama in z le nekaj zanesljivimi zavezniki, osamljen maščevalec Batman postane edino utelešenje pravice med svojimi someščani. Ko elito Gothama napade sadističen morilec, vrsta skrivnostnih namigov popelje »viteza teme« globoko v podzemlje, kjer naleti na Selino Kyle aka. Catwoman, Pingvina, Carminea Falconea in seveda Ugankarja. Ko se dokazi začnejo kopičiti in vodijo vedno bliže in bliže domu ter razkrivajo veličino storilčevega zloveščega plana, mora Batman skovati nova zavezništva, razkriti krivca in vrniti pravico mestu Gotham, kateri je bil preveč dolgo zlorabljen s strani pokvarjene oblasti.",
+                Dolzina = 178,
+                ImdbOcena = 8,
+                Poster =
+                    "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817",
+                LetoIzdaje = 2022,
+                Reziser = new Reziser
+                {
+                    Ime = "Matt",
+                    Priimek = "Reeves"
+                },
+                SeznamIgralcev = new List<IgralecFilma>
             {
                 new()
                 {
@@ -99,23 +134,23 @@
                     Priimek = "Sarsgaard"
                 }
             }
-        },
-        new Film
-        {
-            Naslov = "Tenet",
-            Opis =
-                "Oborožen z zgolj eno besedo – TENET – ter z borbo za preživetje celega sveta, se glavni junak zgodbe prebija skozi mračen svet mednarodnega vohunjenja na misiji, ki se dogaja v nečem izven realnega časa in prostora. To ni potovanje skozi čas.To je inverzija.",
-            Dolzina = 150,
-            ImdbOcena = 7,
-            Poster =
-                "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/tenet.regstyleb.ar_480x.progressive.jpg?v=1598649994",
-            LetoIzdaje = 2020,
-            Reziser = new Reziser
-            {
-                Ime = "Christopher",
-                Priimek = "Nolan"
             },
-            SeznamIgralcev = new List<IgralecFilma>
+            new Film
+            {
+                Naslov = "Tenet",
+                Opis =
+                    "Oborožen z zgolj eno besedo – TENET – ter z borbo za preživetje celega sveta, se glavni junak zgodbe prebija skozi mračen svet mednarodnega vohunjenja na misiji, ki se dogaja v nečem izven realnega časa in prostora. To ni potovanje skozi čas.To je inverzija.",
+                Dolzina = 150,
+                ImdbOcena = 7,
+                Poster =
+                    "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/tenet.regstyleb.ar_480x.progressive.jpg?v=1598649994",
+                LetoIzdaje = 2020,
+                Reziser = new Reziser
+                {
+                    Ime = "Christopher",
+                    Priimek = "Nolan"
+                },
+                SeznamIgralcev = new List<IgralecFilma>
             {
                 new()
                 {
@@ -143,23 +178,23 @@
                     Priimek = "Washington"
                 }
             }
-        },
-        new Film
-        {
-            Naslov = "Uncharted",
-            Opis =
-                "Po še vedno sveži mega uspešnici Spider-Man: Ni poti domov se Tom Holland vrača na velika platna v vznemirljivi pustolovščini Uncharted kot Nathan Drake – Nate. To je zgodba o lovcu na zaklade in glavnem junaku serije videoiger Uncharted, ki ima po vsem svetu več kot 40 milijonov prodanih izvodov. Film pripoveduje zgodbo o Nathanu Drakeu in njegovi prvi pustolovščini s tekmecem, ki postane njegov partner, Victorjem \"Sullyjem\" Sullivanom. Uncharted predstavlja občinstvu premetenega Nathana Draka (Tom Holland) in njegov prvi lov na zaklad z nabritim kolegom Victorjem Sullivanom – Sullyjem (Mark Wahlberg). Epski akcijsko-pustolovski film, ki ga je navdihnila slavna serija videoiger, sledi Natu in Saullyju po vsem svetu na nevarnem lovu za »največjim doslej še neodkritim zakladom«, obenem pa tudi po različnih sledeh, ki utegnejo pripeljati Nata do davno izgubljene brata. Ta pustolovščina je milijone igralcev po vsem svetu osvojila s svojo zgodbo, inovativnostjo in kinematografskim slogom. Prihajajoči istoimenski film nas bo seznanil z dogodki pred igro, torej z zgodbo o tem, kako je Nate spoznal Victorja Sullivana – Sullyja. S posebnim humorjem in situacijami se bosta nova prijatelja in sodelavca podala v nevarno iskanje izgubljenega zaklada Ferdinanda Magellana, zaklada, ki je izginil pred 500 leti. V tej pustolovščini ju čakajo skrivnostni",
-            Dolzina = 116,
-            ImdbOcena = 6,
-            Poster =
-                "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/uncharted_s270z86d_480x.progressive.jpg?v=1644515265",
-            LetoIzdaje = 2022,
-            Reziser = new Reziser
-            {
-                Ime = "Ruben",
-                Priimek = "Fleischer"
             },
-            SeznamIgralcev = new List<IgralecFilma>
+            new Film
+            {
+                Naslov = "Uncharted",
+                Opis =
+                    "Po še vedno sveži mega uspešnici Spider-Man: Ni poti domov se Tom Holland vrača na velika platna v vznemirljivi pustolovščini Uncharted kot Nathan Drake – Nate. To je zgodba o lovcu na zaklade in glavnem junaku serije videoiger Uncharted, ki ima po vsem svetu več kot 40 milijonov prodanih izvodov. Film pripoveduje zgodbo o Nathanu Drakeu in njegovi prvi pustolovščini s tekmecem, ki postane njegov partner, Victorjem \"Sullyjem\" Sullivanom. Uncharted predstavlja občinstvu premetenega Nathana Draka (Tom Holland) in njegov prvi lov na zaklad z nabritim kolegom Victorjem Sullivanom – Sullyjem (Mark Wahlberg). Epski akcijsko-pustolovski film, ki ga je navdihnila slavna serija videoiger, sledi Natu in Saullyju po vsem svetu na nevarnem lovu za »največjim doslej še neodkritim zakladom«, obenem pa tudi po različnih sledeh, ki utegnejo pripeljati Nata do davno izgubljene brata. Ta pustolovščina je milijone igralcev po vsem svetu osvojila s svojo zgodbo, inovativnostjo in kinematografskim slogom. Prihajajoči istoimenski film nas bo seznanil z dogodki pred igro, torej z zgodbo o tem, kako je Nate spoznal Victorja Sullivana – Sullyja. S posebnim humorjem in situacijami se bosta nova prijatelja in sodelavca podala v nevarno iskanje izgubljenega zaklada Ferdinanda Magellana, zaklada, ki je izginil pred 500 leti. V tej pustolovščini ju čakajo skrivnostni",
+                Dolzina = 116,
+                ImdbOcena = 6,
+                Poster =
+                    "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/uncharted_s270z86d_480x.progressive.jpg?v=1644515265",
+                LetoIzdaje = 2022,
+                Reziser = new Reziser
+                {
+                    Ime = "Ruben",
+                    Priimek = "Fleischer"
+                },
+                SeznamIgralcev = new List<IgralecFilma>
             {
                 new()
                 {
@@ -187,11 +222,14 @@
                     Priimek = "Ali"
                 }
             }
-        }
-    };
+            }
+        };
 
     protected override async Task OnInitializedAsync()
     {
+        AuthenticationState authState = await authenticationState;
+        prikaznoIme = authState.User.Identity.Name;
+        Console.WriteLine(prikaznoIme);
         Filmi = listFilmov;
         await base.OnInitializedAsync();
     }
@@ -202,6 +240,13 @@
     private bool collapseNavMenu = true;
 
     string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    async void LogOut()
+    {
+        StateHasChanged();
+        await JsRuntime.InvokeVoidAsync("localStorage.removeItem", "jwt");
+        NavigationManager.NavigateTo("/prijava", true);
+    }
 
     void ToggleNavMenu()
     {

@@ -20,14 +20,14 @@ public class IdentitetaController : ControllerBase
         _authService = authService;
     }
 
-    // GET: api/Uporabnik
+    // GET: api/Identiteta
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Uporabnik>>> GetUporabniki()
     {
         return await _context.Uporabniki.ToListAsync();
     }
 
-    // GET: api/Uporabnik/5
+    // GET: api/Identiteta/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Uporabnik>> GetUporabnik(string id)
     {
@@ -41,7 +41,7 @@ public class IdentitetaController : ControllerBase
         return Ok(uporabnik);
     }
 
-    // PUT: api/Uporabnik/5
+    // PUT: api/Identiteta/5
     [HttpPut("{id}")]
     public async Task<IActionResult> PutUporabnik(string id, [FromBody] Uporabnik uporabnik)
     {
@@ -69,11 +69,20 @@ public class IdentitetaController : ControllerBase
         return Ok(uporabnik);
     }
 
-    // POST api/Uporabnik/prijava
+    // POST api/Identiteta/prijava
     [HttpPost("prijava")]
     public ActionResult<Uporabnik> PrijavaUporabnika([FromBody] UporabnikPrijava uporabnik)
     {
-        Uporabnik iskaniUporabnik = _context.Uporabniki.Single(u => u.Email == uporabnik.Email);
+        Uporabnik iskaniUporabnik = new();
+
+        try
+        {
+            iskaniUporabnik = _context.Uporabniki.Single(u => u.Email == uporabnik.Email);
+        }
+        catch (Exception)
+        {
+            return NotFound();
+        }
 
         if (!_authService.VerifyPassword(uporabnik.Geslo, iskaniUporabnik.Geslo, iskaniUporabnik.Sol))
         {
@@ -84,10 +93,11 @@ public class IdentitetaController : ControllerBase
         return Ok(new { Token = generiranToken });
     }
 
-    // POST: api/Uporabnik/registracija
+    // POST: api/Identiteta/registracija
     [HttpPost("registracija")]
     public async Task<ActionResult<Uporabnik>> RegistracijaUporabnika([FromBody] Uporabnik noviUporabnik)
     {
+        noviUporabnik.Id = Guid.NewGuid().ToString();
         noviUporabnik = _authService.HashPassword(noviUporabnik);
         _context.Uporabniki.Add(noviUporabnik);
         await _context.SaveChangesAsync();
@@ -95,7 +105,7 @@ public class IdentitetaController : ControllerBase
         return CreatedAtAction("GetUporabnik", new { id = noviUporabnik.Id }, noviUporabnik);
     }
 
-    // DELETE: api/Uporabnik/5
+    // DELETE: api/Identiteta/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUporabnik(string id)
     {

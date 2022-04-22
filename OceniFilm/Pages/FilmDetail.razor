@@ -7,29 +7,39 @@
             <Alert Class="custom-alert-dark" Color="Color.Dark" Visible>
                 <Row>
                     <Column ColumnSize="ColumnSize.Is10">
-                        <b style="font-size: 30px !important;">@naslovFilma</b> 
-                        <Button class="card-btn" Color="Color.Light" Style="margin-bottom: 8px; margin-left: 5px;" Outline data-toggle="tooltip" data-placement="top" title="Dodaj ta film na seznam" Clicked="@ShowPlaylistModal">
-                            <Icon Name="IconName.PlusSquare"></Icon>
-                        </Button>
+                        <b style="font-size: 30px !important;">@naslovFilma</b>
+                        <AuthorizeView>
+                            <Authorized>
+                                <Button class="card-btn" Color="Color.Light" Style="margin-bottom: 8px; margin-left: 5px;" Outline data-toggle="tooltip" data-placement="top" title="Dodaj ta film na seznam" Clicked="@ShowPlaylistModal">
+                                    <Icon Name="IconName.PlusSquare"></Icon>
+                                </Button>
+                            </Authorized>
+                            <NotAuthorized></NotAuthorized>
+                        </AuthorizeView>
                         <p style="margin-bottom: 5px !important;">2022 • PG-18 • 2h 15m</p>
                         <Badge Color="Color.Dark" style="margin-right: 5px">Dark</Badge>
                     </Column>
-                    <Column ColumnSize="ColumnSize.Is2">
+                    <Column ColumnSize="ColumnSize.Is2" Style="padding-left: 70px;">
                         <Row Class="align-items-center justify-content-center">                            
                             <b>IMDB Ocena</b>
                         </Row>
                         <Row Class="align-items-center justify-content-center">
                             <Icon Name="IconName.Star" style="color: gold; padding-right: 5px; margin-bottom: 4px;"></Icon> 8/10
                         </Row>
-                        <Row Class="align-items-center justify-content-center">
-                            <b>Moja Ocena</b>
-                        </Row>
-                        <Row Class="align-items-center justify-content-center">
-                            <Button class="card-btn" Color="Color.Light" Outline data-toggle="tooltip" data-placement="top" title="Oceni ta film" Clicked="@ShowRatingModal">
-                                <Icon Name="IconName.Star" IconStyle="IconStyle.Regular" style="padding-right: 5px; margin-bottom: 4px;"></Icon>
-                            </Button>
-                             6/10
-                        </Row>
+                        <AuthorizeView>
+                            <Authorized>
+                                <Row Class="align-items-center justify-content-center">
+                                    <b>Moja Ocena</b>
+                                </Row>
+                                <Row Class="align-items-center justify-content-center">
+                                    <Button class="card-btn" Color="Color.Light" Outline data-toggle="tooltip" data-placement="top" title="Oceni ta film" Clicked="@ShowRatingModal">
+                                        <Icon Name="IconName.Star" IconStyle="IconStyle.Regular" style="padding-right: 5px; margin-bottom: 4px;"></Icon>
+                                    </Button>
+                                     6/10
+                                </Row>
+                            </Authorized>
+                            <NotAuthorized></NotAuthorized>
+                        </AuthorizeView>
                     </Column>
                 </Row>
             </Alert>
@@ -70,9 +80,14 @@
         <Column ColumnSize="ColumnSize.Is12">
             <Alert Class="custom-alert-dark" Color="Color.Dark" Visible>
                 <b style="font-size: 25px !important; margin-bottom: 10px !important;">Komentarji</b> <Icon Name="IconName.Comments" IconStyle="IconStyle.Regular" Style="padding-left: 5px;"></Icon> 
-                <Button class="card-btn" Color="Color.Light" Outline style="float: right;" data-toggle="tooltip" data-placement="top" title="Komentiraj" Clicked="@ShowCommentModal">
-                    <Icon Name="IconName.Comment"></Icon>
-                </Button>
+                <AuthorizeView>
+                    <Authorized>
+                        <Button class="card-btn" Color="Color.Light" Outline style="float: right;" data-toggle="tooltip" data-placement="top" title="Komentiraj" Clicked="@ShowCommentModal">
+                            <Icon Name="IconName.Comment"></Icon>
+                        </Button>
+                    </Authorized>
+                    <NotAuthorized></NotAuthorized>
+                </AuthorizeView>
                 <ListGroup Flush>
                     <ListGroupItem style="background-color: black !important; border-bottom: 1px solid white !important;">
                         <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
@@ -109,6 +124,9 @@
     public bool ratingModalVisible { get; set; } = false;
     public bool playlistModalVisible { get; set; } = false;
     public bool commentModalVisible { get; set; } = false;
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; } = null!;
 
     [Parameter]
     public string poster { get; set; } = string.Empty;

@@ -1,7 +1,10 @@
 ﻿@page "/registracija"
 @using OceniFilm.Models
+@using OceniFilm.Services
 @using System.Timers
+@using System.Net;
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
 
 <div style="margin-left: 350px !important; margin-right: 350px !important;">
     <Validations @ref="validations" Mode="ValidationMode.Auto" Model="@registracija" ValidateOnLoad="false">
@@ -111,6 +114,9 @@
 </Snackbar>
 
 @code {
+    [Inject]
+    public IAuthService AuthService { get; set; }
+
     private RegistracijaUporabnika registracija = new();
     private Validations validations;
     private Snackbar snackbarRegistrationSuccess;
@@ -120,17 +126,28 @@
     {
         if (await validations.ValidateAll())
         {
-            registracija = new RegistracijaUporabnika();
-            await validations.ClearAll();
-            await snackbarRegistrationFailure.Hide();
-            await snackbarRegistrationSuccess.Show();
-            await Task.Delay(5000);
-    // TODO Dodaj log in na uspešno registracijo
-            StateHasChanged();
-            NavigationManager.NavigateTo("/");
+            HttpResponseMessage httpResponseMessage = (await AuthService.Register(registracija));
+
+            if(httpResponseMessage.StatusCode == HttpStatusCode.Created)
+            {
+                registracija = new RegistracijaUporabnika();
+                await validations.ClearAll();
+                await snackbarRegistrationFailure.Hide();
+                await snackbarRegistrationSuccess.Show();
+                await Task.Delay(5000);
+                StateHasChanged();
+                NavigationManager.NavigateTo("/prijava");
+            }
+            else
+            {
+                await validations.ClearAll();
+                await snackbarRegistrationSuccess.Hide();
+                await snackbarRegistrationFailure.Show();
+            }
         }
         else
         {
+            await validations.ClearAll();
             await snackbarRegistrationSuccess.Hide();
             await snackbarRegistrationFailure.Show();
         }

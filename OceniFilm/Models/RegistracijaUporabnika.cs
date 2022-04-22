@@ -4,6 +4,8 @@ namespace OceniFilm.Models;
 
 public class RegistracijaUporabnika
 {
+    public string Id { get; set; } = "idPending";
+
     [Display(Name = "Ime")]
     [Required(ErrorMessage = "Polje je obvezno")]
     [StringLength(100, ErrorMessage = "Ime ne sme biti krajše od 2 znakov", MinimumLength = 2)]
@@ -32,7 +34,7 @@ public class RegistracijaUporabnika
     [Display(Name = "Geslo")]
     [DataType(DataType.Password)]
     [Required(ErrorMessage = "Polje je obvezno")]
-    [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{15,}$",
+    [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%_\-*#?&])[A-Za-z\d@$!%_\-*#?&]{15,}$",
         ErrorMessage = "Geslo mora vsebovati vsaj 15 črk, 1 poseben znak in vsaj 1 številko")]
     public string? Geslo { get; set; }
 
