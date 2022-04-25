@@ -14,7 +14,7 @@ namespace OceniFilm.Data.Providers
             _localStorageService = localStorageService;
         }
 
-        private async Task<string> GetToken()
+        private async Task<string> GetTokenAsync()
         {
             return await _localStorageService.GetItemAsync<string>("jwt"); ;
         }
@@ -27,7 +27,7 @@ namespace OceniFilm.Data.Providers
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            string jwt = await GetToken();
+            string jwt = await GetTokenAsync();
 
             if (string.IsNullOrEmpty(jwt))
             {

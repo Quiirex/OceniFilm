@@ -6,5 +6,5 @@ public class Komentator
 {
     [Key][Required] public int Id { get; set; }
 
-    public string UporabniskoIme { get; set; } = string.Empty;
+    public string Guid { get; set; } = string.Empty;
 }

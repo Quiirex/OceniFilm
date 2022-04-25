@@ -38,6 +38,20 @@ public class VideotekaController : ControllerBase
         return film;
     }
 
+    // GET: api/Videoteka/5
+    [HttpGet("film/{naslovFilma}")]
+    public async Task<ActionResult<Film>> GetFilmByNaslov(string naslovFilma)
+    {
+        Film? film = await _context.Filmi.FirstOrDefaultAsync(film => film.Naslov == naslovFilma);
+
+        if (film == null)
+        {
+            return NotFound();
+        }
+
+        return film;
+    }
+
     // PUT: api/Videoteka/5
     [HttpPut("{id}")]
     [Authorize]

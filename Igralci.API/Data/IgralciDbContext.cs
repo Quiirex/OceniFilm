@@ -10,5 +10,4 @@ public class IgralciDbContext : DbContext
     }
 
     public DbSet<Igralec> Igralci { get; set; }
-    public DbSet<IgraniFilm> IgraniFilmi { get; set; }
 }

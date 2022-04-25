@@ -38,6 +38,20 @@ public class OcenaController : ControllerBase
         return ocena;
     }
 
+    // GET: api/Ocena/5
+    [HttpGet("/poFilmuInUporabniku/{id}")]
+    public async Task<ActionResult<Ocena>> GetOcenaByFilmAndUser(string naslovFilma, string guid)
+    {
+        Ocena? ocena = await _context.Ocene.Where(o => o.OcenjenFilm.Naslov == naslovFilma && o.Ocenjevalec.Guid == guid).FirstOrDefaultAsync();
+
+        if (ocena == null)
+        {
+            return NotFound();
+        }
+
+        return ocena;
+    }
+
     // PUT: api/Ocena/5
     [HttpPut("{id}")]
     [Authorize]

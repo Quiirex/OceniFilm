@@ -38,6 +38,20 @@ public class KomentarController : ControllerBase
         return komentar;
     }
 
+    // GET: api/Komentar/5
+    [HttpGet("/komentarjiPoFilmu/{naslovFilma}")]
+    public async Task<ActionResult<IEnumerable<Komentar>>> GetKomentarByKomentiranFilm(string naslovFilma)
+    {
+        IEnumerable<Komentar> komentar = await _context.Komentarji.Where(k => k.KomentiranFilm.Naslov == naslovFilma).ToListAsync();
+
+        if (komentar == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(komentar);
+    }
+
     // PUT: api/Komentar/5
     [HttpPut("{id}")]
     [Authorize]

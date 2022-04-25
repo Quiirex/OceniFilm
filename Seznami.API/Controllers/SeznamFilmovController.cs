@@ -40,6 +40,21 @@ public class SeznamFilmovController : ControllerBase
         return seznamFilmov;
     }
 
+    // GET: api/SeznamFilmov/5
+    [HttpGet("/poUporabniku/{id}")]
+    [Authorize]
+    public async Task<ActionResult<IEnumerable<SeznamFilmov>>> GetSeznamFilmovByUser(string guid)
+    {
+        IEnumerable<SeznamFilmov> seznamFilmov = await _context.SeznamiFilmov.Where(s => s.Uporabnik.Guid == guid).ToListAsync();
+
+        if (seznamFilmov == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(seznamFilmov);
+    }
+
     // PUT: api/SeznamFilmov/5
     [HttpPut("{id}")]
     [Authorize]

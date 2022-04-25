@@ -21,43 +21,50 @@ public static class PrepareDb
                 {
                     DatumZapisa = DateTime.Now,
                     Vsebina = "Ta film mi je bil zelo všeč",
-                    Komentator = new Komentator { UporabniskoIme = "Janez123" }
+                    KomentiranFilm = new KomentiranFilm { Naslov = "The Batman" },
+                    Komentator = new Komentator { Guid = "Janez123" }
                 },
                 new Komentar
                 {
                     DatumZapisa = DateTime.Now,
                     Vsebina = "Odličen film",
-                    Komentator = new Komentator { UporabniskoIme = "Janez123" }
+                    KomentiranFilm = new KomentiranFilm { Naslov = "The Batman" },
+                    Komentator = new Komentator { Guid = "Janez123" }
                 },
                 new Komentar
                 {
                     DatumZapisa = DateTime.Now,
                     Vsebina = "Vreden ogleda",
-                    Komentator = new Komentator { UporabniskoIme = "Bojan123" }
+                    KomentiranFilm = new KomentiranFilm { Naslov = "The Batman" },
+                    Komentator = new Komentator { Guid = "Bojan123" }
                 },
                 new Komentar
                 {
                     DatumZapisa = DateTime.Now,
                     Vsebina = "Super film",
-                    Komentator = new Komentator { UporabniskoIme = "Bojan123" }
+                    KomentiranFilm = new KomentiranFilm { Naslov = "The Batman" },
+                    Komentator = new Komentator { Guid = "Bojan123" }
                 },
                 new Komentar
                 {
                     DatumZapisa = DateTime.Now,
                     Vsebina = "Film je bil predolg",
-                    Komentator = new Komentator { UporabniskoIme = "Bojan123" }
+                    KomentiranFilm = new KomentiranFilm { Naslov = "The Batman" },
+                    Komentator = new Komentator { Guid = "Bojan123" }
                 },
                 new Komentar
                 {
                     DatumZapisa = DateTime.Now,
                     Vsebina = "Film je bil dolgočasen",
-                    Komentator = new Komentator { UporabniskoIme = "Marjan123" }
+                    KomentiranFilm = new KomentiranFilm { Naslov = "The Batman" },
+                    Komentator = new Komentator { Guid = "Marjan123" }
                 },
                 new Komentar
                 {
                     DatumZapisa = DateTime.Now,
                     Vsebina = "Film je bil izjemen",
-                    Komentator = new Komentator { UporabniskoIme = "Marjan123" }
+                    KomentiranFilm = new KomentiranFilm { Naslov = "The Batman" },
+                    Komentator = new Komentator { Guid = "Marjan123" }
                 }
             );
             database.SaveChanges();

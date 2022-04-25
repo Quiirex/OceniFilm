@@ -21,6 +21,7 @@ builder.Services.AddAuthorizationCore();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddHttpClient<IAuthService, AuthService>();
+builder.Services.AddHttpClient<IFilmService, FilmService>();
 
 WebApplication? app = builder.Build();
 

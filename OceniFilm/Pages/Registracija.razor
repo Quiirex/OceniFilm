@@ -126,7 +126,7 @@
     {
         if (await validations.ValidateAll())
         {
-            HttpResponseMessage httpResponseMessage = (await AuthService.Register(registracija));
+            HttpResponseMessage httpResponseMessage = (await AuthService.RegisterAsync(registracija));
 
             if(httpResponseMessage.StatusCode == HttpStatusCode.Created)
             {

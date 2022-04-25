@@ -22,42 +22,21 @@ public static class PrepareDb
                     Vrednost = 9,
                     DatumOcene = DateTime.Now,
                     OcenjenFilm = new OcenjenFilm { Naslov = "The Batman" },
-                    Ocenjevalec = new Ocenjevalec { UporabniskoIme = "Janez123" }
-                },
-                new Ocena
-                {
-                    Vrednost = 4,
-                    DatumOcene = DateTime.Now,
-                    OcenjenFilm = new OcenjenFilm { Naslov = "Spider-Man: Homecoming" },
-                    Ocenjevalec = new Ocenjevalec { UporabniskoIme = "Janez123" }
+                    Ocenjevalec = new Ocenjevalec { Guid = "4564-2345-7445-2345-1235-1236" }
                 },
                 new Ocena
                 {
                     Vrednost = 8,
                     DatumOcene = DateTime.Now,
                     OcenjenFilm = new OcenjenFilm { Naslov = "Tenet" },
-                    Ocenjevalec = new Ocenjevalec { UporabniskoIme = "Bojan123" }
+                    Ocenjevalec = new Ocenjevalec { Guid = "4564-2345-7445-2345-1235-1236" }
                 },
                 new Ocena
                 {
                     Vrednost = 3,
                     DatumOcene = DateTime.Now,
                     OcenjenFilm = new OcenjenFilm { Naslov = "Dune" },
-                    Ocenjevalec = new Ocenjevalec { UporabniskoIme = "Bojan123" }
-                },
-                new Ocena
-                {
-                    Vrednost = 6,
-                    DatumOcene = DateTime.Now,
-                    OcenjenFilm = new OcenjenFilm { Naslov = "Iron Man" },
-                    Ocenjevalec = new Ocenjevalec { UporabniskoIme = "Marjan123" }
-                },
-                new Ocena
-                {
-                    Vrednost = 1,
-                    DatumOcene = DateTime.Now,
-                    OcenjenFilm = new OcenjenFilm { Naslov = "Titanic" },
-                    Ocenjevalec = new Ocenjevalec { UporabniskoIme = "Marjan123" }
+                    Ocenjevalec = new Ocenjevalec { Guid = "4564-2345-7445-2345-1235-1236" }
                 }
             );
             database.SaveChanges();

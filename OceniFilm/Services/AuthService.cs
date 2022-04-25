@@ -1,4 +1,5 @@
 ﻿using OceniFilm.Models;
+using System.Net;
 
 namespace OceniFilm.Services
 {
@@ -13,24 +14,52 @@ namespace OceniFilm.Services
             _configuration = configuration;
         }
 
-        public async Task<IEnumerable<Uporabnik>> GetUporabniki()
+        public async Task<IEnumerable<Uporabnik>> GetUporabnikiAsync()
         {
-            return await _httpClient.GetFromJsonAsync<IEnumerable<Uporabnik>>(_configuration["GatewayUrl"] + "/api/Identiteta");
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<IEnumerable<Uporabnik>>(_configuration["IdentitetaAPI"] + "/api/Identiteta");
+            }
+            catch (HttpRequestException)
+            {
+                return Enumerable.Empty<Uporabnik>();
+            }
         }
 
-        public async Task<Uporabnik> GetUporabnikById(string id)
+        public async Task<Uporabnik> GetUporabnikByIdAsync(string id)
         {
-            return await _httpClient.GetFromJsonAsync<Uporabnik>(_configuration["GatewayUrl"] + "/api/Identiteta/" + id);
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<Uporabnik>(_configuration["IdentitetaAPI"] + "/api/Identiteta/" + id);
+            }
+            catch (HttpRequestException)
+            {
+                return new Uporabnik();
+            }
         }
 
-        public async Task<HttpResponseMessage> Register(RegistracijaUporabnika novUporabnik)
+        public async Task<HttpResponseMessage> RegisterAsync(RegistracijaUporabnika novUporabnik)
         {
-            return await _httpClient.PostAsJsonAsync(_configuration["GatewayUrl"] + "/api/Identiteta/registracija", novUporabnik);
+            try
+            {
+                return await _httpClient.PostAsJsonAsync(_configuration["IdentitetaAPI"] + "/api/Identiteta/registracija", novUporabnik);
+            }
+            catch (HttpRequestException)
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
         }
 
-        public async Task<HttpResponseMessage> Login(PrijavaUporabnika uporabnik)
+        public async Task<HttpResponseMessage> LoginAsync(PrijavaUporabnika uporabnik)
         {
-            return await _httpClient.PostAsJsonAsync(_configuration["GatewayUrl"] + "/api/Identiteta/prijava", uporabnik);
+            try
+            {
+                return await _httpClient.PostAsJsonAsync(_configuration["IdentitetaAPI"] + "/api/Identiteta/prijava", uporabnik);
+            }
+            catch (HttpRequestException)
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
         }
     }
 }

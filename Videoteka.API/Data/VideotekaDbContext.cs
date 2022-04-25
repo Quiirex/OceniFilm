@@ -10,6 +10,7 @@ public class VideotekaDbContext : DbContext
     }
 
     public DbSet<Film> Filmi { get; set; }
+    public DbSet<Zanr> Zanr { get; set; }
     public DbSet<IgralecFilma> IgralciFilma { get; set; }
     public DbSet<Reziser> Reziser { get; set; }
 }

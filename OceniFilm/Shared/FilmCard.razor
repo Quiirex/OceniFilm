@@ -18,12 +18,14 @@
         </p>
         <CardTitle Size="5" style="margin-bottom: 0">@naslov (@letoIzdaje)</CardTitle>
         <div style="margin-bottom: 10px;">
-            @foreach (var zanr in seznamZanrov) { 
+            @foreach (var zanr in seznamZanrov) 
+            { 
                 <Badge Color="Color.Dark" style="margin-right: 5px">@zanr.Naziv</Badge>
             }
         </div>
-        <CardSubtitle style="font-size: 12px">
-            @foreach (var igralec in seznamIgralcev) { 
+        <CardSubtitle style="font-size: 12px; min-height: 28.78px;">
+            @foreach (var igralec in seznamIgralcev) 
+            { 
                     @($"{igralec.Ime} {igralec.Priimek} - ")
             }
         </CardSubtitle>

@@ -11,5 +11,4 @@ public class Igralec
     public DateTime? DatumRojstva { get; set; }
     public string Biografija { get; set; } = string.Empty;
     public string Fotografija { get; set; } = string.Empty;
-    public List<IgraniFilm>? SeznamFilmov { get; set; }
 }
