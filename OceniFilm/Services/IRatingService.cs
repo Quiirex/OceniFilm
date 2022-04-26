@@ -6,6 +6,9 @@ namespace OceniFilm.Services
 	public interface IRatingService
 	{
 		Task<Ocena> GetOcenaByTitleAndUserAsync(string naslovFilma, string guid);
-	}
+		Task<HttpResponseMessage> CreateRatingAsync(Ocena ocena);
+		Task<HttpResponseMessage> EditRatingAsync(int id, Ocena ocena);
+		Task<HttpResponseMessage> RemoveRatingAsync(int id);
+    }
 }
 

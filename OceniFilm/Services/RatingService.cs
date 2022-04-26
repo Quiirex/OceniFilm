@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using OceniFilm.Models.Ocenjevanje;
 
 namespace OceniFilm.Services
@@ -23,6 +24,42 @@ namespace OceniFilm.Services
             catch (HttpRequestException)
             {
                 return new Ocena();
+            }
+        }
+
+        public async Task<HttpResponseMessage> CreateRatingAsync(Ocena ocena)
+        {
+            try
+            {
+                return await _httpClient.PostAsJsonAsync(_configuration["OcenjevanjeAPI"] + "/api/Ocena", ocena);
+            }
+            catch (HttpRequestException)
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+        }
+
+        public async Task<HttpResponseMessage> EditRatingAsync(int id, Ocena ocena)
+        {
+            try
+            {
+                return await _httpClient.PutAsJsonAsync(_configuration["OcenjevanjeAPI"] + "/api/Ocena/" + id, ocena); // obviously not correct yet
+            }
+            catch (HttpRequestException)
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+        }
+
+        public async Task<HttpResponseMessage> RemoveRatingAsync(int id)
+        {
+            try
+            {
+                return await _httpClient.DeleteAsync(_configuration["OcenjevanjeAPI"] + "/api/Ocena/" + id); // obviously not correct yet
+            }
+            catch (HttpRequestException)
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
         }
     }

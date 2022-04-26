@@ -14,18 +14,6 @@ namespace OceniFilm.Services
             _configuration = configuration;
         }
 
-        public async Task<IEnumerable<Uporabnik>> GetUporabnikiAsync()
-        {
-            try
-            {
-                return await _httpClient.GetFromJsonAsync<IEnumerable<Uporabnik>>(_configuration["IdentitetaAPI"] + "/api/Identiteta");
-            }
-            catch (HttpRequestException)
-            {
-                return Enumerable.Empty<Uporabnik>();
-            }
-        }
-
         public async Task<Uporabnik> GetUporabnikByIdAsync(string id)
         {
             try
