@@ -21,14 +21,14 @@ public class OcenaController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Ocena>>> GetOcene()
     {
-        return await _context.Ocene.ToListAsync();
+        return await _context.Ocene.Include(w => w.Ocenjevalec).Include(w => w.OcenjenFilm).ToListAsync();
     }
 
     // GET: api/Ocena/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Ocena>> GetOcena(int id)
     {
-        Ocena? ocena = await _context.Ocene.FindAsync(id);
+        Ocena? ocena = await _context.Ocene.Include(w => w.Ocenjevalec).Include(w => w.OcenjenFilm).SingleOrDefaultAsync(u => u.Id == id);
 
         if (ocena == null)
         {
@@ -42,7 +42,7 @@ public class OcenaController : ControllerBase
     [HttpGet("/poFilmuInUporabniku/{naslovFilma}/{guid}")]
     public async Task<ActionResult<Ocena>> GetOcenaByFilmAndUser(string naslovFilma, string guid)
     {
-        Ocena? ocena = await _context.Ocene.Where(o => o.OcenjenFilm.Naslov == naslovFilma && o.Ocenjevalec.Guid == guid).FirstOrDefaultAsync();
+        Ocena? ocena = await _context.Ocene.Include(w => w.Ocenjevalec).Include(w => w.OcenjenFilm).Where(o => o.OcenjenFilm.Naslov == naslovFilma && o.Ocenjevalec.Guid == guid).FirstOrDefaultAsync();
 
         if (ocena == null)
         {

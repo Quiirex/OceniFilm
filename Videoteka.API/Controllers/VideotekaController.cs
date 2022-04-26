@@ -21,20 +21,20 @@ public class VideotekaController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Film>>> GetFilmi()
     {
-        return await _context.Filmi.ToListAsync();
+        return await _context.Filmi.Include(w => w.SeznamIgralcev).Include(w => w.SeznamZanrov).Include(w => w.Reziser).ToListAsync();
     }
 
     // GET: api/Videoteka/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Film>> GetFilm(int id)
     {
-        Film? film = await _context.Filmi.FindAsync(id);
+        Film? film = await _context.Filmi.Include(w => w.SeznamIgralcev).Include(w => w.SeznamZanrov).Include(w => w.Reziser).SingleOrDefaultAsync(u => u.Id == id);
 
         if (film == null)
         {
             return NotFound();
         }
-
+        
         return film;
     }
 
@@ -42,7 +42,7 @@ public class VideotekaController : ControllerBase
     [HttpGet("film/{naslovFilma}")]
     public async Task<ActionResult<Film>> GetFilmByNaslov(string naslovFilma)
     {
-        Film? film = await _context.Filmi.FirstOrDefaultAsync(film => film.Naslov == naslovFilma);
+        Film? film = await _context.Filmi.Include(w => w.SeznamIgralcev).Include(w => w.SeznamZanrov).Include(w => w.Reziser).SingleOrDefaultAsync(film => film.Naslov == naslovFilma);
 
         if (film == null)
         {

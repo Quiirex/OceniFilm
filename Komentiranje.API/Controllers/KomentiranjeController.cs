@@ -21,14 +21,14 @@ public class KomentarController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Komentar>>> GetKomentarji()
     {
-        return await _context.Komentarji.ToListAsync();
+        return await _context.Komentarji.Include(w => w.Komentator).Include(w => w.KomentiranFilm).ToListAsync();
     }
 
     // GET: api/Komentar/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Komentar>> GetKomentar(int id)
     {
-        Komentar? komentar = await _context.Komentarji.FindAsync(id);
+        Komentar? komentar = await _context.Komentarji.Include(w => w.Komentator).Include(w => w.KomentiranFilm).SingleOrDefaultAsync(u => u.Id == id);
 
         if (komentar == null)
         {
@@ -42,7 +42,7 @@ public class KomentarController : ControllerBase
     [HttpGet("/komentarjiPoFilmu/{naslovFilma}")]
     public async Task<ActionResult<IEnumerable<Komentar>>> GetKomentarjiByKomentiranFilm(string naslovFilma)
     {
-        IEnumerable<Komentar> komentar = await _context.Komentarji.Where(k => k.KomentiranFilm.Naslov == naslovFilma).ToListAsync();
+        IEnumerable<Komentar> komentar = await _context.Komentarji.Include(w => w.Komentator).Include(w => w.KomentiranFilm).Where(k => k.KomentiranFilm.Naslov == naslovFilma).ToListAsync();
 
         if (komentar == null)
         {

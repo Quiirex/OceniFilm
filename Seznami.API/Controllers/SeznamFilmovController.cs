@@ -22,7 +22,7 @@ public class SeznamFilmovController : ControllerBase
     [Authorize]
     public async Task<ActionResult<IEnumerable<SeznamFilmov>>> GetSeznamiFilmov()
     {
-        return await _context.SeznamiFilmov.ToListAsync();
+        return await _context.SeznamiFilmov.Include(w => w.Filmi).Include(w => w.Uporabnik).ToListAsync();
     }
 
     // GET: api/SeznamFilmov/5
@@ -30,7 +30,7 @@ public class SeznamFilmovController : ControllerBase
     [Authorize]
     public async Task<ActionResult<SeznamFilmov>> GetSeznamFilmov(int id)
     {
-        SeznamFilmov? seznamFilmov = await _context.SeznamiFilmov.FindAsync(id);
+        SeznamFilmov? seznamFilmov = await _context.SeznamiFilmov.Include(w => w.Filmi).Include(w => w.Uporabnik).SingleOrDefaultAsync(u => u.Id == id);
 
         if (seznamFilmov == null)
         {
@@ -45,7 +45,7 @@ public class SeznamFilmovController : ControllerBase
     [Authorize]
     public async Task<ActionResult<IEnumerable<SeznamFilmov>>> GetSeznamFilmovByUser(string guid)
     {
-        IEnumerable<SeznamFilmov> seznamFilmov = await _context.SeznamiFilmov.Where(s => s.Uporabnik.Guid == guid).ToListAsync();
+        IEnumerable<SeznamFilmov> seznamFilmov = await _context.SeznamiFilmov.Include(w => w.Filmi).Include(w => w.Uporabnik).Where(s => s.Uporabnik.Guid == guid).ToListAsync();
 
         if (seznamFilmov == null)
         {
