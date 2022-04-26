@@ -39,6 +39,20 @@ public class IgralecController : ControllerBase
         return igralec;
     }
 
+    // GET: api/Igralec/5
+    [HttpGet("/info/{ime}/{priimek}")]
+    public async Task<ActionResult<Igralec>> GetIgralcecInfo(string ime, string priimek)
+    {
+        Igralec? igralec = await _context.Igralci.Where(i => i.Ime == ime && i.Priimek == priimek).FirstOrDefaultAsync();
+
+        if (igralec == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(igralec);
+    }
+
     // PUT: api/Igralec/5
     [HttpPut("{id}")]
     [Authorize]

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Identiteta.API.Controllers;
 
 [Route("api/[controller]")]
-[ApiController]
+[ApiController]         
 public class IdentitetaController : ControllerBase
 {
     private readonly AuthService _authService;

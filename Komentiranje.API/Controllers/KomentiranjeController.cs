@@ -40,7 +40,7 @@ public class KomentarController : ControllerBase
 
     // GET: api/Komentar/5
     [HttpGet("/komentarjiPoFilmu/{naslovFilma}")]
-    public async Task<ActionResult<IEnumerable<Komentar>>> GetKomentarByKomentiranFilm(string naslovFilma)
+    public async Task<ActionResult<IEnumerable<Komentar>>> GetKomentarjiByKomentiranFilm(string naslovFilma)
     {
         IEnumerable<Komentar> komentar = await _context.Komentarji.Where(k => k.KomentiranFilm.Naslov == naslovFilma).ToListAsync();
 
