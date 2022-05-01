@@ -73,6 +73,7 @@
                 Ocenjevalec = new() { PrikaznoIme = prikaznoIme }
             };
             await RatingService.CreateRatingAsync(novaOcena);
+            initialOcena = novaOcena;
         }
         else
         {
@@ -83,7 +84,7 @@
                 OcenjenFilm = new() { Naslov = naslovFilma },
                 Ocenjevalec = new() { PrikaznoIme = prikaznoIme }
             };
-            await RatingService.EditRatingAsync(1, novaOcena); // TODO: Fix
+            await RatingService.EditRatingAsync(novaOcena);
         }
         return;
     }

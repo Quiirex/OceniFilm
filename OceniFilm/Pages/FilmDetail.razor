@@ -105,18 +105,31 @@
                         </AuthorizeView>
                         @if (fetchedKomentarji != null)
                             {
-                            <ListGroup Flush>
-                                @foreach (var komentar in fetchedKomentarji)
-                                {
-                                    <ListGroupItem style="background-color: black !important; border-bottom: 1px solid white !important;">
-                                        <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <Heading Size="HeadingSize.Is6" Margin="Margin.Is1.FromBottom"><b>@komentar.Komentator.Guid</b></Heading>
-                                            <Small TextColor="TextColor.Muted">@komentar.DatumZapisa</Small>
-                                        </Div>
-                                        <Paragraph Style="font-size: 0.9rem" Margin="Margin.Is1.FromBottom">@komentar.Vsebina</Paragraph>
-                                    </ListGroupItem>
-                                }
-                            </ListGroup>
+                    <ListGroup Flush>
+                        @foreach (var komentar in fetchedKomentarji)
+                        {
+                            @if (!komentar.Equals(lastKomentar))
+                            {
+                                <ListGroupItem style="background-color: black !important; border-bottom: 1px solid white !important;">
+                                    <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                        <Heading Size="HeadingSize.Is6" Margin="Margin.Is1.FromBottom"><b>@komentar.Komentator.Guid</b></Heading>
+                                        <Small TextColor="TextColor.Muted">@komentar.DatumZapisa</Small>
+                                    </Div>
+                                    <Paragraph Style="font-size: 0.9rem" Margin="Margin.Is1.FromBottom">@komentar.Vsebina</Paragraph>
+                                </ListGroupItem>
+                            }
+                            else
+                            {
+                                <ListGroupItem style="background-color: black !important;">
+                                    <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                        <Heading Size="HeadingSize.Is6" Margin="Margin.Is1.FromBottom"><b>@komentar.Komentator.Guid</b></Heading>
+                                        <Small TextColor="TextColor.Muted">@komentar.DatumZapisa</Small>
+                                    </Div>
+                                    <Paragraph Style="font-size: 0.9rem" Margin="Margin.Is1.FromBottom">@komentar.Vsebina</Paragraph>
+                                </ListGroupItem>
+                            }
+                        }
+                    </ListGroup>
                             }
                             @if (!fetchedKomentarji.Any())
                             {
@@ -160,12 +173,18 @@
 
     private IEnumerable<Komentar>? fetchedKomentarji { get; set; }
 
+    private Komentar? lastKomentar { get; set; }
+
     private Ocena? fetchedOcena { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         fetchedFilm = await FilmService.GetFilmByTitleAsync(naslovFilma);
         fetchedKomentarji = await CommentService.GetCommentsByFilmAsync(naslovFilma);
+        if (fetchedKomentarji.Any())
+        {
+            lastKomentar = fetchedKomentarji.Last();
+        }
         AuthenticationState authState = await authenticationState;
         if (authState.User.Identity.IsAuthenticated)
         {

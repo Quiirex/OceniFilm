@@ -53,16 +53,19 @@ public class OcenaController : ControllerBase
     }
 
     // PUT: api/Ocena/5
-    [HttpPut("{id}")]
+    [HttpPut]
     [Authorize]
-    public async Task<IActionResult> PutOcena(int id, Ocena ocena)
+    public async Task<IActionResult> PutOcena(Ocena ocena)
     {
-        if (id != ocena.Id)
+        Ocena? fetchedOcena = await _context.Ocene.Include(w => w.Ocenjevalec).Include(w => w.OcenjenFilm).Where(o => o.OcenjenFilm.Naslov == ocena.OcenjenFilm.Naslov && o.Ocenjevalec.PrikaznoIme == ocena.Ocenjevalec.PrikaznoIme).FirstOrDefaultAsync();
+
+        if (fetchedOcena == null)
         {
-            return BadRequest();
+            return NotFound();
         }
 
-        _context.Entry(ocena).State = EntityState.Modified;
+        fetchedOcena.Vrednost = ocena.Vrednost;
+        _context.Entry(fetchedOcena).State = EntityState.Modified;
 
         try
         {
@@ -70,15 +73,10 @@ public class OcenaController : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!OcenaExists(id))
-            {
-                return NotFound();
-            }
-
             throw;
         }
 
-        return NoContent();
+        return Ok();
     }
 
     // POST: api/Ocena
@@ -86,7 +84,6 @@ public class OcenaController : ControllerBase
     [Authorize]
     public async Task<ActionResult<Ocena>> PostOcena(Ocena ocena)
     {
-        Console.WriteLine("Ocena: " + ocena);
         _context.Ocene.Add(ocena);
         await _context.SaveChangesAsync();
 
@@ -108,10 +105,5 @@ public class OcenaController : ControllerBase
         await _context.SaveChangesAsync();
 
         return NoContent();
-    }
-
-    private bool OcenaExists(int id)
-    {
-        return _context.Ocene.Any(e => e.Id == id);
     }
 }

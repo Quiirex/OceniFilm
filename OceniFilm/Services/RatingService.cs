@@ -45,27 +45,13 @@ namespace OceniFilm.Services
             }
         }
 
-        public async Task<HttpResponseMessage> EditRatingAsync(int id, Ocena ocena)
+        public async Task<HttpResponseMessage> EditRatingAsync(Ocena ocena)
         {
             try
             {
                 var jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-                return await _httpClient.PutAsJsonAsync(_configuration["OcenjevanjeAPI"] + "/api/Ocena/" + id, ocena); // obviously not correct yet
-            }
-            catch (HttpRequestException)
-            {
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            }
-        }
-
-        public async Task<HttpResponseMessage> RemoveRatingAsync(int id)
-        {
-            try
-            {
-                var jwt = await _localStorageService.GetItemAsync<string>("jwt");
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-                return await _httpClient.DeleteAsync(_configuration["OcenjevanjeAPI"] + "/api/Ocena/" + id); // obviously not correct yet
+                return await _httpClient.PutAsJsonAsync(_configuration["OcenjevanjeAPI"] + "/api/Ocena/", ocena);
             }
             catch (HttpRequestException)
             {
