@@ -33,12 +33,11 @@ public class KomentarController : ControllerBase
         if (komentar == null)
         {
             return NotFound();
-        }
+        }   
 
         return komentar;
     }
 
-    // GET: api/Komentar/5
     [HttpGet("/komentarjiPoFilmu/{naslovFilma}")]
     public async Task<ActionResult<IEnumerable<Komentar>>> GetKomentarjiByKomentiranFilm(string naslovFilma)
     {

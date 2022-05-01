@@ -15,11 +15,11 @@ namespace OceniFilm.Services
             _configuration = configuration;
         }
 
-        public async Task<Ocena> GetOcenaByTitleAndUserAsync(string naslovFilma, string guid)
+        public async Task<Ocena> GetOcenaByTitleAndUserAsync(string naslovFilma, string prikaznoIme)
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<Ocena>(_configuration["OcenjevanjeAPI"] + "/api/Ocena/poFilmuInUporabniku/" + naslovFilma + "/" + guid);
+                return await _httpClient.GetFromJsonAsync<Ocena>(_configuration["OcenjevanjeAPI"] + "/poFilmuInUporabniku/" + naslovFilma + "/" + prikaznoIme);
             }
             catch (HttpRequestException)
             {

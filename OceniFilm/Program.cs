@@ -1,4 +1,4 @@
-using Blazored.LocalStorage;
+﻿using Blazored.LocalStorage;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
@@ -22,6 +22,10 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddHttpClient<IAuthService, AuthService>();
 builder.Services.AddHttpClient<IFilmService, FilmService>();
+builder.Services.AddHttpClient<ICommentService, CommentService>();
+builder.Services.AddHttpClient<IPlaylistService, PlaylistService>();
+builder.Services.AddHttpClient<IRatingService, RatingService>();
+builder.Services.AddHttpClient<IActorService, ActorService>();
 
 WebApplication? app = builder.Build();
 

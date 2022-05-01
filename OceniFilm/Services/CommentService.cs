@@ -19,7 +19,7 @@ namespace OceniFilm.Services
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<IEnumerable<Komentar>>(_configuration["KomentiranjeAPI"] + "/api/Komentar/komentarjiPoFilmu/" + naslovFilma);
+                return await _httpClient.GetFromJsonAsync<IEnumerable<Komentar>>(_configuration["KomentiranjeAPI"] + "/komentarjiPoFilmu/" + naslovFilma);
             }
             catch (HttpRequestException)
             {

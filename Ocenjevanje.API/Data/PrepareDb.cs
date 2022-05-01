@@ -22,21 +22,21 @@ public static class PrepareDb
                     Vrednost = 9,
                     DatumOcene = DateTime.Now,
                     OcenjenFilm = new OcenjenFilm { Naslov = "The Batman" },
-                    Ocenjevalec = new Ocenjevalec { Guid = "4564-2345-7445-2345-1235-1236" }
+                    Ocenjevalec = new Ocenjevalec { PrikaznoIme = "janezek12" }
                 },
                 new Ocena
                 {
                     Vrednost = 8,
                     DatumOcene = DateTime.Now,
                     OcenjenFilm = new OcenjenFilm { Naslov = "Tenet" },
-                    Ocenjevalec = new Ocenjevalec { Guid = "4564-2345-7445-2345-1235-1236" }
+                    Ocenjevalec = new Ocenjevalec { PrikaznoIme = "janezek12" }
                 },
                 new Ocena
                 {
                     Vrednost = 3,
                     DatumOcene = DateTime.Now,
                     OcenjenFilm = new OcenjenFilm { Naslov = "Dune" },
-                    Ocenjevalec = new Ocenjevalec { Guid = "4564-2345-7445-2345-1235-1236" }
+                    Ocenjevalec = new Ocenjevalec { PrikaznoIme = "janezek12" }
                 }
             );
             database.SaveChanges();

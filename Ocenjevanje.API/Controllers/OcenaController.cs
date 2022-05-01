@@ -39,10 +39,10 @@ public class OcenaController : ControllerBase
     }
 
     // GET: api/Ocena/5
-    [HttpGet("/poFilmuInUporabniku/{naslovFilma}/{guid}")]
-    public async Task<ActionResult<Ocena>> GetOcenaByFilmAndUser(string naslovFilma, string guid)
+    [HttpGet("/poFilmuInUporabniku/{naslovFilma}/{prikaznoIme}")]
+    public async Task<ActionResult<Ocena>> GetOcenaByFilmAndUser(string naslovFilma, string prikaznoIme)
     {
-        Ocena? ocena = await _context.Ocene.Include(w => w.Ocenjevalec).Include(w => w.OcenjenFilm).Where(o => o.OcenjenFilm.Naslov == naslovFilma && o.Ocenjevalec.Guid == guid).FirstOrDefaultAsync();
+        Ocena? ocena = await _context.Ocene.Include(w => w.Ocenjevalec).Include(w => w.OcenjenFilm).Where(o => o.OcenjenFilm.Naslov == naslovFilma && o.Ocenjevalec.PrikaznoIme == prikaznoIme).FirstOrDefaultAsync();
 
         if (ocena == null)
         {
