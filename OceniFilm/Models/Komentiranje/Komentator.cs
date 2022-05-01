@@ -3,5 +3,5 @@
 public class Komentator
 {
     // public int? Id { get; set; }
-    public string Guid { get; set; } = string.Empty;
+    public string PrikaznoIme { get; set; } = string.Empty;
 }

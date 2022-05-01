@@ -97,6 +97,11 @@ public class IdentitetaController : ControllerBase
     [HttpPost("registracija")]
     public async Task<ActionResult<Uporabnik>> RegistracijaUporabnika([FromBody] Uporabnik noviUporabnik)
     {
+        Uporabnik fetchedUporabnik = await _context.Uporabniki.Where(u => u.PrikaznoIme == noviUporabnik.PrikaznoIme).FirstOrDefaultAsync();
+        if (fetchedUporabnik != null)
+        {
+            return BadRequest();
+        }
         noviUporabnik.Id = Guid.NewGuid().ToString();
         noviUporabnik = _authService.HashPassword(noviUporabnik);
         _context.Uporabniki.Add(noviUporabnik);

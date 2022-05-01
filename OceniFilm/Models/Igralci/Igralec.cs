@@ -8,5 +8,4 @@ public class Igralec
     public DateTime? DatumRojstva { get; set; }
     public string? Biografija { get; set; }
     public string? Fotografija { get; set; }
-    public List<IgraniFilm>? SeznamFilmov { get; set; }
 }
