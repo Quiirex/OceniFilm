@@ -2,6 +2,6 @@
 
 public class IgraniFilm
 {
-    public int? Id { get; set; }
+    // public int? Id { get; set; }
     public string? Naslov { get; set; }
 }

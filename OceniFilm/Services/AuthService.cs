@@ -1,4 +1,5 @@
-﻿using OceniFilm.Models;
+﻿using Blazored.LocalStorage;
+using OceniFilm.Models;
 using System.Net;
 
 namespace OceniFilm.Services
@@ -7,11 +8,13 @@ namespace OceniFilm.Services
     {
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
+        private readonly ILocalStorageService _localStorageService;
 
-        public AuthService(HttpClient httpClient, IConfiguration configuration)
+        public AuthService(HttpClient httpClient, IConfiguration configuration, ILocalStorageService localStorageService)
         {
             _httpClient = httpClient;
             _configuration = configuration;
+            _localStorageService = localStorageService;
         }
 
         public async Task<Uporabnik> GetUporabnikByIdAsync(string id)

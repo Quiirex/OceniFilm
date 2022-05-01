@@ -2,7 +2,7 @@
 
 public class Film
 {
-    public int? Id { get; set; }
+    // public int? Id { get; set; }
     public string Naslov { get; set; }
     public string Opis { get; set; }
     public int Dolzina { get; set; }

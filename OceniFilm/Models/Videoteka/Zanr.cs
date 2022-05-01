@@ -2,7 +2,7 @@
 {
     public class Zanr
     {
-        public int? Id { get; set; }
+        // public int? Id { get; set; }
         public string? Naziv { get; set; }
     }
 }

@@ -2,6 +2,6 @@
 
 public class Ocenjevalec
 {
-    public int? Id { get; set; }
+    // public int? Id { get; set; }
     public string? PrikaznoIme { get; set; }
 }

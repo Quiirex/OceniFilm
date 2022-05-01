@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using Blazored.LocalStorage;
 using OceniFilm.Models.Komentiranje;
 
 namespace OceniFilm.Services
@@ -8,11 +9,13 @@ namespace OceniFilm.Services
 	{
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
+        private readonly ILocalStorageService _localStorageService;
 
-        public CommentService(HttpClient httpClient, IConfiguration configuration)
+        public CommentService(HttpClient httpClient, IConfiguration configuration, ILocalStorageService localStorageService)
         {
             _httpClient = httpClient;
             _configuration = configuration;
+            _localStorageService = localStorageService;
         }
 
         public async Task<IEnumerable<Komentar>> GetCommentsByFilmAsync(string naslovFilma)

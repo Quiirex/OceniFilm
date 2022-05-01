@@ -13,7 +13,7 @@
                 <FieldLabel style="padding-right: 10px; margin-right: 20px;">IMDB Ocena (@imdbOcena/10)</FieldLabel><Rating Color="Color.Warning" @bind-SelectedValue="@imdbOcena" MaxValue="10" ReadOnly="true"/>
             </Field>
             <Field>
-                <FieldLabel style="padding-right: 10px; margin-right: 23px;">Tvoja ocena (@mojaOcena/10) </FieldLabel><Rating Color="Color.Warning" @bind-SelectedValue="@mojaOcena.GetValueOrDefault()" MaxValue="10" @onclick="@onRatingClick"/>
+                <FieldLabel style="padding-right: 10px; margin-right: 23px;">Tvoja ocena (@mojaOcena/10) </FieldLabel><Rating Color="Color.Warning" @bind-SelectedValue="@mojaOcena" MaxValue="10" @onclick="@onRatingClick"/>
             </Field>
         </ModalBody>
     </ModalContent>
@@ -22,6 +22,9 @@
 @code {
     [Inject]
     public IRatingService RatingService { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; } = null!;
 
     [Parameter]
     public bool ratingModalVisible { get; set; }
@@ -39,18 +42,28 @@
     public int imdbOcena { get; set; }
 
     [Parameter]
-    public int? mojaOcena { get; set; }
+    public int mojaOcena { get; set; } = 0;
 
-    [Parameter]
-    public string prikaznoIme { get; set; }
+    private Ocena initialOcena { get; set; }
 
     [Parameter]
     public EventCallback<int> mojaOcenaChanged { get; set; }
 
+    private string prikaznoIme { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authState = await authenticationState;
+        if (authState.User.Identity.IsAuthenticated)
+        {
+            prikaznoIme = authState.User.Identity.Name;
+        }
+        initialOcena = await RatingService.GetOcenaByTitleAndUserAsync(naslovFilma, prikaznoIme);
+    }
+
     private async Task onRatingClick()
     {
-        await mojaOcenaChanged.InvokeAsync(mojaOcena.GetValueOrDefault());
-        if (mojaOcena == null)
+        if (initialOcena.Vrednost == null)
         {
             Ocena novaOcena = new()
             {
@@ -79,6 +92,7 @@
     {
         ratingModalVisible = false;
         await ratingModalVisibleChanged.InvokeAsync(ratingModalVisible);
+        await mojaOcenaChanged.InvokeAsync(mojaOcena);
         return;
     }
 }

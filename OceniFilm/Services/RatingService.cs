@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Net;
+using System.Net.Http.Headers;
+using Blazored.LocalStorage;
 using OceniFilm.Models.Ocenjevanje;
 
 namespace OceniFilm.Services
@@ -8,11 +10,13 @@ namespace OceniFilm.Services
 	{
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
+        private readonly ILocalStorageService _localStorageService;
 
-        public RatingService(HttpClient httpClient, IConfiguration configuration)
+        public RatingService(HttpClient httpClient, IConfiguration configuration, ILocalStorageService localStorageService)
         {
             _httpClient = httpClient;
             _configuration = configuration;
+            _localStorageService = localStorageService;
         }
 
         public async Task<Ocena> GetOcenaByTitleAndUserAsync(string naslovFilma, string prikaznoIme)
@@ -31,6 +35,8 @@ namespace OceniFilm.Services
         {
             try
             {
+                var jwt = await _localStorageService.GetItemAsync<string>("jwt");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
                 return await _httpClient.PostAsJsonAsync(_configuration["OcenjevanjeAPI"] + "/api/Ocena", ocena);
             }
             catch (HttpRequestException)
@@ -43,6 +49,8 @@ namespace OceniFilm.Services
         {
             try
             {
+                var jwt = await _localStorageService.GetItemAsync<string>("jwt");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
                 return await _httpClient.PutAsJsonAsync(_configuration["OcenjevanjeAPI"] + "/api/Ocena/" + id, ocena); // obviously not correct yet
             }
             catch (HttpRequestException)
@@ -55,6 +63,8 @@ namespace OceniFilm.Services
         {
             try
             {
+                var jwt = await _localStorageService.GetItemAsync<string>("jwt");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
                 return await _httpClient.DeleteAsync(_configuration["OcenjevanjeAPI"] + "/api/Ocena/" + id); // obviously not correct yet
             }
             catch (HttpRequestException)

@@ -86,6 +86,7 @@ public class OcenaController : ControllerBase
     [Authorize]
     public async Task<ActionResult<Ocena>> PostOcena(Ocena ocena)
     {
+        Console.WriteLine("Ocena: " + ocena);
         _context.Ocene.Add(ocena);
         await _context.SaveChangesAsync();
 

@@ -2,6 +2,6 @@
 
 public class Uporabnik
 {
-    public int? Id { get; set; }
+    // public int? Id { get; set; }
     public string? UporabniskoIme { get; set; }
 }
