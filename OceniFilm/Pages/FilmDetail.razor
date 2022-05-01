@@ -128,7 +128,7 @@
         </Div>
 
         <PlaylistModal @bind-playlistModalVisible="playlistModalVisible" />
-        <RatingModal @bind-ratingModalVisible="ratingModalVisible" mojaOcena="mojaOcena" mojaOcenaChanged="@RefreshState" imdbOcena="@imdbOcena" naslovFilma="@fetchedFilm.Naslov" letoIzdaje="@fetchedFilm.LetoIzdaje"/>
+        <RatingModal @bind-ratingModalVisible="ratingModalVisible" mojaOcena="mojaOcena" mojaOcenaChanged="@RefreshRating" imdbOcena="@imdbOcena" naslovFilma="@fetchedFilm.Naslov" letoIzdaje="@fetchedFilm.LetoIzdaje"/>
         <CommentModal @bind-commentModalVisible="commentModalVisible"></CommentModal>
     }
 
@@ -175,7 +175,7 @@
         imdbOcena = fetchedFilm.ImdbOcena;
     }
 
-    public async void RefreshState()
+    public async void RefreshRating()
     {
         AuthenticationState authState = await authenticationState;
         fetchedOcena = await RatingService.GetOcenaByTitleAndUserAsync(naslovFilma, authState.User.Identity.Name);

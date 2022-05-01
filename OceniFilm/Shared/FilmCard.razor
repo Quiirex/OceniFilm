@@ -7,14 +7,6 @@
     <CardBody>
         <p style="margin: 0">
             <Icon Name="IconName.Star" style="color: gold"></Icon> @imdbOcena/10
-            <AuthorizeView>
-                <Authorized>
-                    <Button class="card-btn" Color="Color.Light" Outline style="float: right" data-toggle="tooltip" data-placement="top" title="Oceni ta film" Clicked="@ShowRatingModal">
-                        <Icon Name="IconName.Star" IconStyle="IconStyle.Regular"></Icon>
-                    </Button>
-                </Authorized>
-                <NotAuthorized></NotAuthorized>
-            </AuthorizeView>
         </p>
         <CardTitle Size="5" style="margin-bottom: 0">@naslov (@letoIzdaje)</CardTitle>
         <div style="margin-bottom: 10px;">
@@ -51,11 +43,9 @@
 </Card>
 
 <PlaylistModal @bind-playlistModalVisible="playlistModalVisible"/>
-<RatingModal @bind-ratingModalVisible="ratingModalVisible" @bind-mojaOcena="mojaOcena" imdbOcena="@imdbOcena" naslovFilma="naslov" letoIzdaje="letoIzdaje" />
 <TrailerModal @bind-trailerModalVisible="trailerModalVisible" Url="@napovednikUrl"/>
 
 @code {
-    public bool ratingModalVisible { get; set; } = false;
     public bool playlistModalVisible { get; set; } = false;
     public bool trailerModalVisible { get; set; } = false;
 
@@ -82,12 +72,6 @@
 
     [Parameter]
     public string napovednikUrl { get; set; } = string.Empty;
-
-    private Task ShowRatingModal()
-    {
-        ratingModalVisible = true;
-        return Task.CompletedTask;
-    }
 
     private Task ShowPlaylistModal()
     {
