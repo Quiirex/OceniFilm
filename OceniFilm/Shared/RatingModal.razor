@@ -1,8 +1,11 @@
-﻿@*Modalno okno za ocenjevanje*@
+﻿@using OceniFilm.Services
+@using OceniFilm.Models.Ocenjevanje
+
+@*Modalno okno za ocenjevanje*@
 <Modal @bind-Visible="@ratingModalVisible" Closing="@OnModalClosing">
     <ModalContent Centered style="background-color: black; border-color: white;">
         <ModalHeader>
-            <ModalTitle>!naslovFilma! (!letoIzdaje!)</ModalTitle>
+            <ModalTitle>@naslovFilma (@letoIzdaje)</ModalTitle>
             <CloseButton />
         </ModalHeader>
         <ModalBody>
@@ -10,13 +13,16 @@
                 <FieldLabel style="padding-right: 10px; margin-right: 20px;">IMDB Ocena (@imdbOcena/10)</FieldLabel><Rating Color="Color.Warning" @bind-SelectedValue="@imdbOcena" MaxValue="10" ReadOnly="true"/>
             </Field>
             <Field>
-                <FieldLabel style="padding-right: 10px; margin-right: 23px;">Tvoja ocena (@mojaOcena/10) </FieldLabel><Rating Color="Color.Warning" @bind-SelectedValue="@mojaOcena" MaxValue="10" @onclick="@onRatingClick"/>
+                <FieldLabel style="padding-right: 10px; margin-right: 23px;">Tvoja ocena (@mojaOcena/10) </FieldLabel><Rating Color="Color.Warning" @bind-SelectedValue="@mojaOcena.GetValueOrDefault()" MaxValue="10" @onclick="@onRatingClick"/>
             </Field>
         </ModalBody>
     </ModalContent>
 </Modal>
 
 @code {
+    [Inject]
+    public IRatingService RatingService { get; set; }
+
     [Parameter]
     public bool ratingModalVisible { get; set; }
 
@@ -24,17 +30,48 @@
     public EventCallback<bool> ratingModalVisibleChanged { get; set; }
 
     [Parameter]
-    public int imdbOcena { get; set; } = 0;
+    public string naslovFilma { get; set; } = string.Empty;
 
     [Parameter]
-    public int mojaOcena { get; set; } = 0;
+    public int letoIzdaje { get; set; }
+
+    [Parameter]
+    public int imdbOcena { get; set; }
+
+    [Parameter]
+    public int? mojaOcena { get; set; }
+
+    [Parameter]
+    public string prikaznoIme { get; set; }
 
     [Parameter]
     public EventCallback<int> mojaOcenaChanged { get; set; }
 
     private async Task onRatingClick()
     {
-        await mojaOcenaChanged.InvokeAsync(mojaOcena);
+        await mojaOcenaChanged.InvokeAsync(mojaOcena.GetValueOrDefault());
+        if (mojaOcena == null)
+        {
+            Ocena novaOcena = new()
+            {
+                DatumOcene = DateTime.Now,
+                Vrednost = mojaOcena,
+                OcenjenFilm = new() { Naslov = naslovFilma },
+                Ocenjevalec = new() { PrikaznoIme = prikaznoIme }
+            };
+            await RatingService.CreateRatingAsync(novaOcena);
+        }
+        else
+        {
+            Ocena novaOcena = new()
+            {
+                DatumOcene = DateTime.Now,
+                Vrednost = mojaOcena,
+                OcenjenFilm = new() { Naslov = naslovFilma },
+                Ocenjevalec = new() { PrikaznoIme = prikaznoIme }
+            };
+            await RatingService.EditRatingAsync(1, novaOcena); // TODO: Fix
+        }
         return;
     }
 
