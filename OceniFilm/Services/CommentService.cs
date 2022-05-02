@@ -45,13 +45,13 @@ namespace OceniFilm.Services
             }
         }
 
-        public async Task<HttpResponseMessage> RemoveCommentAsync(int id)
+        public async Task<HttpResponseMessage> RemoveCommentAsync(Komentar komentar)
         {
             try
             {
                 var jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-                return await _httpClient.DeleteAsync(_configuration["KomentiranjeAPI"] + "/api/Komentar/" + id);
+                return await _httpClient.PostAsJsonAsync(_configuration["KomentiranjeAPI"] + "/odstraniKomentar", komentar);
             }
             catch (HttpRequestException)
             {

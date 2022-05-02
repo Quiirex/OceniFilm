@@ -1,4 +1,4 @@
-using Igralci.API.Data;
+﻿using Igralci.API.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -24,7 +24,7 @@ builder.Services.AddAuthentication(authenticationOptions =>
     {
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidateLifetime = true,
+        ValidateLifetime = false,
         ValidateIssuerSigningKey = true,
         ValidIssuer = configuration["JWT:Issuer"],
         ValidAudience = configuration["JWT:Audience"],

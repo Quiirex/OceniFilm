@@ -7,7 +7,7 @@ namespace OceniFilm.Services
 	{
 		Task<IEnumerable<Komentar>> GetCommentsByFilmAsync(string naslovFilma);
 		Task<HttpResponseMessage> CreateCommentAsync(Komentar komentar);
-		Task<HttpResponseMessage> RemoveCommentAsync(int id);
+		Task<HttpResponseMessage> RemoveCommentAsync(Komentar komentar);
 	}
 }
 

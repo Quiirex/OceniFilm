@@ -91,18 +91,18 @@ public class KomentarController : ControllerBase
         return CreatedAtAction("GetKomentar", new { id = komentar.Id }, komentar);
     }
 
-    // DELETE: api/Komentar/5
-    [HttpDelete("{id}")]
+    [HttpPost("/odstraniKomentar")]
     [Authorize]
-    public async Task<IActionResult> DeleteKomentar(int id)
+    public async Task<IActionResult> DeleteKomentar(Komentar komentar)
     {
-        Komentar? komentar = await _context.Komentarji.FindAsync(id);
-        if (komentar == null)
+        Komentar? fetchedKomentar = await _context.Komentarji.Include(w => w.Komentator).Include(w => w.KomentiranFilm).Where(k => k.Komentator.PrikaznoIme == komentar.Komentator.PrikaznoIme && k.KomentiranFilm.Naslov == komentar.KomentiranFilm.Naslov  && k.Vsebina == komentar.Vsebina).FirstOrDefaultAsync();
+
+        if (fetchedKomentar == null)
         {
             return NotFound();
         }
 
-        _context.Komentarji.Remove(komentar);
+        _context.Komentarji.Remove(fetchedKomentar);
         await _context.SaveChangesAsync();
 
         return NoContent();

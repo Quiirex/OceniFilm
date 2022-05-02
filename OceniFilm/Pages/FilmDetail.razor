@@ -81,10 +81,18 @@
                         <b style="font-size: 25px !important; margin-bottom: 10px !important;">Igralci</b> <Icon Name="IconName.Users" Style="padding-left: 5px;"></Icon>
                         <ListGroup Flush>
                             <ListGroupItem style="background-color: black !important; border-bottom: 1px solid white !important;">Režiser <Icon Name="IconName.AngleRight" Style="padding-left: 5px; padding-right: 5px;"></Icon><a>@fetchedFilm.Reziser.Ime @fetchedFilm.Reziser.Priimek</a></ListGroupItem>
-                            <ListGroupItem style="background-color: black !important;">Glavni igralci <Icon Name="IconName.AngleRight" Style="padding-left: 5px; padding-right: 5px;"></Icon>
-                            @foreach (var igralec in fetchedFilm.SeznamIgralcev)
+                            <ListGroupItem style="background-color: black !important;">
+                                Glavni igralci <Icon Name="IconName.AngleRight" Style="padding-left: 5px; padding-right: 5px;"></Icon>
+                                @foreach (var igralec in fetchedFilm.SeznamIgralcev)
                                 {
-                                <a href="#">&nbsp;@igralec.Ime @igralec.Priimek •</a>
+                                    @if (!igralec.Equals(lastIgralec))
+                                    {
+                                        <a href="#">&nbsp;@igralec.Ime @igralec.Priimek •</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#">&nbsp;@igralec.Ime @igralec.Priimek</a>
+                                    }
                                 }
                             </ListGroupItem>
                         </ListGroup>
@@ -105,31 +113,59 @@
                         </AuthorizeView>
                         @if (fetchedKomentarji != null)
                             {
-                    <ListGroup Flush>
-                        @foreach (var komentar in fetchedKomentarji)
-                        {
-                            @if (!komentar.Equals(lastKomentar))
-                            {
-                                <ListGroupItem style="background-color: black !important; border-bottom: 1px solid white !important;">
-                                    <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                        <Heading Size="HeadingSize.Is6" Margin="Margin.Is1.FromBottom"><b>@komentar.Komentator.PrikaznoIme</b></Heading>
-                                        <Small TextColor="TextColor.Muted">@komentar.DatumZapisa</Small>
-                                    </Div>
-                                    <Paragraph Style="font-size: 0.9rem" Margin="Margin.Is1.FromBottom">@komentar.Vsebina</Paragraph>
-                                </ListGroupItem>
-                            }
-                            else
-                            {
-                                <ListGroupItem style="background-color: black !important;">
-                                    <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                        <Heading Size="HeadingSize.Is6" Margin="Margin.Is1.FromBottom"><b>@komentar.Komentator.PrikaznoIme</b></Heading>
-                                        <Small TextColor="TextColor.Muted">@komentar.DatumZapisa</Small>
-                                    </Div>
-                                    <Paragraph Style="font-size: 0.9rem" Margin="Margin.Is1.FromBottom">@komentar.Vsebina</Paragraph>
-                                </ListGroupItem>
-                            }
-                        }
-                    </ListGroup>
+                            <ListGroup Flush>
+                                @foreach (var komentar in fetchedKomentarji)
+                                {
+                                    @if (!komentar.Equals(lastKomentar))
+                                    {
+                                        <ListGroupItem style="background-color: black !important; border-bottom: 1px solid white !important;">
+                                            <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                                <Heading Size="HeadingSize.Is6" Margin="Margin.Is1.FromBottom"><b>@komentar.Komentator.PrikaznoIme</b></Heading>
+                                                <Small TextColor="TextColor.Muted">@komentar.DatumZapisa</Small>
+                                            </Div>
+                                            <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                                <Paragraph Style="font-size: 0.9rem" Margin="Margin.Is1.FromBottom">@komentar.Vsebina</Paragraph>
+                                                <AuthorizeView>
+                                                    <Authorized>
+                                                        @if (@komentar.Komentator.PrikaznoIme == @context.User.Identity.Name)
+                                                        {
+                                                            <Button class="card-btn" Color="Color.Light" Outline style="float: right" data-toggle="tooltip" data-placement="top" title="Odstrani komentar" Clicked="() => RemoveComment(komentar)">
+                                                                <Icon Name="IconName.Delete"></Icon>
+                                                            </Button>
+                                                        }
+                                                    </Authorized>
+                                                    <NotAuthorized>
+                                                    </NotAuthorized>
+                                                </AuthorizeView>
+                                            </Div>
+                                        </ListGroupItem>
+                                    }
+                                    else
+                                    {
+                                        <ListGroupItem style="background-color: black !important;">
+                                            <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                                <Heading Size="HeadingSize.Is6" Margin="Margin.Is1.FromBottom"><b>@komentar.Komentator.PrikaznoIme</b></Heading>
+                                                <Small TextColor="TextColor.Muted">@komentar.DatumZapisa</Small>
+                                            </Div>
+                                            <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                                <Paragraph Style="font-size: 0.9rem" Margin="Margin.Is1.FromBottom">@komentar.Vsebina</Paragraph>
+                                                <AuthorizeView>
+                                                    <Authorized>
+                                                        @if (@komentar.Komentator.PrikaznoIme == @context.User.Identity.Name)
+                                                        {
+                                                            <Button class="card-btn" Color="Color.Light" Outline style="float: right" data-toggle="tooltip" data-placement="top" title="Odstrani komentar" Clicked="() => RemoveComment(komentar)">
+                                                                <Icon Name="IconName.Delete"></Icon>
+                                                            </Button>
+                                                        }
+                                                    </Authorized>
+                                                    <NotAuthorized>
+                                                    </NotAuthorized>
+                                                </AuthorizeView>
+                                            </Div>
+                                        </ListGroupItem>
+                                    }
+                                }
+                            </ListGroup>
                             }
                             @if (!fetchedKomentarji.Any())
                             {
@@ -175,11 +211,17 @@
 
     private Komentar? lastKomentar { get; set; }
 
+    private IgralecFilma? lastIgralec { get; set; }
+
     private Ocena? fetchedOcena { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         fetchedFilm = await FilmService.GetFilmByTitleAsync(naslovFilma);
+        if (fetchedFilm.SeznamIgralcev.Any())
+        {
+            lastIgralec = fetchedFilm.SeznamIgralcev.Last();
+        }
         fetchedKomentarji = await CommentService.GetCommentsByFilmAsync(naslovFilma);
         if (fetchedKomentarji.Any())
         {
@@ -210,6 +252,13 @@
             lastKomentar = fetchedKomentarji.Last();
         }
         this.StateHasChanged();
+    }
+
+    private async Task RemoveComment(Komentar komentar)
+    {
+        await CommentService.RemoveCommentAsync(komentar);
+        this.StateHasChanged();
+        return;
     }
 
     private Task ShowRatingModal()

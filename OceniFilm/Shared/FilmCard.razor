@@ -23,7 +23,15 @@
             {
                 @foreach (var igralec in seznamIgralcev)
                 {
-                    @($"{igralec.Ime} {igralec.Priimek} - ")
+                    if (!igralec.Equals(lastIgralec))
+                    {
+                        @($"{igralec.Ime} {igralec.Priimek} • ")
+                    }
+                    else
+                    {
+                        @($"{igralec.Ime} {igralec.Priimek}")
+                    }
+
                 }
             }
         </CardSubtitle>
@@ -56,9 +64,6 @@
     public int imdbOcena { get; set; }
 
     [Parameter]
-    public int mojaOcena { get; set; }
-
-    [Parameter]
     public string naslov { get; set; } = string.Empty;
 
     [Parameter]
@@ -72,6 +77,16 @@
 
     [Parameter]
     public string napovednikUrl { get; set; } = string.Empty;
+
+    private IgralecFilma? lastIgralec { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (seznamIgralcev.Any())
+        {
+            lastIgralec = seznamIgralcev.Last();
+        }
+    }
 
     private Task ShowPlaylistModal()
     {
