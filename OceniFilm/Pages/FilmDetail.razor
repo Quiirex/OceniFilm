@@ -142,7 +142,7 @@
 
         <PlaylistModal @bind-playlistModalVisible="playlistModalVisible" />
         <RatingModal @bind-ratingModalVisible="ratingModalVisible" mojaOcena="mojaOcena" mojaOcenaChanged="@RefreshRating" imdbOcena="@imdbOcena" naslovFilma="@fetchedFilm.Naslov" letoIzdaje="@fetchedFilm.LetoIzdaje"/>
-        <CommentModal @bind-commentModalVisible="commentModalVisible"></CommentModal>
+        <CommentModal @bind-commentModalVisible="commentModalVisible" naslovFilma="@fetchedFilm.Naslov" komentarChanged="@RefreshComments"></CommentModal>
     }
 
 @code {
@@ -199,6 +199,16 @@
         AuthenticationState authState = await authenticationState;
         fetchedOcena = await RatingService.GetOcenaByTitleAndUserAsync(naslovFilma, authState.User.Identity.Name);
         mojaOcena = fetchedOcena.Vrednost.GetValueOrDefault();
+        this.StateHasChanged();
+    }
+
+    public async void RefreshComments()
+    {
+        fetchedKomentarji = await CommentService.GetCommentsByFilmAsync(naslovFilma);
+        if (fetchedKomentarji.Any())
+        {
+            lastKomentar = fetchedKomentarji.Last();
+        }
         this.StateHasChanged();
     }
 

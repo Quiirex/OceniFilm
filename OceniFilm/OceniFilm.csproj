@@ -13,6 +13,7 @@
 		<Content Remove="Models\NewFolder\**" />
 		<EmbeddedResource Remove="Models\NewFolder\**" />
 		<None Remove="Models\NewFolder\**" />
+		<Content Remove="wwwroot\images\avatar.png" />
 	</ItemGroup>
 
 	<ItemGroup>

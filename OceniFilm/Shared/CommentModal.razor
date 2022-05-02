@@ -1,12 +1,15 @@
-﻿@*Modalno okno za komentiranje*@
+﻿@using OceniFilm.Services
+@using OceniFilm.Models.Komentiranje
+
+@*Modalno okno za komentiranje*@
 <Modal @bind-Visible="@commentModalVisible" Closing="@OnModalClosing">
     <ModalContent Centered style="background-color: black; border-color: white;">
         <ModalHeader>
-            <ModalTitle>Komentiraj film !naslovFilma!</ModalTitle>
+            <ModalTitle>Komentiraj film @naslovFilma</ModalTitle>
             <CloseButton />
         </ModalHeader>
         <ModalBody>
-            <MemoEdit @bind-Text="@komentar" Rows="5" AutoSize />
+            <MemoEdit @bind-Text="@komentar" Rows="5" />
             <Button Style="margin-top: 15px;" Float="Float.End" Color="Color.Light" Outline Clicked="@OnCommentAdd">
                 <Icon Name="IconName.PlusSquare"></Icon>
             </Button>
@@ -20,14 +23,24 @@
 </Snackbar>
 <Snackbar @ref="snackbarCommentAddFailure" Color="SnackbarColor.Danger">
   <SnackbarBody>
-    Dodajte komentar!
+    Zapišite komentar!
   </SnackbarBody>
 </Snackbar>
 
 @code {
     private Snackbar snackbarCommentAddSuccess;
     private Snackbar snackbarCommentAddFailure;
-    private string komentar;
+
+    public string komentar;
+
+    [Parameter]
+    public EventCallback<string> komentarChanged { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; } = null!;
+
+    [Inject]
+    public ICommentService CommentService { get; set; }
 
     [Parameter]
     public bool commentModalVisible { get; set; }
@@ -35,26 +48,54 @@
     [Parameter]
     public EventCallback<bool> commentModalVisibleChanged { get; set; }
 
-    private bool cancelClose;
+    [Parameter]
+    public string naslovFilma { get; set; } = string.Empty;
 
-    private async Task OnModalClosing(ModalClosingEventArgs e)
+    private string prikaznoIme { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
     {
-        commentModalVisible = false;
-        await commentModalVisibleChanged.InvokeAsync(commentModalVisible);
-        return;
+        AuthenticationState authState = await authenticationState;
+        if (authState.User.Identity.IsAuthenticated)
+        {
+            prikaznoIme = authState.User.Identity.Name;
+        }
     }
 
     private async Task OnCommentAdd()
     {
-        if (!String.IsNullOrEmpty(komentar)) 
+        if (!String.IsNullOrEmpty(komentar))
         {
             await snackbarCommentAddFailure.Hide();
             await snackbarCommentAddSuccess.Show();
+
+            Komentar novKomentar = new()
+            {
+                DatumZapisa = DateTime.Now,
+                Komentator = new() { PrikaznoIme = prikaznoIme },
+                KomentiranFilm = new() { Naslov = naslovFilma },
+                Vsebina = komentar
+            };
+
+            await CommentService.CreateCommentAsync(novKomentar);
+
+            commentModalVisible = false;
+            await commentModalVisibleChanged.InvokeAsync(commentModalVisible);
+            await komentarChanged.InvokeAsync(komentar);
+            komentar = string.Empty;
+            return;
         }
         else
         {
             await snackbarCommentAddSuccess.Hide();
             await snackbarCommentAddFailure.Show();
         }
+    }
+
+    private async Task OnModalClosing(ModalClosingEventArgs e)
+    {
+        commentModalVisible = false;
+        await commentModalVisibleChanged.InvokeAsync(commentModalVisible);
+        return;
     }
 }
