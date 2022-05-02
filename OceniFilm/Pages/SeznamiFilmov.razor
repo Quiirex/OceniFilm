@@ -149,15 +149,15 @@
         {
             await PlaylistService.RemoveFromPlaylistAsync(prikaznoIme, nazivSeznama, film);
             seznamFilmov = await PlaylistService.GetSeznamFilmovByUserAsync(prikaznoIme);
-            await snackbarPlaylistRemoveFailure.Hide();
-            await snackbarPlaylistRemoveSuccess.Show();
+            await snackbarFilmRemoveFailure.Hide();
+            await snackbarFilmRemoveSuccess.Show();
 
             this.StateHasChanged();
         }
         catch
         {
-            await snackbarPlaylistRemoveSuccess.Hide();
-            await snackbarPlaylistRemoveFailure.Show();
+            await snackbarFilmRemoveSuccess.Hide();
+            await snackbarFilmRemoveFailure.Show();
         }
         return;
     }
