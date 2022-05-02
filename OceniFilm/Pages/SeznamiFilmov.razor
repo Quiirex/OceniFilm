@@ -1,127 +1,129 @@
 ﻿@page "/seznamifilmov"
 @attribute [Authorize]
 @using OceniFilm.Models.Seznami
+@using OceniFilm.Services
 @inject NavigationManager NavigationManager
+
 
 <Row>
     <Column ColumnSize="ColumnSize.Is12">
         <b style="font-size: 25px !important; margin-bottom: 10px !important;">Tvoji seznami filmov</b>
-        <Button class="card-btn" Color="Color.Light" Style="margin-bottom: 8px; margin-left: 5px;" Outline data-toggle="tooltip" data-placement="top" title="Dodaj ta film na seznam" Clicked="@ShowAddPlaylistModal">
+        <Button class="card-btn" Color="Color.Light" Style="margin-bottom: 8px; margin-left: 5px;" Outline data-toggle="tooltip" data-placement="top" title="Dodaj nov seznam" Clicked="@ShowAddPlaylistModal">
             <Icon Name="IconName.PlusSquare"></Icon>
         </Button>
-        <Accordion Style="margin-top: 10px;">
-            <Collapse Visible="@collapse1Visible">
-                <CollapseHeader>
-                    <Heading Size="HeadingSize.Is5">
-                        <Button Clicked="@(()=>collapse1Visible = !collapse1Visible)" Style="color: white !important">Prvi seznam <Icon Name="IconName.List" style="padding-left: 5px"></Icon></Button>
-                    </Heading>
-                </CollapseHeader>
-                <CollapseBody>
-                    <Div class="container">
-                        <CardDeck>
-                            <Row Gutter="(32, 32)">
-                                <Column ColumnSize="ColumnSize.Is2">
-                                    <a href="#" target="_blank">
-                                        <img style="border: 1px white solid;" src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
-                                    </a>
-                                </Column>
-                                <Column ColumnSize="ColumnSize.Is2">
-                                    <a href="#" target="_blank">
-                                        <img style="border: 1px white solid;" src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
-                                    </a>
-                                </Column>
-                                <Column ColumnSize="ColumnSize.Is2">
-                                    <a href="#" target="_blank">
-                                        <img style="border: 1px white solid;" src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
-                                    </a>
-                                </Column>
-                                <Column ColumnSize="ColumnSize.Is2">
-                                    <a href="#" target="_blank">
-                                        <img style="border: 1px white solid;" src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
-                                    </a>
-                                </Column>
-                                <Column ColumnSize="ColumnSize.Is2">
-                                    <a href="#" target="_blank">
-                                        <img style="border: 1px white solid;" src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
-                                    </a>
-                                </Column>
-                                <Column ColumnSize="ColumnSize.Is2">
-                                    <a href="#" target="_blank">
-                                        <img style="border: 1px white solid;" src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
-                                    </a>
-                                </Column>
-                                <Column ColumnSize="ColumnSize.Is2">
-                                    <a href="#" target="_blank">
-                                        <img style="border: 1px white solid;" src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
-                                    </a>
-                                </Column>
-                                <Column ColumnSize="ColumnSize.Is2">
-                                    <a href="#" target="_blank">
-                                        <img style="border: 1px white solid;" src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
-                                    </a>
-                                </Column>
-                                <Column ColumnSize="ColumnSize.Is2">
-                                    <a href="#" target="_blank">
-                                        <img style="border: 1px white solid;" src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
-                                    </a>
-                                </Column>
-                                <Column ColumnSize="ColumnSize.Is2">
-                                    <a href="#" target="_blank">
-                                        <img style="border: 1px white solid;" src="https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817" height="227" alt="!naslovFilma!"/>
-                                    </a>
-                                </Column>
-                            </Row>
-                        </CardDeck>
-                    </Div>
-                </CollapseBody>
-            </Collapse>
-            <Collapse Visible="@collapse2Visible">
-                <CollapseHeader>
-                    <Heading Size="HeadingSize.Is5">
-                        <Button Clicked="@(()=>collapse2Visible = !collapse2Visible)" Style="color: white !important">Drugi seznam <Icon Name="IconName.List" style="padding-left: 5px"></Icon></Button>
-                    </Heading>
-                </CollapseHeader>
-                <CollapseBody>
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                </CollapseBody>
-            </Collapse>
-            <Collapse Visible="@collapse3Visible">
-                <CollapseHeader>
-                    <Heading Size="HeadingSize.Is5">
-                        <Button Clicked="@(()=>collapse3Visible = !collapse3Visible)" Style="color: white !important">Tretji seznam <Icon Name="IconName.List" style="padding-left: 5px"></Icon></Button>
-                    </Heading>
-                </CollapseHeader>
-                <CollapseBody>
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                </CollapseBody>
-            </Collapse>
-        </Accordion>
+        @if (seznamFilmov != null)
+        {
+            <Accordion Style="margin-top: 10px;">
+                @foreach (var seznam in seznamFilmov)
+                {
+                    <Collapse Visible="true">
+                        <CollapseHeader>
+                            <Heading Size="HeadingSize.Is5">
+                                <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                    <Button Style="color: white !important">@seznam.NazivSeznama <Icon Name="IconName.List" style="padding-left: 5px"></Icon></Button>
+                                    <Button class="card-btn" Color="Color.Light" Outline style="float: right" data-toggle="tooltip" data-placement="top" title="Odstrani seznam filmov" Clicked="() => RemovePlaylist(seznam)">
+                                        <Icon Name="IconName.Delete"></Icon>
+                                    </Button>
+                                </Div>
+                            </Heading>
+                        </CollapseHeader>
+                        <CollapseBody>
+                            <Div class="container">
+                                @if (seznam.Filmi.Any())
+                                {
+                                    <CardDeck>
+                                        <Row Gutter="(32, 32)">
+                                            @foreach (var film in seznam.Filmi)
+                                            {
+                                                <Column>
+                                                    <a href="/film/@film.Naslov" target="_blank">
+                                                        <img style="border: 1px white solid;" src="@film.Poster" height="227" alt="@film.Naslov" />
+                                                    </a>
+                                                </Column>
+                                            }
+                                        </Row>
+                                    </CardDeck>
+                                }
+                                else
+                                {
+                                    <p>Dodaj film na ta seznam in prikazal se bo tukaj</p>
+                                }
+                            </Div>
+                        </CollapseBody>
+                    </Collapse>
+                }
+            </Accordion>
+        }
+        else
+        {
+            <p>Trenutno nimate seznamov. Dodajte svojega prvega!</p>
+        }
     </Column>
 </Row>
+<Snackbar @ref="snackbarPlaylistRemoveSuccess">
+    <SnackbarBody>
+        Seznam filmov uspešno odstranjen
+    </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarPlaylistRemoveFailure" Color="SnackbarColor.Danger">
+    <SnackbarBody>
+        Prišlo je do napake. Poskusite kasneje.
+    </SnackbarBody>
+</Snackbar>
 
-<AddPlaylistModal @bind-addPlaylistModalVisible="addPlaylistModalVisible"></AddPlaylistModal>
+<AddPlaylistModal @bind-addPlaylistModalVisible="addPlaylistModalVisible" noviSeznamChanged="@RefreshPlaylists"></AddPlaylistModal>
 
 @code {
+    private Snackbar snackbarPlaylistRemoveSuccess;
+    private Snackbar snackbarPlaylistRemoveFailure;
+
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; } = null!;
+
+    [Inject]
+    public IPlaylistService PlaylistService { get; set; }
+
+    private IEnumerable<SeznamFilmov> seznamFilmov { get; set; }
 
     public string prikaznoIme { get; set; } = string.Empty;
 
     public bool addPlaylistModalVisible { get; set; } = false;
-    bool collapse1Visible = false;
-    bool collapse2Visible = false;
-    bool collapse3Visible = false;
 
     protected override async Task OnInitializedAsync()
     {
         AuthenticationState authState = await authenticationState;
         prikaznoIme = authState.User.Identity.Name;
-        // TODO: Add playlist service
+        seznamFilmov = await PlaylistService.GetSeznamFilmovByUserAsync(prikaznoIme);
+    }
+
+    private async void RefreshPlaylists()
+    {
+        seznamFilmov = await PlaylistService.GetSeznamFilmovByUserAsync(prikaznoIme);
+        this.StateHasChanged();
     }
 
     private Task ShowAddPlaylistModal()
     {
         addPlaylistModalVisible = true;
         return Task.CompletedTask;
+    }
+
+    private async Task RemovePlaylist(SeznamFilmov seznam)
+    {
+        try
+        {
+            await PlaylistService.RemovePlaylistAsync(seznam);
+            seznamFilmov = await PlaylistService.GetSeznamFilmovByUserAsync(prikaznoIme);
+            await snackbarPlaylistRemoveFailure.Hide();
+            await snackbarPlaylistRemoveSuccess.Show();
+
+            this.StateHasChanged();
+        }
+        catch
+        {
+            await snackbarPlaylistRemoveSuccess.Hide();
+            await snackbarPlaylistRemoveFailure.Show();
+        }
+        return;
     }
 }

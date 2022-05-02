@@ -41,11 +41,11 @@ public class SeznamFilmovController : ControllerBase
     }
 
     // GET: api/SeznamFilmov/5
-    [HttpGet("/poUporabniku/{id}")]
+    [HttpGet("/poUporabniku/{prikaznoIme}")]
     [Authorize]
-    public async Task<ActionResult<IEnumerable<SeznamFilmov>>> GetSeznamFilmovByUser(string guid)
+    public async Task<ActionResult<IEnumerable<SeznamFilmov>>> GetSeznamFilmovByUser(string prikaznoIme)
     {
-        IEnumerable<SeznamFilmov> seznamFilmov = await _context.SeznamiFilmov.Include(w => w.Filmi).Include(w => w.Uporabnik).Where(s => s.Uporabnik.Guid == guid).ToListAsync();
+        IEnumerable<SeznamFilmov> seznamFilmov = await _context.SeznamiFilmov.Include(w => w.Filmi).Include(w => w.Uporabnik).Where(s => s.Uporabnik.PrikaznoIme == prikaznoIme).ToListAsync();
 
         if (seznamFilmov == null)
         {
@@ -56,15 +56,10 @@ public class SeznamFilmovController : ControllerBase
     }
 
     // PUT: api/SeznamFilmov/5
-    [HttpPut("{id}")]
+    [HttpPut]
     [Authorize]
-    public async Task<IActionResult> PutSeznamFilmov(int id, SeznamFilmov seznamFilmov)
+    public async Task<IActionResult> PutSeznamFilmov(SeznamFilmov seznamFilmov)
     {
-        if (id != seznamFilmov.Id)
-        {
-            return BadRequest();
-        }
-
         _context.Entry(seznamFilmov).State = EntityState.Modified;
 
         try
@@ -73,11 +68,6 @@ public class SeznamFilmovController : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!SeznamFilmovExists(id))
-            {
-                return NotFound();
-            }
-
             throw;
         }
 
@@ -95,25 +85,20 @@ public class SeznamFilmovController : ControllerBase
         return CreatedAtAction("GetSeznamFilmov", new { id = seznamFilmov.Id }, seznamFilmov);
     }
 
-    // DELETE: api/SeznamFilmov/5
-    [HttpDelete("{id}")]
+    [HttpPost("/odstraniSeznamFilmov")]
     [Authorize]
-    public async Task<IActionResult> DeleteSeznamFilmov(int id)
+    public async Task<IActionResult> DeleteSeznamFilmov(SeznamFilmov seznamFilmov)
     {
-        SeznamFilmov? seznamFilmov = await _context.SeznamiFilmov.FindAsync(id);
-        if (seznamFilmov == null)
+        SeznamFilmov? fetchedSeznamFilmov = await _context.SeznamiFilmov.Include(w => w.Filmi).Include(w => w.Uporabnik).Where(s => s.NazivSeznama == seznamFilmov.NazivSeznama && s.Uporabnik.PrikaznoIme == seznamFilmov.Uporabnik.PrikaznoIme).FirstOrDefaultAsync();
+
+        if (fetchedSeznamFilmov == null)
         {
             return NotFound();
         }
 
-        _context.SeznamiFilmov.Remove(seznamFilmov);
+        _context.SeznamiFilmov.Remove(fetchedSeznamFilmov);
         await _context.SaveChangesAsync();
 
         return NoContent();
-    }
-
-    private bool SeznamFilmovExists(int id)
-    {
-        return _context.SeznamiFilmov.Any(e => e.Id == id);
     }
 }

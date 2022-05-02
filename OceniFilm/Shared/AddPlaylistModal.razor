@@ -1,4 +1,5 @@
 ﻿@using OceniFilm.Models.Seznami
+@using OceniFilm.Services
 
 @*Modalno okno za dodajanje novega seznama*@
 <Modal @bind-Visible="@addPlaylistModalVisible" Closing="@OnModalClosing">
@@ -37,30 +38,51 @@
     private Snackbar snackbarPlaylistAddSuccess;
     private Snackbar snackbarPlaylistAddFailure;
 
+    [Inject]
+    public IPlaylistService PlaylistService { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; } = null!;
+
     [Parameter]
     public bool addPlaylistModalVisible { get; set; }
 
     [Parameter]
     public EventCallback<bool> addPlaylistModalVisibleChanged { get; set; }
 
-    public string noviSeznam;
+    private string noviSeznam;
+
+    [Parameter]
+    public EventCallback<string> noviSeznamChanged { get; set; }
+
+    private string prikaznoIme;
 
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
-    }
-
-    private async Task OnModalClosing(ModalClosingEventArgs e)
-    {
-        addPlaylistModalVisible = false;
-        await addPlaylistModalVisibleChanged.InvokeAsync(addPlaylistModalVisible);
-        return;
+        AuthenticationState authState = await authenticationState;
+        if (authState.User.Identity.IsAuthenticated)
+        {
+            prikaznoIme = authState.User.Identity.Name;
+        }
     }
 
     async Task OnAddPlaylist()
     {
-        if (!String.IsNullOrEmpty(noviSeznam)) 
+        if (!String.IsNullOrEmpty(noviSeznam))
         {
+            SeznamFilmov novSeznamFilmov = new()
+            {
+                Filmi = new(),
+                NazivSeznama = noviSeznam,
+                Uporabnik = new() { PrikaznoIme = prikaznoIme }
+            };
+
+            await PlaylistService.CreatePlaylistAsync(novSeznamFilmov);
+
+            addPlaylistModalVisible = false;
+            await addPlaylistModalVisibleChanged.InvokeAsync(addPlaylistModalVisible);
+            await noviSeznamChanged.InvokeAsync(noviSeznam);
+
             await snackbarPlaylistAddFailure.Hide();
             await snackbarPlaylistAddSuccess.Show();
         }
@@ -69,5 +91,12 @@
             await snackbarPlaylistAddSuccess.Hide();
             await snackbarPlaylistAddFailure.Show();
         }
+    }
+
+    private async Task OnModalClosing(ModalClosingEventArgs e)
+    {
+        addPlaylistModalVisible = false;
+        await addPlaylistModalVisibleChanged.InvokeAsync(addPlaylistModalVisible);
+        return;
     }
 }

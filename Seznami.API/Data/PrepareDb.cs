@@ -19,61 +19,70 @@ public static class PrepareDb
             database.SeznamiFilmov.AddRange(
                 new SeznamFilmov
                 {
-                    Uporabnik = new Uporabnik { Guid = "Janez123" },
+                    Uporabnik = new Uporabnik { PrikaznoIme = "janezek12" },
                     NazivSeznama = "Favoriti",
                     Filmi = new List<Film>
                     {
                         new()
                         {
-                            Naslov = "The Batman"
+                            Naslov = "The Batman",
+                            Poster = "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817"
                         },
                         new()
                         {
-                            Naslov = "Spider-Man: Homecoming"
+                            Naslov = "Dune",
+                            Poster = "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/dune_axfdsg2v_480x.progressive.jpg?v=1635262101"
                         },
                         new()
                         {
-                            Naslov = "Titanic"
+                            Naslov = "Don't Look Up",
+                            Poster = "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/dont-look-up_xqrmuoe4_480x.progressive.jpg?v=1645647487"
                         }
                     }
                 },
                 new SeznamFilmov
                 {
-                    Uporabnik = new Uporabnik { Guid = "Marjan123" },
+                    Uporabnik = new Uporabnik { PrikaznoIme = "janezek12" },
                     NazivSeznama = "Za kasneje",
                     Filmi = new List<Film>
                     {
                         new()
                         {
-                            Naslov = "The Batman"
+                            Naslov = "The Batman",
+                            Poster = "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817"
                         },
                         new()
                         {
-                            Naslov = "Spider-Man: Homecoming"
+                            Naslov = "Dune",
+                            Poster = "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/dune_axfdsg2v_480x.progressive.jpg?v=1635262101"
                         },
                         new()
                         {
-                            Naslov = "Titanic"
+                            Naslov = "Don't Look Up",
+                            Poster = "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/dont-look-up_xqrmuoe4_480x.progressive.jpg?v=1645647487"
                         }
                     }
                 },
                 new SeznamFilmov
                 {
-                    Uporabnik = new Uporabnik { Guid = "Bojan123" },
+                    Uporabnik = new Uporabnik { PrikaznoIme = "janezek12" },
                     NazivSeznama = "Poglej",
                     Filmi = new List<Film>
                     {
                         new()
                         {
-                            Naslov = "The Batman"
+                            Naslov = "The Batman",
+                            Poster = "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-batman_tgstxmov_480x.progressive.jpg?v=1641930817"
                         },
                         new()
                         {
-                            Naslov = "Spider-Man: Homecoming"
+                            Naslov = "Dune",
+                            Poster = "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/dune_axfdsg2v_480x.progressive.jpg?v=1635262101"
                         },
                         new()
                         {
-                            Naslov = "Titanic"
+                            Naslov = "Don't Look Up",
+                            Poster = "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/dont-look-up_xqrmuoe4_480x.progressive.jpg?v=1645647487"
                         }
                     }
                 }

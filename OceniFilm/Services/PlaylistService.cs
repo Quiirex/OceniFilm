@@ -19,13 +19,13 @@ namespace OceniFilm.Services
             _localStorageService = localStorageService;
         }
 
-        public async Task<IEnumerable<SeznamFilmov>> GetSeznamFilmovByUserAsync(string guid)
+        public async Task<IEnumerable<SeznamFilmov>> GetSeznamFilmovByUserAsync(string prikaznoIme)
         {
             try
             {
                 var jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-                return await _httpClient.GetFromJsonAsync<IEnumerable<SeznamFilmov>>(_configuration["SeznamiAPI"] + "/poUporabniku/" + guid);
+                return await _httpClient.GetFromJsonAsync<IEnumerable<SeznamFilmov>>(_configuration["SeznamiAPI"] + "/poUporabniku/" + prikaznoIme);
             }
             catch (HttpRequestException)
             {
@@ -47,13 +47,13 @@ namespace OceniFilm.Services
             }
         }
 
-        public async Task<HttpResponseMessage> EditPlaylistAsync(int id, SeznamFilmov seznamFilmov) // fix this
+        public async Task<HttpResponseMessage> EditPlaylistAsync(SeznamFilmov seznamFilmov)
         {
             try
             {
                 var jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-                return await _httpClient.PutAsJsonAsync(_configuration["SeznamiAPI"] + "/api/SeznamFilmov/" + id, seznamFilmov);
+                return await _httpClient.PutAsJsonAsync(_configuration["SeznamiAPI"] + "/api/SeznamFilmov/", seznamFilmov);
             }
             catch (HttpRequestException)
             {
@@ -61,13 +61,13 @@ namespace OceniFilm.Services
             }
         }
 
-        public async Task<HttpResponseMessage> RemovePlaylistAsync(int id) // fix this
+        public async Task<HttpResponseMessage> RemovePlaylistAsync(SeznamFilmov seznamFilmov)
         {
             try
             {
                 var jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-                return await _httpClient.DeleteAsync(_configuration["SeznamiAPI"] + "/api/SeznamFilmov/" + id);
+                return await _httpClient.PostAsJsonAsync(_configuration["SeznamiAPI"] + "/odstraniSeznamFilmov", seznamFilmov);
             }
             catch (HttpRequestException)
             {

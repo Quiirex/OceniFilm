@@ -5,10 +5,10 @@ namespace OceniFilm.Services
 {
 	public interface IPlaylistService
 	{
-		Task<IEnumerable<SeznamFilmov>> GetSeznamFilmovByUserAsync(string guid);
+		Task<IEnumerable<SeznamFilmov>> GetSeznamFilmovByUserAsync(string prikaznoIme);
 		Task<HttpResponseMessage> CreatePlaylistAsync(SeznamFilmov seznamFilmov);
-        Task<HttpResponseMessage> EditPlaylistAsync(int id, SeznamFilmov seznamFilmov);
-        Task<HttpResponseMessage> RemovePlaylistAsync(int id);
+        Task<HttpResponseMessage> EditPlaylistAsync(SeznamFilmov seznamFilmov);
+        Task<HttpResponseMessage> RemovePlaylistAsync(SeznamFilmov seznamFilmov);
     }
 }
 
