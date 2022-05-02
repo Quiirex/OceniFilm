@@ -50,7 +50,7 @@
     </CardBody>
 </Card>
 
-<PlaylistModal @bind-playlistModalVisible="playlistModalVisible"/>
+<PlaylistModal @bind-playlistModalVisible="playlistModalVisible" poster="@poster" naslovFilma="@naslov" letoIzdaje="@letoIzdaje"/>
 <TrailerModal @bind-trailerModalVisible="trailerModalVisible" Url="@napovednikUrl"/>
 
 @code {

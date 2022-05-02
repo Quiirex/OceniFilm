@@ -1,4 +1,4 @@
-@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,900&display=swap');
 
@@ -24,8 +24,40 @@ button.close {
     padding-top: 0.5rem !important;
 }
 
+.image-area {
+    position: relative;
+}
 
-/*Od tu*/
+.remove-image {
+    display: none;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    border-radius: 10em;
+    padding: 2px 6px 3px;
+    text-decoration: none;
+    font: 700 21px/20px sans-serif;
+    background: #555;
+    border: 3px solid #fff;
+    color: #FFF;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 2px 4px rgba(0,0,0,0.3);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    -webkit-transition: background 0.5s;
+    transition: background 0.5s;
+}
+
+.remove-image:hover {
+    background: #E54E4E;
+    padding: 3px 7px 5px;
+    top: -11px;
+    right: -11px;
+}
+
+.remove-image:active {
+    background: #E54E4E;
+    top: -10px;
+    right: -11px;
+}
 
 .input-group { margin-bottom: 10px; }
 
@@ -98,8 +130,6 @@ div.form-group:last-child {
 @media (min-width: 768px) {
     .navbar-toggler { display: none; }
 }
-
-/*Do sem*/
 
 .content { padding-top: 1.1rem; }
 

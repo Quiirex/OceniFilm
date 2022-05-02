@@ -43,21 +43,35 @@ namespace OceniFilm.Services
             }
             catch (HttpRequestException)
             {
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+                throw new HttpRequestException("");
             }
         }
 
-        public async Task<HttpResponseMessage> EditPlaylistAsync(SeznamFilmov seznamFilmov)
+        public async Task<HttpResponseMessage> AddToPlaylistAsync(string prikaznoIme, string nazivSeznama, Film film)
         {
             try
             {
                 var jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-                return await _httpClient.PutAsJsonAsync(_configuration["SeznamiAPI"] + "/api/SeznamFilmov/", seznamFilmov);
+                return await _httpClient.PostAsJsonAsync(_configuration["SeznamiAPI"] + "/Dodaj/" + prikaznoIme + "/" + nazivSeznama, film);
             }
             catch (HttpRequestException)
             {
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+                throw new HttpRequestException("");
+            }
+        }
+
+        public async Task<HttpResponseMessage> RemoveFromPlaylistAsync(string prikaznoIme, string nazivSeznama, Film film)
+        {
+            try
+            {
+                var jwt = await _localStorageService.GetItemAsync<string>("jwt");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
+                return await _httpClient.PostAsJsonAsync(_configuration["SeznamiAPI"] + "/Odstrani/" + prikaznoIme + "/" + nazivSeznama, film);
+            }
+            catch (HttpRequestException)
+            {
+                throw new HttpRequestException("");
             }
         }
 
@@ -71,7 +85,7 @@ namespace OceniFilm.Services
             }
             catch (HttpRequestException)
             {
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+                throw new HttpRequestException("");
             }
         }
     }

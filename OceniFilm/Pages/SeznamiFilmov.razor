@@ -36,9 +36,12 @@
                                             @foreach (var film in seznam.Filmi)
                                             {
                                                 <Column>
-                                                    <a href="/film/@film.Naslov" target="_blank">
-                                                        <img style="border: 1px white solid;" src="@film.Poster" height="227" alt="@film.Naslov" />
-                                                    </a>
+                                                    <div class="image-area">
+                                                        <a href="/film/@film.Naslov" target="_blank">
+                                                            <img style="border: 1px white solid;" src="@film.Poster" height="227" alt="@film.Naslov" />
+                                                        </a>
+                                                        <a class="remove-image" style="display: inline;" onclick="@(() => RemoveFromPlaylist(seznam.NazivSeznama, film))">&#215;</a>
+                                                    </div>
                                                 </Column>
                                             }
                                         </Row>
@@ -71,11 +74,24 @@
     </SnackbarBody>
 </Snackbar>
 
+<Snackbar @ref="snackbarFilmRemoveSuccess">
+    <SnackbarBody>
+        Film uspešno odstranjen iz seznama
+    </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarFilmRemoveFailure" Color="SnackbarColor.Danger">
+    <SnackbarBody>
+        Prišlo je do napake. Poskusite kasneje.
+    </SnackbarBody>
+</Snackbar>
+
 <AddPlaylistModal @bind-addPlaylistModalVisible="addPlaylistModalVisible" noviSeznamChanged="@RefreshPlaylists"></AddPlaylistModal>
 
 @code {
     private Snackbar snackbarPlaylistRemoveSuccess;
     private Snackbar snackbarPlaylistRemoveFailure;
+    private Snackbar snackbarFilmRemoveSuccess;
+    private Snackbar snackbarFilmRemoveFailure;
 
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; } = null!;
@@ -113,6 +129,25 @@
         try
         {
             await PlaylistService.RemovePlaylistAsync(seznam);
+            seznamFilmov = await PlaylistService.GetSeznamFilmovByUserAsync(prikaznoIme);
+            await snackbarPlaylistRemoveFailure.Hide();
+            await snackbarPlaylistRemoveSuccess.Show();
+
+            this.StateHasChanged();
+        }
+        catch
+        {
+            await snackbarPlaylistRemoveSuccess.Hide();
+            await snackbarPlaylistRemoveFailure.Show();
+        }
+        return;
+    }
+
+    private async Task RemoveFromPlaylist(string nazivSeznama, Film film)
+    {
+        try
+        {
+            await PlaylistService.RemoveFromPlaylistAsync(prikaznoIme, nazivSeznama, film);
             seznamFilmov = await PlaylistService.GetSeznamFilmovByUserAsync(prikaznoIme);
             await snackbarPlaylistRemoveFailure.Hide();
             await snackbarPlaylistRemoveSuccess.Show();

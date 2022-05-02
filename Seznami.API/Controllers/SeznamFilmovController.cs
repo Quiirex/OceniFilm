@@ -55,12 +55,27 @@ public class SeznamFilmovController : ControllerBase
         return Ok(seznamFilmov);
     }
 
-    // PUT: api/SeznamFilmov/5
-    [HttpPut]
+    [HttpPost("/Dodaj/{prikaznoIme}/{nazivSeznama}")]
     [Authorize]
-    public async Task<IActionResult> PutSeznamFilmov(SeznamFilmov seznamFilmov)
+    public async Task<IActionResult> AddToSeznamFilmov(string prikaznoIme, string nazivSeznama, Film film)
     {
-        _context.Entry(seznamFilmov).State = EntityState.Modified;
+        SeznamFilmov fetchedSeznamFilmov = await _context.SeznamiFilmov.Include(w => w.Filmi).Include(w => w.Uporabnik).Where(s => s.Uporabnik.PrikaznoIme == prikaznoIme && s.NazivSeznama == nazivSeznama).FirstOrDefaultAsync();
+
+        if (fetchedSeznamFilmov == null)
+        {
+            return NotFound();
+        }
+
+        bool containsFilm = fetchedSeznamFilmov.Filmi.Any(f => f.Naslov == film.Naslov);
+
+        if (!containsFilm)
+        {
+            fetchedSeznamFilmov.Filmi.Add(film);
+        }
+        else
+        {
+            throw new Exception();
+        }
 
         try
         {
@@ -71,18 +86,57 @@ public class SeznamFilmovController : ControllerBase
             throw;
         }
 
-        return NoContent();
+        return Ok();
     }
 
-    // POST: api/SeznamFilmov
+    [HttpPost("/Odstrani/{prikaznoIme}/{nazivSeznama}")]
+    [Authorize]
+    public async Task<IActionResult> RemoveFromSeznamFilmov(string prikaznoIme, string nazivSeznama, Film film)
+    {
+        SeznamFilmov fetchedSeznamFilmov = await _context.SeznamiFilmov.Include(w => w.Filmi).Include(w => w.Uporabnik).Where(s => s.Uporabnik.PrikaznoIme == prikaznoIme && s.NazivSeznama == nazivSeznama).FirstOrDefaultAsync();
+
+        if (fetchedSeznamFilmov == null)
+        {
+            return NotFound();
+        }
+
+        bool containsFilm = fetchedSeznamFilmov.Filmi.Any(f => f.Naslov == film.Naslov);
+
+        if (containsFilm)
+        {
+            fetchedSeznamFilmov.Filmi.Remove(fetchedSeznamFilmov.Filmi.Single(s => s.Naslov == film.Naslov));
+        }
+        else
+        {
+            throw new Exception();
+        }
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            throw;
+        }
+
+        return Ok();
+    }
+
     [HttpPost]
     [Authorize]
     public async Task<ActionResult<SeznamFilmov>> PostSeznamFilmov(SeznamFilmov seznamFilmov)
     {
-        _context.SeznamiFilmov.Add(seznamFilmov);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction("GetSeznamFilmov", new { id = seznamFilmov.Id }, seznamFilmov);
+        if (!_context.SeznamiFilmov.Contains(seznamFilmov))
+        {
+            _context.SeznamiFilmov.Add(seznamFilmov);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("GetSeznamFilmov", new { id = seznamFilmov.Id }, seznamFilmov);
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
 
     [HttpPost("/odstraniSeznamFilmov")]

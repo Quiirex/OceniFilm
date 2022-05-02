@@ -1,10 +1,11 @@
 ﻿@using OceniFilm.Models.Seznami
+@using OceniFilm.Services
 
 @*Modalno okno za dodajanje filma na seznam*@
 <Modal @bind-Visible="@playlistModalVisible" Closing="@OnModalClosing">
     <ModalContent Centered style="background-color: black; border-color: white;">
         <ModalHeader>
-            <ModalTitle>!naslovFilma! (!letoIzdaje!)</ModalTitle>
+            <ModalTitle>@naslovFilma (@letoIzdaje)</ModalTitle>
             <CloseButton />
         </ModalHeader>
         <ModalBody Style="padding-top: 0 !important;">
@@ -13,15 +14,21 @@
                     <FieldLabel>Izberi obstoječi seznam predvajanja</FieldLabel>
                     <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
                         <Select @bind-SelectedValue="@izbraniSeznam">
-                            @foreach(var sez in mockSeznam)
+                            @if (seznamFilmov != null)
                             {
-                                <SelectItem Value="@sez.NazivSeznama">@sez.NazivSeznama</SelectItem>
+                                @foreach (var seznam in seznamFilmov)
+                                {
+                                    <SelectItem Value="@seznam.NazivSeznama">@seznam.NazivSeznama</SelectItem>
+                                }
                             }
                         </Select>
-                        <Button Color="Color.Light" Outline Clicked="@OnAddToPlaylist">
-                            <Icon Name="IconName.PlusSquare"></Icon>
-                        </Button>
-                    </Div>
+                        @if (seznamFilmov != null)
+                            {
+                            <Button Color="Color.Light" Outline Clicked="@OnAddToPlaylist">
+                                <Icon Name="IconName.PlusSquare"></Icon>
+                            </Button>
+                            }
+                        </Div>
                 </FieldBody>
                 <FieldBody ColumnSize="ColumnSize.Is12">
                     <FieldLabel>Ustvari nov seznam predvajanja</FieldLabel>
@@ -60,10 +67,20 @@
 @code {
     private string izbraniSeznam;
     private string noviSeznam;
+
+    [Parameter]
+    public EventCallback<string> noviSeznamChanged { get; set; }
+
     private Snackbar snackbarToPlaylistAddSuccess;
     private Snackbar snackbarToPlaylistAddFailure;
     private Snackbar snackbarPlaylistAddSuccess;
     private Snackbar snackbarPlaylistAddFailure;
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; } = null!;
+
+    [Inject]
+    public IPlaylistService PlaylistService { get; set; }
 
     [Parameter]
     public bool playlistModalVisible { get; set; }
@@ -71,79 +88,36 @@
     [Parameter]
     public EventCallback<bool> playlistModalVisibleChanged { get; set; }
 
-    private string selectedDropValue { get; set; } = "prazno";
+    [Parameter]
+    public string naslovFilma { get; set; } = string.Empty;
 
-    private List<SeznamFilmov> mockSeznam = new();
+    [Parameter]
+    public int letoIzdaje { get; set; }
+
+    [Parameter]
+    public string poster { get; set; } = string.Empty;
+
+    private string selectedDropValue { get; set; } = string.Empty;
+
+    private IEnumerable<SeznamFilmov> seznamFilmov;
+
+    private string prikaznoIme = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-        mockSeznam.Add(
-            new SeznamFilmov
-                {
-                    Uporabnik = new Uporabnik { PrikaznoIme = "janezek12" },
-                    NazivSeznama = "Prvi seznam",
-                    Filmi = new List<Film>
-                        {
-                        new()
-                        {
-                            Naslov = "The Batman"
-                        },
-                        new()
-                        {
-                            Naslov = "Spider-Man: Homecoming"
-                        },
-                        new()
-                        {
-                            Naslov = "Titanic"
-                        }
-                        }
-                }
-        );
-        mockSeznam.Add(
-            new SeznamFilmov
-                {
-                    Uporabnik = new Uporabnik { PrikaznoIme = "Janez123" },
-                    NazivSeznama = "Drugi seznam",
-                    Filmi = new List<Film>
-                        {
-                        new()
-                        {
-                            Naslov = "The Batman"
-                        },
-                        new()
-                        {
-                            Naslov = "Spider-Man: Homecoming"
-                        },
-                        new()
-                        {
-                            Naslov = "Titanic"
-                        }
-                        }
-                }
-        );
-        mockSeznam.Add(
-            new SeznamFilmov
-                {
-                    Uporabnik = new Uporabnik { PrikaznoIme = "Janez123" },
-                    NazivSeznama = "Slabi filmi",
-                    Filmi = new List<Film>
-                        {
-                        new()
-                        {
-                            Naslov = "The Batman"
-                        },
-                        new()
-                        {
-                            Naslov = "Spider-Man: Homecoming"
-                        },
-                        new()
-                        {
-                            Naslov = "Titanic"
-                        }
-                        }
-                }
-        );
-        await base.OnInitializedAsync();
+        AuthenticationState authState = await authenticationState;
+
+        if (authState.User.Identity.IsAuthenticated)
+        {
+            prikaznoIme = authState.User.Identity.Name;
+        }
+
+        seznamFilmov = await PlaylistService.GetSeznamFilmovByUserAsync(prikaznoIme);
+
+        if (seznamFilmov.Any())
+        {
+            izbraniSeznam = seznamFilmov.FirstOrDefault().NazivSeznama;
+        }
     }
 
     private async Task OnModalClosing(ModalClosingEventArgs e)
@@ -155,10 +129,20 @@
 
     private async Task OnAddToPlaylist()
     {
-        if (!String.IsNullOrEmpty(izbraniSeznam)) 
+        if (!String.IsNullOrEmpty(izbraniSeznam))
         {
-            await snackbarToPlaylistAddFailure.Hide();
-            await snackbarToPlaylistAddSuccess.Show();
+            Film film = new() { Naslov = naslovFilma, Poster = poster };
+            try
+            {
+                await PlaylistService.AddToPlaylistAsync(prikaznoIme, izbraniSeznam, film);
+                await snackbarToPlaylistAddFailure.Hide();
+                await snackbarToPlaylistAddSuccess.Show();
+            }
+            catch
+            {
+                await snackbarToPlaylistAddSuccess.Hide();
+                await snackbarToPlaylistAddFailure.Show();
+            }
         }
         else
         {
@@ -169,11 +153,34 @@
 
     private async Task OnAddPlaylist()
     {
-        if (!String.IsNullOrEmpty(noviSeznam)) 
+        if (!String.IsNullOrEmpty(noviSeznam))
         {
-            noviSeznam = string.Empty;
-            await snackbarPlaylistAddFailure.Hide();
-            await snackbarPlaylistAddSuccess.Show();
+            SeznamFilmov novSeznamFilmov = new()
+            {
+                Filmi = new(),
+                NazivSeznama = noviSeznam,
+                Uporabnik = new() { PrikaznoIme = prikaznoIme }
+            };
+
+            try
+            {
+                await PlaylistService.CreatePlaylistAsync(novSeznamFilmov);
+                await noviSeznamChanged.InvokeAsync(noviSeznam);
+
+                await snackbarPlaylistAddFailure.Hide();
+                await snackbarPlaylistAddSuccess.Show();
+
+                noviSeznam = string.Empty;
+
+                seznamFilmov = await PlaylistService.GetSeznamFilmovByUserAsync(prikaznoIme);
+
+                this.StateHasChanged();
+            }
+            catch
+            {
+                await snackbarPlaylistAddSuccess.Hide();
+                await snackbarPlaylistAddFailure.Show();
+            }
         }
         else
         {
