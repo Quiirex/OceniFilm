@@ -1,15 +1,14 @@
-﻿using System;
-using OceniFilm.Models.Igralci;
+﻿using OceniFilm.Models.Igralci;
 
 namespace OceniFilm.Services
 {
-	public class ActorService : IActorService
-	{
+    public class ActorService : IActorService
+    {
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
 
         public ActorService(HttpClient httpClient, IConfiguration configuration)
-		{
+        {
             _httpClient = httpClient;
             _configuration = configuration;
         }
@@ -18,7 +17,7 @@ namespace OceniFilm.Services
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<Igralec>(_configuration["IgralciAPI"] + "/api/Igralci/info/" + ime + "/" + priimek);
+                return await _httpClient.GetFromJsonAsync<Igralec>(_configuration["IgralciAPI"] + "/Igralec/" + ime + "/" + priimek);
             }
             catch (HttpRequestException)
             {

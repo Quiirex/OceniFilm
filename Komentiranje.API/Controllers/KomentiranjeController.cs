@@ -33,7 +33,7 @@ public class KomentarController : ControllerBase
         if (komentar == null)
         {
             return NotFound();
-        }   
+        }
 
         return komentar;
     }
@@ -95,7 +95,7 @@ public class KomentarController : ControllerBase
     [Authorize]
     public async Task<IActionResult> DeleteKomentar(Komentar komentar)
     {
-        Komentar? fetchedKomentar = await _context.Komentarji.Include(w => w.Komentator).Include(w => w.KomentiranFilm).Where(k => k.Komentator.PrikaznoIme == komentar.Komentator.PrikaznoIme && k.KomentiranFilm.Naslov == komentar.KomentiranFilm.Naslov  && k.Vsebina == komentar.Vsebina).FirstOrDefaultAsync();
+        Komentar? fetchedKomentar = await _context.Komentarji.Include(w => w.Komentator).Include(w => w.KomentiranFilm).Where(k => k.Komentator.PrikaznoIme == komentar.Komentator.PrikaznoIme && k.KomentiranFilm.Naslov == komentar.KomentiranFilm.Naslov && k.Vsebina == komentar.Vsebina).FirstOrDefaultAsync();
 
         if (fetchedKomentar == null)
         {

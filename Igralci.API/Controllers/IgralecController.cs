@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace Igralci.API.Controllers;
 
 [Route("api/[controller]")]
-[Authorize]
 [ApiController]
 public class IgralecController : ControllerBase
 {
@@ -40,7 +39,7 @@ public class IgralecController : ControllerBase
     }
 
     // GET: api/Igralec/5
-    [HttpGet("/info/{ime}/{priimek}")]
+    [HttpGet("/igralec/{ime}/{priimek}")]
     public async Task<ActionResult<Igralec>> GetIgralcecInfo(string ime, string priimek)
     {
         Igralec? igralec = await _context.Igralci.Where(i => i.Ime == ime && i.Priimek == priimek).FirstOrDefaultAsync();

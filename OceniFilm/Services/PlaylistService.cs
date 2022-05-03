@@ -1,13 +1,11 @@
-﻿using System;
-using System.Net;
-using System.Net.Http.Headers;
-using Blazored.LocalStorage;
+﻿using Blazored.LocalStorage;
 using OceniFilm.Models.Seznami;
+using System.Net.Http.Headers;
 
 namespace OceniFilm.Services
 {
-	public class PlaylistService : IPlaylistService
-	{
+    public class PlaylistService : IPlaylistService
+    {
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
         private readonly ILocalStorageService _localStorageService;
@@ -23,7 +21,7 @@ namespace OceniFilm.Services
         {
             try
             {
-                var jwt = await _localStorageService.GetItemAsync<string>("jwt");
+                string? jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
                 return await _httpClient.GetFromJsonAsync<IEnumerable<SeznamFilmov>>(_configuration["SeznamiAPI"] + "/poUporabniku/" + prikaznoIme);
             }
@@ -37,7 +35,7 @@ namespace OceniFilm.Services
         {
             try
             {
-                var jwt = await _localStorageService.GetItemAsync<string>("jwt");
+                string? jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
                 return await _httpClient.PostAsJsonAsync(_configuration["SeznamiAPI"] + "/api/SeznamFilmov", seznamFilmov);
             }
@@ -51,7 +49,7 @@ namespace OceniFilm.Services
         {
             try
             {
-                var jwt = await _localStorageService.GetItemAsync<string>("jwt");
+                string? jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
                 return await _httpClient.PostAsJsonAsync(_configuration["SeznamiAPI"] + "/Dodaj/" + prikaznoIme + "/" + nazivSeznama, film);
             }
@@ -65,7 +63,7 @@ namespace OceniFilm.Services
         {
             try
             {
-                var jwt = await _localStorageService.GetItemAsync<string>("jwt");
+                string? jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
                 return await _httpClient.PostAsJsonAsync(_configuration["SeznamiAPI"] + "/Odstrani/" + prikaznoIme + "/" + nazivSeznama, film);
             }
@@ -79,7 +77,7 @@ namespace OceniFilm.Services
         {
             try
             {
-                var jwt = await _localStorageService.GetItemAsync<string>("jwt");
+                string? jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
                 return await _httpClient.PostAsJsonAsync(_configuration["SeznamiAPI"] + "/odstraniSeznamFilmov", seznamFilmov);
             }

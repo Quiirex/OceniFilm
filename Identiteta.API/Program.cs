@@ -9,14 +9,14 @@ builder.Services.AddDbContext<IdentitetaDbContext>(options => options.UseInMemor
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<AuthService>();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 
 WebApplication? app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    //app.UseSwagger();
+    //app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

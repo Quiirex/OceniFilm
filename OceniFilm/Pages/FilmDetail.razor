@@ -87,11 +87,11 @@
                             {
                                 @if (!igralec.Equals(lastIgralec))
                                 {
-                                    <a href="#">&nbsp;@igralec.Ime @igralec.Priimek •</a>
+                                    <a class="actor-hover" @onclick="(() => ShowIgralecModal(igralec.Ime, igralec.Priimek))">&nbsp;@igralec.Ime @igralec.Priimek •</a>
                                 }
                                 else
                                 {
-                                    <a href="#">&nbsp;@igralec.Ime @igralec.Priimek</a>
+                                    <a class="actor-hover" @onclick="(() => ShowIgralecModal(igralec.Ime, igralec.Priimek))">&nbsp;@igralec.Ime @igralec.Priimek</a>
                                 }
                             }
                         </ListGroupItem>
@@ -179,6 +179,7 @@
     <PlaylistModal @bind-playlistModalVisible="playlistModalVisible" />
     <RatingModal @bind-ratingModalVisible="ratingModalVisible" mojaOcena="mojaOcena" mojaOcenaChanged="@RefreshRating" imdbOcena="@imdbOcena" naslovFilma="@fetchedFilm.Naslov" letoIzdaje="@fetchedFilm.LetoIzdaje" />
     <CommentModal @bind-commentModalVisible="commentModalVisible" naslovFilma="@fetchedFilm.Naslov" komentarChanged="@RefreshComments"></CommentModal>
+    <IgralecModal @bind-igralecModalVisible="igralecModalVisible" imeIgralca="@imeIgralcaPassed" priimekIgralca="@priimekIgralcaPassed"></IgralecModal>
 }
 <Snackbar @ref="snackbarCommentRemoveSuccess">
     <SnackbarBody>
@@ -195,6 +196,7 @@
     public bool ratingModalVisible { get; set; } = false;
     public bool playlistModalVisible { get; set; } = false;
     public bool commentModalVisible { get; set; } = false;
+    public bool igralecModalVisible { get; set; } = false;
     private Snackbar snackbarCommentRemoveSuccess;
     private Snackbar snackbarCommentRemoveFailure;
 
@@ -226,6 +228,10 @@
     private IgralecFilma? lastIgralec { get; set; }
 
     private Ocena? fetchedOcena { get; set; }
+
+    public string imeIgralcaPassed { get; set; } = string.Empty;
+
+    public string priimekIgralcaPassed { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -303,6 +309,14 @@
     private Task ShowCommentModal()
     {
         commentModalVisible = true;
+        return Task.CompletedTask;
+    }
+
+    private Task ShowIgralecModal(string imeIgralca, string priimekIgralca)
+    {
+        imeIgralcaPassed = imeIgralca;
+        priimekIgralcaPassed = priimekIgralca;
+        igralecModalVisible = true;
         return Task.CompletedTask;
     }
 }

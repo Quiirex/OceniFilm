@@ -1,0 +1,56 @@
+﻿@using OceniFilm.Services
+@using OceniFilm.Models.Igralci
+
+@*Modalno okno za prikaz igralca*@
+<Modal @bind-Visible="@igralecModalVisible" Closing="@OnModalClosing">
+    <ModalContent Centered style="background-color: black; border-color: white;">
+        <ModalHeader>
+            <ModalTitle>@imeIgralca @priimekIgralca</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            @if (fetchedIgralec != null)
+            {
+                <Row Style="margin-bottom: 0.5rem !important" Class="customRowStyling">
+                    <Column ColumnSize="ColumnSize.Is5">
+                        <img src="@fetchedIgralec.Fotografija" Alt="@imeIgralca" style="height: 262.7px !important; width: 178px !important" />
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is7">
+                        <p>@fetchedIgralec.Biografija</p>
+                    </Column>
+                </Row>
+            }
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+@code {
+    [Parameter]
+    public bool igralecModalVisible { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> igralecModalVisibleChanged { get; set; }
+
+    [Parameter]
+    public string imeIgralca { get; set; } = string.Empty;
+
+    [Parameter]
+    public string priimekIgralca { get; set; } = string.Empty;
+
+    [Inject]
+    public IActorService ActorService { get; set; }
+
+    private Igralec fetchedIgralec { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        fetchedIgralec = await ActorService.GetActorInfoAsync(imeIgralca, priimekIgralca);
+    }
+
+    private async Task OnModalClosing(ModalClosingEventArgs e)
+    {
+        igralecModalVisible = false;
+        await igralecModalVisibleChanged.InvokeAsync(igralecModalVisible);
+        return;
+    }
+}

@@ -10,7 +10,7 @@ ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddDbContext<IgralciDbContext>(options => options.UseInMemoryDatabase("InMem"));
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(authenticationOptions =>
 {
@@ -36,8 +36,8 @@ WebApplication? app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    //app.UseSwagger();
+    //app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

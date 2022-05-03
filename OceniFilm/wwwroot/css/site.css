@@ -16,6 +16,11 @@ button.close {
     color: white !important;
 }
 
+a.actor-hover:hover {
+    color: crimson;
+    cursor: pointer;
+}
+
 .custom-alert-dark {
     color: white !important;
     background-color: black !important;

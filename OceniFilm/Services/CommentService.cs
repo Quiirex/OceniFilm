@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Blazored.LocalStorage;
+using OceniFilm.Models.Komentiranje;
 using System.Net;
 using System.Net.Http.Headers;
-using Blazored.LocalStorage;
-using OceniFilm.Models.Komentiranje;
 
 namespace OceniFilm.Services
 {
-	public class CommentService : ICommentService
-	{
+    public class CommentService : ICommentService
+    {
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
         private readonly ILocalStorageService _localStorageService;
@@ -35,7 +34,7 @@ namespace OceniFilm.Services
         {
             try
             {
-                var jwt = await _localStorageService.GetItemAsync<string>("jwt");
+                string? jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
                 return await _httpClient.PostAsJsonAsync(_configuration["KomentiranjeAPI"] + "/api/Komentar", komentar);
             }
@@ -49,7 +48,7 @@ namespace OceniFilm.Services
         {
             try
             {
-                var jwt = await _localStorageService.GetItemAsync<string>("jwt");
+                string? jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
                 return await _httpClient.PostAsJsonAsync(_configuration["KomentiranjeAPI"] + "/odstraniKomentar", komentar);
             }
