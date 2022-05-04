@@ -42,7 +42,7 @@ public static class PrepareDb
                 {
                     Ime = "Leonardo",
                     Priimek = "DiCaprio",
-                    Biografija = "DiCaprio se je rodil v Los Angelesu in svojo kariero začel konec osemdesetih let prejšnjega stoletja z nastopanjem v televizijskih oglasih. V začetku devetdesetih let je imel ponavljajoče se vloge v različnih televizijskih oddajah, kot je na primer sitcom Parenthood, in svojo prvo večjo filmsko vlogo kot pisatelj Tobias Wolff v filmu This Boy's Life (1993). Pri 19 letih je prejel priznanje kritikov ter prvi nominaciji za oskarja in zlati globus za vlogo dečka z motnjo v razvoju v filmu What's Eating Gilbert Grape (1993). Mednarodno slavo je dosegel z romantičnima filmoma Romeo + Julija (1996) in Titanik (1997). Potem ko je slednji postal najbolj donosen film tistega časa, je za nekaj let zmanjšal svoj obseg dela. Da bi se znebil podobe romantičnega junaka, je DiCaprio iskal vloge v drugih žanrih, med drugim v kriminalnih dramah Ujemi me, če me moreš (2002) in Gangs of New York (2002); slednji je pomenil prvo od številnih uspešnih sodelovanj z režiserjem Martinom Scorsesejem.",
+                    Biografija = "DiCaprio se je rodil v Los Angelesu in svojo kariero začel konec osemdesetih let prejšnjega stoletja z nastopanjem v televizijskih oglasih. V začetku devetdesetih let je imel ponavljajoče se vloge v različnih televizijskih oddajah, kot je na primer sitcom Parenthood, in svojo prvo večjo filmsko vlogo kot pisatelj Tobias Wolff v filmu This Boy's Life (1993). Pri 19 letih je prejel priznanje kritikov ter prvi nominaciji za oskarja in zlati globus za vlogo dečka z motnjo v razvoju v filmu What's Eating Gilbert Grape (1993).",
                     Fotografija = "https://upload.wikimedia.org/wikipedia/commons/4/46/Leonardo_Dicaprio_Cannes_2019.jpg",
                 },
                 new Igralec
@@ -56,7 +56,7 @@ public static class PrepareDb
                 {
                     Ime = "Zendaya",
                     Priimek = "Coleman",
-                    Biografija = "Svojo kariero je začela kot otroški model, ko je delala za Macy's, Mervyns in Old Navy. Bila je spremljevalna plesalka, nato pa je zaslovela z vlogo Rocky Blue v komediji Shake It Up (2010) na Disney Channelu, v kateri igrajo tudi Bella Thorne, Kenton Duty in Roshon Fegan. Zendaya je bila tekmovalka v šestnajsti sezoni tekmovalne serije Dancing with the Stars. Nato je producirala in igrala kot K. C. Cooper v sitcomu Disney Channel K. C. Undercover (2015) Filmski preboj ji je uspel leta 2017 z vlogo Michelle \"MJ\" Jones v filmu o superjunaku iz Marvelovega filmskega vesolja Spider-Man: Homecoming (2017) in kot Anne Wheeler v glasbeni drami The Greatest Showman (2017) ob igralcih, kot so Tom Holland, Hugh Jackman in Zac Efron. Poleg igranja, petja in plesa je tudi ambasadorka organizacije Convoy of Hope. Napisala je knjigo, lansirala svojo linijo oblačil (Daya by Zendaya) in dokazala, da je velik vzor mladim dekletom po vsem svetu.",
+                    Biografija = "Svojo kariero je začela kot otroški model, ko je delala za Macy's, Mervyns in Old Navy. Bila je spremljevalna plesalka, nato pa je zaslovela z vlogo Rocky Blue v komediji Shake It Up (2010) na Disney Channelu, v kateri igrajo tudi Bella Thorne, Kenton Duty in Roshon Fegan.",
                     Fotografija = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Zendaya_-_2019_by_Glenn_Francis.jpg/800px-Zendaya_-_2019_by_Glenn_Francis.jpg"
                 },
                 new Igralec
@@ -132,7 +132,7 @@ public static class PrepareDb
                 new Igralec
                 {
                     Ime = "Rebecca",
-                    Priimek = "Fergusson",
+                    Priimek = "Ferguson",
                     Biografija = "Rebecca Louisa Ferguson Sundström born 19 October 1983 is a Swedish actress. She began her acting career with the Swedish soap opera Nya tider (1999–2000) and went on to star in the slasher film Drowning Ghost (2004). She came to international prominence with her portrayal of Elizabeth Woodville in the British television miniseries The White Queen (2013), for which she was nominated for a Golden Globe for Best Actress in a Miniseries or Television Film.",
                     Fotografija = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Rebecca_Ferguson_in_2018.jpg/220px-Rebecca_Ferguson_in_2018.jpg",
                 },

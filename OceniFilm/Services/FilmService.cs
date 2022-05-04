@@ -17,7 +17,7 @@ namespace OceniFilm.Services
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<IEnumerable<Film>>(_configuration["VideotekaAPI"] + "/api/Videoteka");
+                return await _httpClient.GetFromJsonAsync<IEnumerable<Film>>(_configuration["GatewayUrl"] + "/Videoteka/");
             }
             catch (HttpRequestException)
             {
@@ -29,7 +29,7 @@ namespace OceniFilm.Services
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<Film>(_configuration["VideotekaAPI"] + "/api/Videoteka/film/" + naslovFilma);
+                return await _httpClient.GetFromJsonAsync<Film>(_configuration["GatewayUrl"] + "/Videoteka/film/" + naslovFilma);
             }
             catch (HttpRequestException)
             {

@@ -4,65 +4,69 @@
 @using OceniFilm.Services
 @inject NavigationManager NavigationManager
 
-
+@if (seznamFilmov == null)
+{
+    <div class="spinner"></div>
+} else {
 <Row>
     <Column ColumnSize="ColumnSize.Is12">
         <b style="font-size: 25px !important; margin-bottom: 10px !important;">Tvoji seznami filmov</b>
         <Button class="card-btn" Color="Color.Light" Style="margin-bottom: 8px; margin-left: 5px;" Outline data-toggle="tooltip" data-placement="top" title="Dodaj nov seznam" Clicked="@ShowAddPlaylistModal">
             <Icon Name="IconName.PlusSquare"></Icon>
         </Button>
-        @if (seznamFilmov != null)
-        {
-            <Accordion Style="margin-top: 10px;">
-                @foreach (var seznam in seznamFilmov)
-                {
-                    <Collapse Visible="true">
-                        <CollapseHeader>
-                            <Heading Size="HeadingSize.Is5">
-                                <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                    <Button Style="color: white !important">@seznam.NazivSeznama <Icon Name="IconName.List" style="padding-left: 5px"></Icon></Button>
-                                    <Button class="card-btn" Color="Color.Light" Outline style="float: right" data-toggle="tooltip" data-placement="top" title="Odstrani seznam filmov" Clicked="() => RemovePlaylist(seznam)">
-                                        <Icon Name="IconName.Delete"></Icon>
-                                    </Button>
+            @if (seznamFilmov.Any())
+            {
+                <Accordion Style="margin-top: 10px;">
+                    @foreach (var seznam in seznamFilmov)
+                    {
+                        <Collapse Visible="true">
+                            <CollapseHeader>
+                                <Heading Size="HeadingSize.Is5">
+                                    <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                        <Button Style="color: white !important">@seznam.NazivSeznama <Icon Name="IconName.List" style="padding-left: 5px"></Icon></Button>
+                                        <Button class="card-btn" Color="Color.Light" Outline style="float: right" data-toggle="tooltip" data-placement="top" title="Odstrani seznam filmov" Clicked="() => RemovePlaylist(seznam)">
+                                            <Icon Name="IconName.Delete"></Icon>
+                                        </Button>
+                                    </Div>
+                                </Heading>
+                            </CollapseHeader>
+                            <CollapseBody>
+                                <Div class="container">
+                                    @if (seznam.Filmi.Any())
+                                    {
+                                        <CardDeck>
+                                            <Row Gutter="(32, 32)">
+                                                @foreach (var film in seznam.Filmi)
+                                                {
+                                                    <Column>
+                                                        <div class="image-area">
+                                                            <a href="/film/@film.Naslov" target="_blank">
+                                                                <img style="border: 1px white solid;" src="@film.Poster" height="227" alt="@film.Naslov" />
+                                                            </a>
+                                                            <a class="remove-image" style="display: inline;" onclick="@(() => RemoveFromPlaylist(seznam.NazivSeznama, film))">&#215;</a>
+                                                        </div>
+                                                    </Column>
+                                                }
+                                            </Row>
+                                        </CardDeck>
+                                    }
+                                    else
+                                    {
+                                        <p>Dodaj film na ta seznam in prikazal se bo tukaj</p>
+                                    }
                                 </Div>
-                            </Heading>
-                        </CollapseHeader>
-                        <CollapseBody>
-                            <Div class="container">
-                                @if (seznam.Filmi.Any())
-                                {
-                                    <CardDeck>
-                                        <Row Gutter="(32, 32)">
-                                            @foreach (var film in seznam.Filmi)
-                                            {
-                                                <Column>
-                                                    <div class="image-area">
-                                                        <a href="/film/@film.Naslov" target="_blank">
-                                                            <img style="border: 1px white solid;" src="@film.Poster" height="227" alt="@film.Naslov" />
-                                                        </a>
-                                                        <a class="remove-image" style="display: inline;" onclick="@(() => RemoveFromPlaylist(seznam.NazivSeznama, film))">&#215;</a>
-                                                    </div>
-                                                </Column>
-                                            }
-                                        </Row>
-                                    </CardDeck>
-                                }
-                                else
-                                {
-                                    <p>Dodaj film na ta seznam in prikazal se bo tukaj</p>
-                                }
-                            </Div>
-                        </CollapseBody>
-                    </Collapse>
-                }
-            </Accordion>
-        }
-        else
-        {
-            <p>Trenutno nimate seznamov. Dodajte svojega prvega!</p>
-        }
+                            </CollapseBody>
+                        </Collapse>
+                    }
+                </Accordion>
+            }
+            else
+            {
+                <p>Trenutno nimate seznamov. Dodajte svojega prvega!</p>
+            }
     </Column>
 </Row>
+}
 <Snackbar @ref="snackbarPlaylistRemoveSuccess">
     <SnackbarBody>
         Seznam filmov uspešno odstranjen

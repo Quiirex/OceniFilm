@@ -180,6 +180,9 @@
     <RatingModal @bind-ratingModalVisible="ratingModalVisible" mojaOcena="mojaOcena" mojaOcenaChanged="@RefreshRating" imdbOcena="@imdbOcena" naslovFilma="@fetchedFilm.Naslov" letoIzdaje="@fetchedFilm.LetoIzdaje" />
     <CommentModal @bind-commentModalVisible="commentModalVisible" naslovFilma="@fetchedFilm.Naslov" komentarChanged="@RefreshComments"></CommentModal>
     <IgralecModal @bind-igralecModalVisible="igralecModalVisible" imeIgralca="@imeIgralcaPassed" priimekIgralca="@priimekIgralcaPassed"></IgralecModal>
+} else
+{
+    <div class="spinner"></div>
 }
 <Snackbar @ref="snackbarCommentRemoveSuccess">
     <SnackbarBody>

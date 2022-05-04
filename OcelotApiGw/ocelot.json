@@ -1,6 +1,6 @@
 {
   "Routes": [
-     //Identiteta API
+    //Identiteta API
     {
       "DownstreamPathTemplate": "/api/identiteta{params}",
       "DownstreamScheme": "https",
@@ -40,9 +40,9 @@
       "UpstreamHttpMethod": [ "Post" ],
       "RouteIsCaseSensitive": false
     },
-     //Igralci API
+    //Igralci API
     {
-      "DownstreamPathTemplate": "/api/igralec{params}",
+      "DownstreamPathTemplate": "/igralec{params}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -52,15 +52,11 @@
       ],
       "UpstreamPathTemplate": "/igralec{params}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "RouteIsCaseSensitive": false,
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      }
+      "RouteIsCaseSensitive": false
     },
     // Komentiranje API
     {
-      "DownstreamPathTemplate": "/api/komentiranje{params}",
+      "DownstreamPathTemplate": "/komentarjiPoFilmu{params}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -68,17 +64,39 @@
           "Port": 7101 //internal
         }
       ],
-      "UpstreamPathTemplate": "/komentiranje{params}",
+      "UpstreamPathTemplate": "/komentarjiPoFilmu{params}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "RouteIsCaseSensitive": false,
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      }
+      "RouteIsCaseSensitive": false
+    },
+    {
+      "DownstreamPathTemplate": "/api/Komentar",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7101 //internal
+        }
+      ],
+      "UpstreamPathTemplate": "/Komentar",
+      "UpstreamHttpMethod": [ "Post" ],
+      "RouteIsCaseSensitive": false
+    },
+    {
+      "DownstreamPathTemplate": "/odstraniKomentar",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7101 //internal
+        }
+      ],
+      "UpstreamPathTemplate": "/odstraniKomentar",
+      "UpstreamHttpMethod": [ "Post" ],
+      "RouteIsCaseSensitive": false
     },
     // Ocenjevanje API
     {
-      "DownstreamPathTemplate": "/api/ocenjevanje{params}",
+      "DownstreamPathTemplate": "/poFilmuInUporabniku{params}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -86,17 +104,39 @@
           "Port": 7088 //internal
         }
       ],
-      "UpstreamPathTemplate": "/ocenjevanje{params}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "RouteIsCaseSensitive": false,
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      }
+      "UpstreamPathTemplate": "/poFilmuInUporabniku{params}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "RouteIsCaseSensitive": false
+    },
+    {
+      "DownstreamPathTemplate": "/api/Ocena{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7088 //internal
+        }
+      ],
+      "UpstreamPathTemplate": "/Ocena{params}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "RouteIsCaseSensitive": false
+    },
+    {
+      "DownstreamPathTemplate": "/api/Ocena{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7088 //internal
+        }
+      ],
+      "UpstreamPathTemplate": "/Ocena{params}",
+      "UpstreamHttpMethod": [ "Put" ],
+      "RouteIsCaseSensitive": false
     },
     // SeznamiFilmov API
     {
-      "DownstreamPathTemplate": "/api/seznamfilmov{params}",
+      "DownstreamPathTemplate": "/poUporabniku{params}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -104,13 +144,61 @@
           "Port": 7019 //internal
         }
       ],
-      "UpstreamPathTemplate": "/seznamfilmov{params}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "RouteIsCaseSensitive": false,
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      }
+      "UpstreamPathTemplate": "/poUporabniku{params}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "RouteIsCaseSensitive": false
+    },
+    {
+      "DownstreamPathTemplate": "/api/SeznamFilmov{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7019 //internal
+        }
+      ],
+      "UpstreamPathTemplate": "/SeznamFilmov{params}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "RouteIsCaseSensitive": false
+    },
+    {
+      "DownstreamPathTemplate": "/Dodaj{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7019 //internal
+        }
+      ],
+      "UpstreamPathTemplate": "/Dodaj{params}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "RouteIsCaseSensitive": false
+    },
+    {
+      "DownstreamPathTemplate": "/Odstrani{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7019 //internal
+        }
+      ],
+      "UpstreamPathTemplate": "/Odstrani{params}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "RouteIsCaseSensitive": false
+    },
+    {
+      "DownstreamPathTemplate": "/odstraniSeznamFilmov{params}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7019 //internal
+        }
+      ],
+      "UpstreamPathTemplate": "/odstraniSeznamFilmov{params}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "RouteIsCaseSensitive": false
     },
     // Videoteka API
     {
@@ -124,11 +212,7 @@
       ],
       "UpstreamPathTemplate": "/videoteka{params}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "RouteIsCaseSensitive": false,
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      }
+      "RouteIsCaseSensitive": false
     }
   ],
   "GlobalConfiguration": {

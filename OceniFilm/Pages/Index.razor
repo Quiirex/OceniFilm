@@ -2,10 +2,10 @@
 @using OceniFilm.Models.Videoteka
 @using OceniFilm.Services
 
+@if(videoteka != null)
+{
 <CardDeck>
     <Row Gutter="(32, 32)">
-        @if(videoteka != null)
-        {
             @foreach(var film in videoteka)
             {
                 <Column ColumnSize="ColumnSize.Is4">
@@ -19,9 +19,12 @@
                         napovednikUrl="@film.Napovednik"/>
                 </Column>
             }
-        }
     </Row>
-</CardDeck>
+    </CardDeck>
+} else
+{
+    <div class="spinner"></div>
+}
 
 @code {
     [Inject]

@@ -22,7 +22,7 @@ namespace OceniFilm.Services
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<IEnumerable<Komentar>>(_configuration["KomentiranjeAPI"] + "/komentarjiPoFilmu/" + naslovFilma);
+                return await _httpClient.GetFromJsonAsync<IEnumerable<Komentar>>(_configuration["GatewayUrl"] + "/komentarjiPoFilmu/" + naslovFilma);
             }
             catch (HttpRequestException)
             {
@@ -36,7 +36,7 @@ namespace OceniFilm.Services
             {
                 string? jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-                return await _httpClient.PostAsJsonAsync(_configuration["KomentiranjeAPI"] + "/api/Komentar", komentar);
+                return await _httpClient.PostAsJsonAsync(_configuration["GatewayUrl"] + "/Komentar", komentar);
             }
             catch (HttpRequestException)
             {
@@ -50,7 +50,7 @@ namespace OceniFilm.Services
             {
                 string? jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-                return await _httpClient.PostAsJsonAsync(_configuration["KomentiranjeAPI"] + "/odstraniKomentar", komentar);
+                return await _httpClient.PostAsJsonAsync(_configuration["GatewayUrl"] + "/odstraniKomentar", komentar);
             }
             catch (HttpRequestException)
             {
