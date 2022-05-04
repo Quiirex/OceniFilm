@@ -1,0 +1,57 @@
+version: '3.4'
+
+services:
+  videoteka.api:
+    image: ${DOCKER_REGISTRY-}videotekaapi
+    build:
+      context: .
+      dockerfile: Videoteka.API/Dockerfile
+
+  seznami.api:
+    image: ${DOCKER_REGISTRY-}seznamiapi
+    build:
+      context: .
+      dockerfile: Seznami.API/Dockerfile
+
+
+  ocenjevanje.api:
+    image: ${DOCKER_REGISTRY-}ocenjevanjeapi
+    build:
+      context: .
+      dockerfile: Ocenjevanje.API/Dockerfile
+
+
+  komentiranje.api:
+    image: ${DOCKER_REGISTRY-}komentiranjeapi
+    build:
+      context: .
+      dockerfile: Komentiranje.API/Dockerfile
+
+
+  igralci.api:
+    image: ${DOCKER_REGISTRY-}igralciapi
+    build:
+      context: .
+      dockerfile: Igralci.API/Dockerfile
+
+
+  identiteta.api:
+    image: ${DOCKER_REGISTRY-}identitetaapi
+    build:
+      context: .
+      dockerfile: Identiteta.API/Dockerfile
+
+
+  ocenifilm:
+    image: ${DOCKER_REGISTRY-}ocenifilm
+    build:
+      context: .
+      dockerfile: OceniFilm/Dockerfile
+
+
+  ocelotapigw:
+    image: ${DOCKER_REGISTRY-}ocelotapigw
+    build:
+      context: .
+      dockerfile: OcelotApiGw/Dockerfile
+
