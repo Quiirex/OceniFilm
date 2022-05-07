@@ -1,22 +1,36 @@
 ﻿using Igralci.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Igralci.API.Data;
 
 public static class PrepareDb
 {
-    public static void InitializeDataSeed(IApplicationBuilder app)
+    public static void InitializeDataSeed(IApplicationBuilder app, bool SQLServ)
     {
         using IServiceScope? serviceScope = app.ApplicationServices.CreateScope();
-        SeedData(serviceScope.ServiceProvider.GetService<IgralciDbContext>());
+        SeedData(serviceScope.ServiceProvider.GetService<IgralciDbContext>(), SQLServ);
     }
 
-    private static void SeedData(IgralciDbContext database)
+    private static void SeedData(IgralciDbContext dbContext, bool SQLServ)
     {
-        if (!database.Igralci.Any())
+        if (SQLServ)
+        {
+            try
+            {
+                dbContext.Database.Migrate();
+                Console.WriteLine("[PrepareDb] Migration successful");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[PrepareDb] Migration unsuccessful: {ex.Message}");
+            }
+        }
+
+        if (!dbContext.Igralci.Any())
         {
             Console.WriteLine("[PrepareDb][{0}] Seeding data...", DateTime.Now);
 
-            database.Igralci.AddRange(
+            dbContext.Igralci.AddRange(
                 new Igralec
                 {
                     Ime = "Robert",
@@ -249,7 +263,7 @@ public static class PrepareDb
                     Fotografija = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Elliot_Page_2021.png/220px-Elliot_Page_2021.png",
                 }
             );
-            database.SaveChanges();
+            dbContext.SaveChanges();
         }
         else
         {

@@ -1,22 +1,36 @@
-﻿using Ocenjevanje.API.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Ocenjevanje.API.Models;
 
 namespace Ocenjevanje.API.Data;
 
 public static class PrepareDb
 {
-    public static void InitializeDataSeed(IApplicationBuilder app)
+    public static void InitializeDataSeed(IApplicationBuilder app, bool SQLServ)
     {
         using IServiceScope? serviceScope = app.ApplicationServices.CreateScope();
-        SeedData(serviceScope.ServiceProvider.GetService<OcenjevanjeDbContext>());
+        SeedData(serviceScope.ServiceProvider.GetService<OcenjevanjeDbContext>(), SQLServ);
     }
 
-    private static void SeedData(OcenjevanjeDbContext database)
+    private static void SeedData(OcenjevanjeDbContext dbContext, bool SQLServ)
     {
-        if (!database.Ocene.Any())
+        if (SQLServ)
+        {
+            try
+            {
+                dbContext.Database.Migrate();
+                Console.WriteLine($"[PrepareDb] Migration successful");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[PrepareDb] Migration unsuccessful: {ex.Message}");
+            }
+        }
+
+        if (!dbContext.Ocene.Any())
         {
             Console.WriteLine("[PrepareDb][{0}] Seeding data...", DateTime.Now);
 
-            database.Ocene.AddRange(
+            dbContext.Ocene.AddRange(
                 new Ocena
                 {
                     Vrednost = 9,
@@ -39,7 +53,7 @@ public static class PrepareDb
                     Ocenjevalec = new Ocenjevalec { PrikaznoIme = "janezek12" }
                 }
             );
-            database.SaveChanges();
+            dbContext.SaveChanges();
         }
         else
         {

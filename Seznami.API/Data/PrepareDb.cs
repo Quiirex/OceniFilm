@@ -1,22 +1,36 @@
-﻿using Seznami.API.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Seznami.API.Models;
 
 namespace Seznami.API.Data;
 
 public static class PrepareDb
 {
-    public static void InitializeDataSeed(IApplicationBuilder app)
+    public static void InitializeDataSeed(IApplicationBuilder app, bool SQLServ)
     {
         using IServiceScope? serviceScope = app.ApplicationServices.CreateScope();
-        SeedData(serviceScope.ServiceProvider.GetService<SeznamiFilmovDbContext>());
+        SeedData(serviceScope.ServiceProvider.GetService<SeznamiFilmovDbContext>(), SQLServ);
     }
 
-    private static void SeedData(SeznamiFilmovDbContext database)
+    private static void SeedData(SeznamiFilmovDbContext dbContext, bool SQLServ)
     {
-        if (!database.SeznamiFilmov.Any())
+        if (SQLServ)
+        {
+            try
+            {
+                dbContext.Database.Migrate();
+                Console.WriteLine($"[PrepareDb] Migration successful");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[PrepareDb] Migration unsuccessful: {ex.Message}");
+            }
+        }
+
+        if (!dbContext.SeznamiFilmov.Any())
         {
             Console.WriteLine("[PrepareDb][{0}] Seeding data...", DateTime.Now);
 
-            database.SeznamiFilmov.AddRange(
+            dbContext.SeznamiFilmov.AddRange(
                 new SeznamFilmov
                 {
                     Uporabnik = new Uporabnik { PrikaznoIme = "janezek12" },
@@ -87,7 +101,7 @@ public static class PrepareDb
                     }
                 }
             );
-            database.SaveChanges();
+            dbContext.SaveChanges();
         }
         else
         {

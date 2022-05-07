@@ -1,22 +1,36 @@
 ﻿using Identiteta.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Identiteta.API.Data;
 
 public static class PrepareDb
 {
-    public static void InitializeDataSeed(IApplicationBuilder app)
+    public static void InitializeDataSeed(IApplicationBuilder app, bool SQLServ)
     {
         using IServiceScope? serviceScope = app.ApplicationServices.CreateScope();
-        SeedData(serviceScope.ServiceProvider.GetService<IdentitetaDbContext>());
+        SeedData(serviceScope.ServiceProvider.GetService<IdentitetaDbContext>(), SQLServ);
     }
 
-    private static void SeedData(IdentitetaDbContext database)
+    private static void SeedData(IdentitetaDbContext dbContext, bool SQLServ)
     {
-        if (!database.Uporabniki.Any())
+        if (SQLServ)
+        {
+            try
+            {
+                dbContext.Database.Migrate();
+                Console.WriteLine($"[PrepareDb] Migration successful");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[PrepareDb] Migration unsuccessful: {ex.Message}");
+            }
+        }
+
+        if (!dbContext.Uporabniki.Any())
         {
             Console.WriteLine("[PrepareDb][{0}] Seeding identity data...", DateTime.Now);
 
-            database.Uporabniki.AddRange(
+            dbContext.Uporabniki.AddRange(
                 new Uporabnik
                 {
                     Id = "4564-2345-7445-2345-1235-1236",
@@ -51,7 +65,7 @@ public static class PrepareDb
                     DatumRojstva = new DateTime(1967, 4, 19)
                 }
             );
-            database.SaveChanges();
+            dbContext.SaveChanges();
         }
         else
         {

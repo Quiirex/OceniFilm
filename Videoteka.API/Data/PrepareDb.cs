@@ -1,23 +1,36 @@
-﻿using Videoteka.API.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Videoteka.API.Models;
 
 namespace Videoteka.API.Data;
 
 public static class PrepareDb
 {
-    public static void InitializeDataSeed(IApplicationBuilder app)
+    public static void InitializeDataSeed(IApplicationBuilder app, bool SQLServ)
     {
         using IServiceScope? serviceScope = app.ApplicationServices.CreateScope();
-        SeedData(serviceScope.ServiceProvider.GetService<VideotekaDbContext>());
+        SeedData(serviceScope.ServiceProvider.GetService<VideotekaDbContext>(), SQLServ);
     }
 
-
-    private static void SeedData(VideotekaDbContext database)
+    private static void SeedData(VideotekaDbContext dbContext, bool SQLServ)
     {
-        if (!database.Filmi.Any())
+        if (SQLServ)
+        {
+            try
+            {
+                dbContext.Database.Migrate();
+                Console.WriteLine($"[PrepareDb] Migration successful");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[PrepareDb] Migration unsuccessful: {ex.Message}");
+            }
+        }
+
+        if (!dbContext.Filmi.Any())
         {
             Console.WriteLine("[PrepareDb][{0}] Seeding data...", DateTime.Now);
 
-            database.Filmi.AddRange(
+            dbContext.Filmi.AddRange(
                 new Film
                 {
                     Naslov = "The Batman",
@@ -599,7 +612,7 @@ public static class PrepareDb
                     }
                 }
             );
-            database.SaveChanges();
+            dbContext.SaveChanges();
         }
         else
         {

@@ -1,22 +1,36 @@
 ﻿using Komentiranje.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Komentiranje.API.Data;
 
 public static class PrepareDb
 {
-    public static void InitializeDataSeed(IApplicationBuilder app)
+    public static void InitializeDataSeed(IApplicationBuilder app, bool SQLServ)
     {
         using IServiceScope? serviceScope = app.ApplicationServices.CreateScope();
-        SeedData(serviceScope.ServiceProvider.GetService<KomentiranjeDbContext>());
+        SeedData(serviceScope.ServiceProvider.GetService<KomentiranjeDbContext>(), SQLServ);
     }
 
-    private static void SeedData(KomentiranjeDbContext database)
+    private static void SeedData(KomentiranjeDbContext dbContext, bool SQLServ)
     {
-        if (!database.Komentarji.Any())
+        if (SQLServ)
+        {
+            try
+            {
+                dbContext.Database.Migrate();
+                Console.WriteLine($"[PrepareDb] Migration successful");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[PrepareDb] Migration unsuccessful: {ex.Message}");
+            }
+        }
+
+        if (!dbContext.Komentarji.Any())
         {
             Console.WriteLine("[PrepareDb][{0}] Seeding data...", DateTime.Now);
 
-            database.Komentarji.AddRange(
+            dbContext.Komentarji.AddRange(
                 new Komentar
                 {
                     DatumZapisa = DateTime.Now,
@@ -39,7 +53,7 @@ public static class PrepareDb
                     Komentator = new Komentator { PrikaznoIme = "marjanZilla" }
                 }
             );
-            database.SaveChanges();
+            dbContext.SaveChanges();
         }
         else
         {

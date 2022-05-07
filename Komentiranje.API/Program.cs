@@ -49,6 +49,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-PrepareDb.InitializeDataSeed(app);
+PrepareDb.InitializeDataSeed(app, false);
 
 app.Run();
