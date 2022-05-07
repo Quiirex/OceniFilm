@@ -21,7 +21,8 @@ namespace OceniFilm.Services
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<Uporabnik>(_configuration["GatewayUrl"] + "/Identiteta/" + id);
+                //return await _httpClient.GetFromJsonAsync<Uporabnik>(_configuration["GatewayUrl"] + "/Identiteta/" + id);
+                return await _httpClient.GetFromJsonAsync<Uporabnik>(_configuration.GetServiceUri("identiteta-api") + "api/Identiteta/" + id);
             }
             catch (HttpRequestException)
             {
@@ -33,7 +34,8 @@ namespace OceniFilm.Services
         {
             try
             {
-                return await _httpClient.PostAsJsonAsync(_configuration["GatewayUrl"] + "/Identiteta/registracija", novUporabnik);
+                //return await _httpClient.PostAsJsonAsync(_configuration["GatewayUrl"] + "/Identiteta/registracija", novUporabnik);
+                return await _httpClient.PostAsJsonAsync(_configuration.GetServiceUri("identiteta-api") + "api/Identiteta/registracija", novUporabnik);
             }
             catch (HttpRequestException)
             {
@@ -45,7 +47,8 @@ namespace OceniFilm.Services
         {
             try
             {
-                return await _httpClient.PostAsJsonAsync(_configuration["GatewayUrl"] + "/Identiteta/prijava", uporabnik);
+                //return await _httpClient.PostAsJsonAsync(_configuration["GatewayUrl"] + "/Identiteta/prijava", uporabnik);
+                return await _httpClient.PostAsJsonAsync(_configuration.GetServiceUri("identiteta-api") + "api/Identiteta/prijava", uporabnik);
             }
             catch (HttpRequestException)
             {

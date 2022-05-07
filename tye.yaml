@@ -1,0 +1,49 @@
+name: ocenifilm
+registry: quiirex
+services:
+- name: identiteta-api
+  project: Identiteta.API/Identiteta.API.csproj
+  replicas: 3
+  bindings:
+  - port: 7165
+- name: igralci-api
+  project: Igralci.API/Igralci.API.csproj
+  replicas: 3
+  bindings:
+  - port: 7025
+- name: komentiranje-api
+  project: Komentiranje.API/Komentiranje.API.csproj
+  replicas: 3
+  bindings:
+  - port: 7101
+- name: videoteka-api
+  project: Videoteka.API/Videoteka.API.csproj
+  replicas: 3
+  bindings:
+  - port: 7145
+- name: seznami-api
+  project: Seznami.API/Seznami.API.csproj
+  replicas: 3
+  bindings:
+  - port: 7019
+- name: ocenjevanje-api
+  project: Ocenjevanje.API/Ocenjevanje.API.csproj
+  replicas: 3
+  bindings:
+  - port: 7088
+- name: ocenifilmfrontend
+  project: OceniFilm/OceniFilm.csproj
+  replicas: 1
+  bindings:
+  - port: 7080
+#- name: ocelotapigw
+#  project: OcelotApiGw/OcelotApiGw.csproj
+#  bindings:
+#  - port: 7248
+#ingress:
+#  - name: ingress
+#    bindings:
+#      - port: 8080
+#    rules:
+#      - path: /ocenifilmfrontend
+#        service: ocenifilmfrontend

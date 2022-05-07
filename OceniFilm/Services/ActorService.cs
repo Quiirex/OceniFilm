@@ -17,7 +17,8 @@ namespace OceniFilm.Services
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<Igralec>(_configuration["GatewayUrl"] + "/Igralec/" + ime + "/" + priimek);
+                //return await _httpClient.GetFromJsonAsync<Igralec>(_configuration["GatewayUrl"] + "/Igralec/" + ime + "/" + priimek);
+                return await _httpClient.GetFromJsonAsync<Igralec>(_configuration.GetServiceUri("igralci-api") + "Igralec/" + ime + "/" + priimek);
             }
             catch (HttpRequestException)
             {

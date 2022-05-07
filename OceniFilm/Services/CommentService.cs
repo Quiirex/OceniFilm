@@ -22,7 +22,8 @@ namespace OceniFilm.Services
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<IEnumerable<Komentar>>(_configuration["GatewayUrl"] + "/komentarjiPoFilmu/" + naslovFilma);
+                //return await _httpClient.GetFromJsonAsync<IEnumerable<Komentar>>(_configuration["GatewayUrl"] + "/komentarjiPoFilmu/" + naslovFilma);
+                return await _httpClient.GetFromJsonAsync<IEnumerable<Komentar>>(_configuration.GetServiceUri("komentiranje-api") + "komentarjiPoFilmu/" + naslovFilma);
             }
             catch (HttpRequestException)
             {
@@ -36,7 +37,8 @@ namespace OceniFilm.Services
             {
                 string? jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-                return await _httpClient.PostAsJsonAsync(_configuration["GatewayUrl"] + "/Komentar", komentar);
+                //return await _httpClient.PostAsJsonAsync(_configuration["GatewayUrl"] + "/Komentar", komentar);
+                return await _httpClient.PostAsJsonAsync(_configuration.GetServiceUri("komentiranje-api") + "api/Komentar", komentar);
             }
             catch (HttpRequestException)
             {
@@ -50,7 +52,8 @@ namespace OceniFilm.Services
             {
                 string? jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-                return await _httpClient.PostAsJsonAsync(_configuration["GatewayUrl"] + "/odstraniKomentar", komentar);
+                //return await _httpClient.PostAsJsonAsync(_configuration["GatewayUrl"] + "/odstraniKomentar", komentar);
+                return await _httpClient.PostAsJsonAsync(_configuration.GetServiceUri("komentiranje-api") + "odstraniKomentar", komentar);
             }
             catch (HttpRequestException)
             {
