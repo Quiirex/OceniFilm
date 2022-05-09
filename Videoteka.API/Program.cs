@@ -6,14 +6,16 @@ using Videoteka.API.Data;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
-var SQLServ = false;
-var connectionString = "";
+bool SQLServ = false;
+string? connectionString = "";
 
 if (SQLServ)
 {
-    connectionString = configuration.GetConnectionString("sqlserver-videoteka", "seznamiDb");
+    connectionString = configuration.GetConnectionString("sqlserver-videoteka");
+    Console.WriteLine("CONNECTION STRING: " + connectionString);
     builder.Services.AddDbContext<VideotekaDbContext>(options => options.UseSqlServer(connectionString));
-} else
+}
+else
 {
     builder.Services.AddDbContext<VideotekaDbContext>(options => options.UseInMemoryDatabase("InMem"));
 }

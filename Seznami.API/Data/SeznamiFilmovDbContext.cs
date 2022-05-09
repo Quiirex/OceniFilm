@@ -10,6 +10,4 @@ public class SeznamiFilmovDbContext : DbContext
     }
 
     public DbSet<SeznamFilmov> SeznamiFilmov { get; set; }
-    public DbSet<Film> Filmi { get; set; }
-    public DbSet<Uporabnik> Uporabniki { get; set; }
 }

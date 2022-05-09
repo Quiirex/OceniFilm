@@ -10,5 +10,4 @@ public class KomentiranjeDbContext : DbContext
     }
 
     public DbSet<Komentar> Komentarji { get; set; }
-    public DbSet<Komentator> Komentatorji { get; set; }
 }

@@ -6,8 +6,19 @@ using System.Text;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
+bool SQLServ = false;
+string? connectionString = "";
 
-builder.Services.AddDbContext<OcenjevanjeDbContext>(options => options.UseInMemoryDatabase("InMem"));
+if (SQLServ)
+{
+    connectionString = configuration.GetConnectionString("sqlserver-ocenjevanje");
+    Console.WriteLine("CONNECTION STRING: " + connectionString);
+    builder.Services.AddDbContext<OcenjevanjeDbContext>(options => options.UseSqlServer(connectionString));
+}
+else
+{
+    builder.Services.AddDbContext<OcenjevanjeDbContext>(options => options.UseInMemoryDatabase("InMem"));
+}
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
@@ -48,6 +59,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-PrepareDb.InitializeDataSeed(app, false);
+PrepareDb.InitializeDataSeed(app, SQLServ);
 
 app.Run();

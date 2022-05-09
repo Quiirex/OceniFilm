@@ -10,6 +10,4 @@ public class OcenjevanjeDbContext : DbContext
     }
 
     public DbSet<Ocena> Ocene { get; set; }
-    public DbSet<OcenjenFilm> OcenjeniFilmi { get; set; }
-    public DbSet<Ocenjevalec> Ocenjevalci { get; set; }
 }
