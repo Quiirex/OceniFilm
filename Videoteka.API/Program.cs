@@ -6,8 +6,18 @@ using Videoteka.API.Data;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
+var SQLServ = false;
+var connectionString = "";
 
-builder.Services.AddDbContext<VideotekaDbContext>(options => options.UseInMemoryDatabase("InMem"));
+if (SQLServ)
+{
+    connectionString = configuration.GetConnectionString("sqlserver-videoteka", "seznamiDb");
+    builder.Services.AddDbContext<VideotekaDbContext>(options => options.UseSqlServer(connectionString));
+} else
+{
+    builder.Services.AddDbContext<VideotekaDbContext>(options => options.UseInMemoryDatabase("InMem"));
+}
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 // builder.Services.AddSwaggerGen();
@@ -49,6 +59,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-PrepareDb.InitializeDataSeed(app, false);
+PrepareDb.InitializeDataSeed(app, SQLServ);
 
 app.Run();
