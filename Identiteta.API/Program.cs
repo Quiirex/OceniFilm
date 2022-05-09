@@ -11,7 +11,13 @@ if (SQLServ)
 {
     connectionString = configuration.GetConnectionString("sqlserver-identiteta");
     Console.WriteLine("CONNECTION STRING: " + connectionString);
-    builder.Services.AddDbContext<IdentitetaDbContext>(options => options.UseSqlServer(connectionString));
+    builder.Services.AddDbContext<IdentitetaDbContext>(options =>
+    {
+        options.UseSqlServer(connectionString, o =>
+        {
+            o.EnableRetryOnFailure();
+        });
+    });
 }
 else
 {

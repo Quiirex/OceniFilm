@@ -13,7 +13,13 @@ if (SQLServ)
 {
     connectionString = configuration.GetConnectionString("sqlserver-seznami");
     Console.WriteLine("CONNECTION STRING: " + connectionString);
-    builder.Services.AddDbContext<SeznamiFilmovDbContext>(options => options.UseSqlServer(connectionString));
+    builder.Services.AddDbContext<SeznamiFilmovDbContext>(options =>
+    {
+        options.UseSqlServer(connectionString, o =>
+        {
+            o.EnableRetryOnFailure();
+        });
+    });
 }
 else
 {

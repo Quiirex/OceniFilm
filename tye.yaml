@@ -120,8 +120,8 @@ services:
   #- name: videoteka-storage
   #  target: /var/opt/mssql
   bindings:
-  #- port: 1433
-   - connectionString: Server=${host}:${port};Database=VideotekaDB;User Id=sa;Password=${env:SA_PASSWORD};
+  - containerPort: 1433
+    connectionString: Server=${host},${port};Database=VideotekaDB;User Id=sa;Password=${env:SA_PASSWORD};
 #- name: ocelotapigw
 #  project: OcelotApiGw/OcelotApiGw.csproj
 #  bindings:

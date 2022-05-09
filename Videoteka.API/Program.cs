@@ -6,14 +6,20 @@ using Videoteka.API.Data;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
-bool SQLServ = false;
+bool SQLServ = true;
 string? connectionString = "";
 
 if (SQLServ)
 {
     connectionString = configuration.GetConnectionString("sqlserver-videoteka");
     Console.WriteLine("CONNECTION STRING: " + connectionString);
-    builder.Services.AddDbContext<VideotekaDbContext>(options => options.UseSqlServer(connectionString));
+    builder.Services.AddDbContext<VideotekaDbContext>(options =>
+    {
+        options.UseSqlServer(connectionString, o =>
+        {
+            o.EnableRetryOnFailure();
+        });
+    });
 }
 else
 {
