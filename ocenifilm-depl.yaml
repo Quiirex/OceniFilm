@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ocenifilm-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ocenifilmservice
+  template:
+    metadata:
+      labels:
+        app: ocenifilmservice
+    spec:
+      containers:
+        - name: ocenifilmservice
+          image: quiirex/ocenifilmfrontend:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: igralci-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: ocenifilmservice
+  ports:
+  - name: ocenifilmservice
+    protocol: TCP
+    port: 80
+    targetPort: 80

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: videoteka-depl
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: videotekaservice
+  template:
+    metadata:
+      labels:
+        app: videotekaservice
+    spec:
+      containers:
+        - name: videotekaservice
+          image: quiirex/videotekamicroservice:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: videoteka-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: videotekaservice
+  ports:
+  - name: videotekaservice
+    protocol: TCP
+    port: 80
+    targetPort: 80

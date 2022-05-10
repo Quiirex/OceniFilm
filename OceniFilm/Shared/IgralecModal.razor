@@ -35,10 +35,10 @@
     public EventCallback<bool> igralecModalVisibleChanged { get; set; }
 
     [Parameter]
-    public string imeIgralca { get; set; } = string.Empty;
+    public string imeIgralca { get; set; }
 
     [Parameter]
-    public string priimekIgralca { get; set; } = string.Empty;
+    public string priimekIgralca { get; set; }
 
     [Inject]
     public IActorService ActorService { get; set; }
@@ -47,7 +47,15 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        fetchedIgralec = await ActorService.GetActorInfoAsync(imeIgralca, priimekIgralca);
+        try
+        {
+            Console.WriteLine("FETCHING ACTOR: " + imeIgralca + priimekIgralca);
+            fetchedIgralec = await ActorService.GetActorInfoAsync(imeIgralca, priimekIgralca);
+        }
+        catch
+        {
+
+        }
     }
 
     private async Task OnModalClosing(ModalClosingEventArgs e)

@@ -25,6 +25,7 @@ else
 {
     builder.Services.AddDbContext<OcenjevanjeDbContext>(options => options.UseInMemoryDatabase("InMem"));
 }
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
@@ -57,7 +58,7 @@ if (app.Environment.IsDevelopment())
     //app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 

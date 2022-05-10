@@ -8,16 +8,19 @@
     <Row Gutter="(32, 32)">
             @foreach(var film in videoteka)
             {
-                <Column ColumnSize="ColumnSize.Is4">
-                    <FilmCard 
-                        poster="@film.Poster" 
-                        imdbOcena="@film.ImdbOcena" 
-                        naslov="@film.Naslov" 
-                        letoIzdaje="@film.LetoIzdaje"
-                        seznamZanrov="@film.SeznamZanrov"
-                        seznamIgralcev="@film.SeznamIgralcev"
-                        napovednikUrl="@film.Napovednik"/>
-                </Column>
+                if (film.SeznamIgralcev != null)
+                {
+                    <Column ColumnSize="ColumnSize.Is4">
+                        <FilmCard 
+                            poster="@film.Poster" 
+                            imdbOcena="@film.ImdbOcena" 
+                            naslov="@film.Naslov" 
+                            letoIzdaje="@film.LetoIzdaje"
+                            seznamZanrov="@film.SeznamZanrov"
+                            seznamIgralcev="@film.SeznamIgralcev"
+                            napovednikUrl="@film.Napovednik"/>
+                    </Column>
+                }
             }
     </Row>
     </CardDeck>

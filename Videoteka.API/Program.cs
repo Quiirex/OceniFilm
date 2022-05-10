@@ -6,7 +6,7 @@ using Videoteka.API.Data;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
-bool SQLServ = true;
+bool SQLServ = false;
 string? connectionString = "";
 
 if (SQLServ)
@@ -59,7 +59,7 @@ if (app.Environment.IsDevelopment())
     //app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
