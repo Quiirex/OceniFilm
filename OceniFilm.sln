@@ -59,6 +59,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Node Port", "Node Port", "{
 		ocenifilm-np-srv.yaml = ocenifilm-np-srv.yaml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API Gateway", "API Gateway", "{91BB9DF7-06D6-40A1-82CE-C2BC22E90E09}"
+	ProjectSection(SolutionItems) = preProject
+		ingress-srv.yaml = ingress-srv.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +114,7 @@ Global
 		{2BF95A31-3EEC-467E-9CCA-8B55E953243F} = {613A8D6B-16FE-4546-9145-32118EA70CE8}
 		{E5441365-99DE-4617-BD7C-79931107DDC4} = {613A8D6B-16FE-4546-9145-32118EA70CE8}
 		{729BFE91-1F24-4185-99D8-D64D85C110BC} = {613A8D6B-16FE-4546-9145-32118EA70CE8}
+		{91BB9DF7-06D6-40A1-82CE-C2BC22E90E09} = {613A8D6B-16FE-4546-9145-32118EA70CE8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {04DC1931-AB54-4186-AD5C-7525F23B1E8C}
