@@ -5,18 +5,19 @@ namespace Videoteka.API.Data;
 
 public static class PrepareDb
 {
-    public static void InitializeDataSeed(IApplicationBuilder app, bool SQLServ)
+    public static void InitializeDataSeed(IApplicationBuilder app, bool useSQLServ)
     {
         using IServiceScope? serviceScope = app.ApplicationServices.CreateScope();
-        SeedData(serviceScope.ServiceProvider.GetService<VideotekaDbContext>(), SQLServ);
+        SeedData(serviceScope.ServiceProvider.GetService<VideotekaDbContext>(), useSQLServ);
     }
 
-    private static void SeedData(VideotekaDbContext dbContext, bool SQLServ)
+    private static void SeedData(VideotekaDbContext dbContext, bool useSQLServ)
     {
-        if (SQLServ)
+        if (useSQLServ)
         {
             try
             {
+                Console.WriteLine($"[PrepareDb] Attempting a database migration...");
                 dbContext.Database.Migrate();
                 Console.WriteLine($"[PrepareDb] Migration successful");
             }

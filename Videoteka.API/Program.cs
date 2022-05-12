@@ -6,12 +6,12 @@ using Videoteka.API.Data;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
-bool SQLServ = false;
+bool useSQLServ = true;
 string? connectionString = "";
 
-if (SQLServ)
+if (useSQLServ)
 {
-    connectionString = configuration.GetConnectionString("sqlserver-videoteka");
+    connectionString = configuration.GetConnectionString("VideotekaSQLServ");
     Console.WriteLine("CONNECTION STRING: " + connectionString);
     builder.Services.AddDbContext<VideotekaDbContext>(options =>
     {
@@ -67,6 +67,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-PrepareDb.InitializeDataSeed(app, SQLServ);
+PrepareDb.InitializeDataSeed(app, useSQLServ);
 
 app.Run();

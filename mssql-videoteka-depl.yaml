@@ -13,7 +13,7 @@ spec:
         app: mssql
     spec:
       containers:
-        - name: mssql
+        - name: mssql-videoteka
           image: mcr.microsoft.com/mssql/server:2019-latest
           ports:
             - containerPort: 1433
@@ -33,7 +33,7 @@ spec:
       volumes:
       - name: mssqldb
         persistentVolumeClaim:
-          claimName: mssql-claim
+          claimName: mssql-videoteka-claim
 ---
 apiVersion: v1
 kind: Service
@@ -46,7 +46,7 @@ spec:
   ports:
   - name: mssql
     protocol: TCP
-    port: 56785
+    port: 1433
     targetPort: 1433
 ---
 apiVersion: v1

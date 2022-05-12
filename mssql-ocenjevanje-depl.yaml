@@ -33,7 +33,7 @@ spec:
       volumes:
       - name: mssqldb
         persistentVolumeClaim:
-          claimName: mssql-claim
+          claimName: mssql-ocenjevanje-claim
 ---
 apiVersion: v1
 kind: Service
@@ -46,7 +46,7 @@ spec:
   ports:
   - name: mssql
     protocol: TCP
-    port: 56783
+    port: 1433
     targetPort: 1433
 ---
 apiVersion: v1

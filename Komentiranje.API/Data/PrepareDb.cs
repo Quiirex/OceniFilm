@@ -5,18 +5,19 @@ namespace Komentiranje.API.Data;
 
 public static class PrepareDb
 {
-    public static void InitializeDataSeed(IApplicationBuilder app, bool SQLServ)
+    public static void InitializeDataSeed(IApplicationBuilder app, bool useSQLServ)
     {
         using IServiceScope? serviceScope = app.ApplicationServices.CreateScope();
-        SeedData(serviceScope.ServiceProvider.GetService<KomentiranjeDbContext>(), SQLServ);
+        SeedData(serviceScope.ServiceProvider.GetService<KomentiranjeDbContext>(), useSQLServ);
     }
 
-    private static void SeedData(KomentiranjeDbContext dbContext, bool SQLServ)
+    private static void SeedData(KomentiranjeDbContext dbContext, bool useSQLServ)
     {
-        if (SQLServ)
+        if (useSQLServ)
         {
             try
             {
+                Console.WriteLine($"[PrepareDb] Attempting a database migration...");
                 dbContext.Database.Migrate();
                 Console.WriteLine($"[PrepareDb] Migration successful");
             }
