@@ -31,6 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Volumes", "Volumes", "{9F5C
 		pvc-claim-ocenjevanje.yaml = pvc-claim-ocenjevanje.yaml
 		pvc-claim-seznami.yaml = pvc-claim-seznami.yaml
 		pvc-claim-videoteka.yaml = pvc-claim-videoteka.yaml
+		pvc-claim.yaml = pvc-claim.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL Server", "SQL Server", "{2BF95A31-3EEC-467E-9CCA-8B55E953243F}"
@@ -41,6 +42,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL Server", "SQL Server", 
 		mssql-ocenjevanje-depl.yaml = mssql-ocenjevanje-depl.yaml
 		mssql-seznami-depl.yaml = mssql-seznami-depl.yaml
 		mssql-videoteka-depl.yaml = mssql-videoteka-depl.yaml
+		mssql-depl.yaml = mssql-depl.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E5441365-99DE-4617-BD7C-79931107DDC4}"
@@ -124,19 +126,5 @@ Global
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
 		$0.TextStylePolicy = $8
-		$2.inheritsSet = null
-		$2.scope = text/x-csharp
-		$0.CSharpFormattingPolicy = $3
-		$3.scope = text/x-csharp
-		$4.inheritsSet = null
-		$4.scope = text/x-json
-		$5.inheritsSet = null
-		$5.scope = text/x-web
-		$6.inheritsSet = null
-		$6.scope = text/x-css
-		$7.inheritsSet = null
-		$7.scope = text/x-cshtml-web
-		$8.inheritsSet = null
-		$8.scope = text/x-html
 	EndGlobalSection
 EndGlobal
