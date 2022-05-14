@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: igralci-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: igralciservice
+  template:
+    metadata:
+      labels:
+        app: igralciservice
+    spec:
+      containers:
+        - name: igralciservice
+          image: quiirex/igralcimicroservice:latest
+          imagePullPolicy: Always
+          resources:
+           requests:
+            memory: "50Mi"
+            cpu: "500m"
+           limits:
+            memory: "100Mi"
+            cpu: "1000m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: igralci-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: igralciservice
+  ports:
+  - name: igralciservice
+    protocol: TCP
+    port: 80
+    targetPort: 80

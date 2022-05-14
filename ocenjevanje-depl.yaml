@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ocenjevanje-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ocenjevanjeservice
+  template:
+    metadata:
+      labels:
+        app: ocenjevanjeservice
+    spec:
+      containers:
+        - name: ocenjevanjeservice
+          image: quiirex/ocenjevanjemicroservice:latest
+          imagePullPolicy: Always
+          resources:
+           requests:
+            memory: "50Mi"
+            cpu: "500m"
+           limits:
+            memory: "100Mi"
+            cpu: "1000m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ocenjevanje-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: ocenjevanjeservice
+  ports:
+  - name: ocenjevanjeservice
+    protocol: TCP
+    port: 80
+    targetPort: 80

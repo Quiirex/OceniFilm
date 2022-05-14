@@ -5,8 +5,6 @@ VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identiteta.API", "Identiteta.API\Identiteta.API.csproj", "{31230154-7C35-47AF-A3FB-8CA938E39FF3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API Gateway", "API Gateway", "{5ACBB05B-0FE8-4326-97F0-9F4E1906F219}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{7CD1FEE8-5C2D-4ACE-8EC3-36C1D04DCC83}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Front-end", "Front-end", "{46B7530C-4D2A-48D7-8014-D768901D6BB2}"
@@ -23,7 +21,43 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ocenjevanje.API", "Ocenjeva
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OceniFilm", "OceniFilm\OceniFilm.csproj", "{80642423-6CA7-4C20-8736-CA13AC02E418}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotApiGw", "OcelotApiGw\OcelotApiGw.csproj", "{49F2DB75-DB25-4AA0-804E-861016046474}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8S", "K8S", "{613A8D6B-16FE-4546-9145-32118EA70CE8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Volumes", "Volumes", "{9F5C87D0-B009-4D9A-8541-069F3F0EBD3A}"
+	ProjectSection(SolutionItems) = preProject
+		pvc-claim.yaml = pvc-claim.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL Server", "SQL Server", "{2BF95A31-3EEC-467E-9CCA-8B55E953243F}"
+	ProjectSection(SolutionItems) = preProject
+		mssql-depl.yaml = mssql-depl.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E5441365-99DE-4617-BD7C-79931107DDC4}"
+	ProjectSection(SolutionItems) = preProject
+		identiteta-depl.yaml = identiteta-depl.yaml
+		igralci-depl.yaml = igralci-depl.yaml
+		komentiranje-depl.yaml = komentiranje-depl.yaml
+		ocenifilm-depl.yaml = ocenifilm-depl.yaml
+		ocenjevanje-depl.yaml = ocenjevanje-depl.yaml
+		seznami-depl.yaml = seznami-depl.yaml
+		videoteka-depl.yaml = videoteka-depl.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Node Port", "Node Port", "{729BFE91-1F24-4185-99D8-D64D85C110BC}"
+	ProjectSection(SolutionItems) = preProject
+		ocenifilm-np-srv.yaml = ocenifilm-np-srv.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API Gateway", "API Gateway", "{91BB9DF7-06D6-40A1-82CE-C2BC22E90E09}"
+	ProjectSection(SolutionItems) = preProject
+		ingress-depl.yaml = ingress-depl.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Metric server", "Metric server", "{7A46CCF9-213F-45A1-8ADE-ED8D5B932D49}"
+	ProjectSection(SolutionItems) = preProject
+		metric-server-depl.yaml = metric-server-depl.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,10 +93,6 @@ Global
 		{80642423-6CA7-4C20-8736-CA13AC02E418}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80642423-6CA7-4C20-8736-CA13AC02E418}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80642423-6CA7-4C20-8736-CA13AC02E418}.Release|Any CPU.Build.0 = Release|Any CPU
-		{49F2DB75-DB25-4AA0-804E-861016046474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{49F2DB75-DB25-4AA0-804E-861016046474}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{49F2DB75-DB25-4AA0-804E-861016046474}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{49F2DB75-DB25-4AA0-804E-861016046474}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,7 +105,12 @@ Global
 		{CAC8066A-B5E1-4065-AECE-CC6C73853BFC} = {7CD1FEE8-5C2D-4ACE-8EC3-36C1D04DCC83}
 		{260F55E7-25F3-4959-ABDF-2DB70B05675B} = {7CD1FEE8-5C2D-4ACE-8EC3-36C1D04DCC83}
 		{80642423-6CA7-4C20-8736-CA13AC02E418} = {46B7530C-4D2A-48D7-8014-D768901D6BB2}
-		{49F2DB75-DB25-4AA0-804E-861016046474} = {5ACBB05B-0FE8-4326-97F0-9F4E1906F219}
+		{9F5C87D0-B009-4D9A-8541-069F3F0EBD3A} = {613A8D6B-16FE-4546-9145-32118EA70CE8}
+		{2BF95A31-3EEC-467E-9CCA-8B55E953243F} = {613A8D6B-16FE-4546-9145-32118EA70CE8}
+		{E5441365-99DE-4617-BD7C-79931107DDC4} = {613A8D6B-16FE-4546-9145-32118EA70CE8}
+		{729BFE91-1F24-4185-99D8-D64D85C110BC} = {613A8D6B-16FE-4546-9145-32118EA70CE8}
+		{91BB9DF7-06D6-40A1-82CE-C2BC22E90E09} = {613A8D6B-16FE-4546-9145-32118EA70CE8}
+		{7A46CCF9-213F-45A1-8ADE-ED8D5B932D49} = {613A8D6B-16FE-4546-9145-32118EA70CE8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {04DC1931-AB54-4186-AD5C-7525F23B1E8C}
@@ -85,19 +120,5 @@ Global
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
 		$0.TextStylePolicy = $8
-		$2.inheritsSet = null
-		$2.scope = text/x-csharp
-		$0.CSharpFormattingPolicy = $3
-		$3.scope = text/x-csharp
-		$4.inheritsSet = null
-		$4.scope = text/x-json
-		$5.inheritsSet = null
-		$5.scope = text/x-web
-		$6.inheritsSet = null
-		$6.scope = text/x-css
-		$7.inheritsSet = null
-		$7.scope = text/x-cshtml-web
-		$8.inheritsSet = null
-		$8.scope = text/x-html
 	EndGlobalSection
 EndGlobal

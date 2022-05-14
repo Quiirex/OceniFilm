@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: komentiranje-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: komentiranjeservice
+  template:
+    metadata:
+      labels:
+        app: komentiranjeservice
+    spec:
+      containers:
+        - name: komentiranjeservice
+          image: quiirex/komentiranjemicroservice:latest
+          imagePullPolicy: Always
+          resources:
+           requests:
+            memory: "50Mi"
+            cpu: "500m"
+           limits:
+            memory: "100Mi"
+            cpu: "1000m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: komentiranje-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: komentiranjeservice
+  ports:
+  - name: komentiranjeservice
+    protocol: TCP
+    port: 80
+    targetPort: 80

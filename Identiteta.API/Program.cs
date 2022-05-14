@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
-bool SQLServ = false;
+bool useSQLServ = true;
 string? connectionString = "";
 
-if (SQLServ)
+if (useSQLServ)
 {
-    connectionString = configuration.GetConnectionString("sqlserver-identiteta");
+    connectionString = configuration.GetConnectionString("IdentitetaSQLServ");
     Console.WriteLine("CONNECTION STRING: " + connectionString);
     builder.Services.AddDbContext<IdentitetaDbContext>(options =>
     {
@@ -37,7 +37,7 @@ if (app.Environment.IsDevelopment())
     //app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 //app.UseCors("allowOrigins");
 
@@ -47,6 +47,6 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 
-PrepareDb.InitializeDataSeed(app, SQLServ);
+PrepareDb.InitializeDataSeed(app, useSQLServ);
 
 app.Run();

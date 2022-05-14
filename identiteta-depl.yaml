@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identiteta-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: identitetaservice
+  template:
+    metadata:
+      labels:
+        app: identitetaservice
+    spec:
+      containers:
+        - name: identitetaservice
+          image: quiirex/identitetamicroservice:latest
+          imagePullPolicy: Always
+          resources:
+           requests:
+            memory: "50Mi"
+            cpu: "20m"
+           limits:
+            memory: "100Mi"
+            cpu: "50m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: identiteta-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: identitetaservice
+  ports:
+  - name: identitetaservice
+    protocol: TCP
+    port: 80
+    targetPort: 80

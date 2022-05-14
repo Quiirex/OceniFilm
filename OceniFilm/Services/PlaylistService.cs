@@ -24,7 +24,7 @@ namespace OceniFilm.Services
                 string? jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
                 //return await _httpClient.GetFromJsonAsync<IEnumerable<SeznamFilmov>>(_configuration["GatewayUrl"] + "/poUporabniku/" + prikaznoIme);
-                return await _httpClient.GetFromJsonAsync<IEnumerable<SeznamFilmov>>(_configuration.GetServiceUri("seznami-api") + "poUporabniku/" + prikaznoIme);
+                return await _httpClient.GetFromJsonAsync<IEnumerable<SeznamFilmov>>(_configuration["SeznamiService"] + "poUporabniku/" + prikaznoIme);
             }
             catch (HttpRequestException)
             {
@@ -39,7 +39,7 @@ namespace OceniFilm.Services
                 string? jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
                 //return await _httpClient.PostAsJsonAsync(_configuration["GatewayUrl"] + "/SeznamFilmov/", seznamFilmov);
-                return await _httpClient.PostAsJsonAsync(_configuration.GetServiceUri("seznami-api") + "api/SeznamFilmov", seznamFilmov);
+                return await _httpClient.PostAsJsonAsync(_configuration["SeznamiService"] + "api/SeznamFilmov", seznamFilmov);
             }
             catch (HttpRequestException)
             {
@@ -54,7 +54,7 @@ namespace OceniFilm.Services
                 string? jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
                 //return await _httpClient.PostAsJsonAsync(_configuration["GatewayUrl"] + "/Dodaj/" + prikaznoIme + "/" + nazivSeznama, film);
-                return await _httpClient.PostAsJsonAsync(_configuration.GetServiceUri("seznami-api") + "Dodaj/" + prikaznoIme + "/" + nazivSeznama, film);
+                return await _httpClient.PostAsJsonAsync(_configuration["SeznamiService"] + "Dodaj/" + prikaznoIme + "/" + nazivSeznama, film);
             }
             catch (HttpRequestException)
             {
@@ -69,7 +69,7 @@ namespace OceniFilm.Services
                 string? jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
                 //return await _httpClient.PostAsJsonAsync(_configuration["GatewayUrl"] + "/Odstrani/" + prikaznoIme + "/" + nazivSeznama, film);
-                return await _httpClient.PostAsJsonAsync(_configuration.GetServiceUri("seznami-api") + "Odstrani/" + prikaznoIme + "/" + nazivSeznama, film);
+                return await _httpClient.PostAsJsonAsync(_configuration["SeznamiService"] + "Odstrani/" + prikaznoIme + "/" + nazivSeznama, film);
             }
             catch (HttpRequestException)
             {
@@ -84,7 +84,7 @@ namespace OceniFilm.Services
                 string? jwt = await _localStorageService.GetItemAsync<string>("jwt");
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
                 //return await _httpClient.PostAsJsonAsync(_configuration["GatewayUrl"] + "/odstraniSeznamFilmov/", seznamFilmov);
-                return await _httpClient.PostAsJsonAsync(_configuration.GetServiceUri("seznami-api") + "odstraniSeznamFilmov", seznamFilmov);
+                return await _httpClient.PostAsJsonAsync(_configuration["SeznamiService"] + "odstraniSeznamFilmov", seznamFilmov);
             }
             catch (HttpRequestException)
             {

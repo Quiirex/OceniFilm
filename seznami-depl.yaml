@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seznami-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: seznamiservice
+  template:
+    metadata:
+      labels:
+        app: seznamiservice
+    spec:
+      containers:
+        - name: seznamiservice
+          image: quiirex/seznamimicroservice:latest
+          imagePullPolicy: Always
+          resources:
+           requests:
+            memory: "50Mi"
+            cpu: "500m"
+           limits:
+            memory: "100Mi"
+            cpu: "1000m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: seznami-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: seznamiservice
+  ports:
+  - name: seznamiservice
+    protocol: TCP
+    port: 80
+    targetPort: 80

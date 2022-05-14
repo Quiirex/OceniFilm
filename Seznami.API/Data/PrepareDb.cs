@@ -5,18 +5,19 @@ namespace Seznami.API.Data;
 
 public static class PrepareDb
 {
-    public static void InitializeDataSeed(IApplicationBuilder app, bool SQLServ)
+    public static void InitializeDataSeed(IApplicationBuilder app, bool useSQLServ)
     {
         using IServiceScope? serviceScope = app.ApplicationServices.CreateScope();
-        SeedData(serviceScope.ServiceProvider.GetService<SeznamiFilmovDbContext>(), SQLServ);
+        SeedData(serviceScope.ServiceProvider.GetService<SeznamiFilmovDbContext>(), useSQLServ);
     }
 
-    private static void SeedData(SeznamiFilmovDbContext dbContext, bool SQLServ)
+    private static void SeedData(SeznamiFilmovDbContext dbContext, bool useSQLServ)
     {
-        if (SQLServ)
+        if (useSQLServ)
         {
             try
             {
+                Console.WriteLine($"[PrepareDb] Attempting a database migration...");
                 dbContext.Database.Migrate();
                 Console.WriteLine($"[PrepareDb] Migration successful");
             }
