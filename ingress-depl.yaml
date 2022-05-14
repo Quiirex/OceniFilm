@@ -7,10 +7,10 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
   rules:
-    - host: ocenifilm.com
+    - host: ocenifilm.si
       http:
         paths:
-          - path: /ui
+          - path: /
             pathType: Prefix
             backend:
               service:

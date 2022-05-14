@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: ocenifilm-depl
 spec:
-  replicas: 1
+  replicas: 1 #Dont edit
   selector:
     matchLabels:
       app: ocenifilmservice
