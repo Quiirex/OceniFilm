@@ -13,7 +13,7 @@
 </p>
 
 <!-- ABOUT THE PROJECT -->
-## Opredelitev problema
+## Opis spletne aplikacije
 
 <p align="center">
 V luči demonstracije reševanja tipičnih razvojnih problemov bomo predstavili
@@ -29,11 +29,32 @@ svojem zabojniku. Orodje Kubernetes bo po potrebi skaliralo število instanc
 zabojnikov.
 </p>
 
+## Pred zagonom potrebujete naslednje programe
+* [Docker desktop](https://www.docker.com/products/docker-desktop/) (z omogočeno Kubernetes integracijo v nastavitvah)
+* [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/)
+* [Octant](https://octant.dev/) (po želji)
+* [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) (po želji)
 
-### Uporabljene tehnologije
+## Zagon aplikacije (v ukazni vrstici izvedite naslednje ukaze - poskrbite, da ste v istem direktoriju, kot yaml datoteka, katero uvajate v lokalno gručo. Program Docker Desktop mora biti aktiven)
+1. ```kubectl create secret generic mssql —from-literal=SA_PASSWORD=”M!cr0s3rv!ce”``` (secret je potreben za delovanje!)
+2. ```kubectl apply -f pvc-claim.yaml```
+3. ```kubectl apply -f mssql-depl.yaml``` (po izvedbi tega ukaza počakajte nekaj sekund)
+4. ```kubectl apply -f identiteta-depl.yaml```
+5. ```kubectl apply -f igralci-depl.yaml```
+6. ```kubectl apply -f komentiranje-depl.yaml```
+7. ```kubectl apply -f ocenjevanje-depl.yaml```
+8. ```kubectl apply -f videoteka-depl.yaml```
+9. ```kubectl apply -f seznami-depl.yaml```
+10. ```kubectl apply -f ocenifilm-depl.yaml```
+11. ```kubectl apply -f ocenifilm-np-srv.yaml```
+12. ```kubectl apply -f ingress-depl.yaml```
 
-* [C#](https://docs.microsoft.com/en-us/dotnet/csharp/)
-* [.NET](https://dotnet.microsoft.com/en-us/)
-* [Docker](https://www.docker.com/)
-* [Kubernetes](https://kubernetes.io/)
+## Če želite samodejno horizontalno skaliranje storitev
 
+13. ```kubectl -n kube-system apply -f metric-server-depl.yaml```
+14. ```kubectl autoscale deployment identiteta-depl --cpu-percent=95 --min=1 --max=3```
+15. ```kubectl autoscale deployment igralci-depl --cpu-percent=95 --min=1 --max=3```
+16. ```kubectl autoscale deployment komentiranje-depl --cpu-percent=95 --min=1 --max=3```
+17. ```kubectl autoscale deployment ocenjevanje-depl --cpu-percent=95 --min=1 --max=3```
+18. ```kubectl autoscale deployment seznami-depl --cpu-percent=95 --min=1 --max=3```
+19. ```kubectl autoscale deployment videoteka-depl --cpu-percent=95 --min=1 --max=3```
