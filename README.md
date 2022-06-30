@@ -58,3 +58,9 @@ zabojnikov.
 17. ```kubectl autoscale deployment ocenjevanje-depl --cpu-percent=95 --min=1 --max=3```
 18. ```kubectl autoscale deployment seznami-depl --cpu-percent=95 --min=1 --max=3```
 19. ```kubectl autoscale deployment videoteka-depl --cpu-percent=95 --min=1 --max=3```
+
+## Dostopanje do spletne aplikacije preko brskalnika
+1. V ukazni vrstici izvedite ukaz ```kubectl get svc```
+2. Preberite port (vrata) za servis imenovan ```ocenifilmnpservice-srv```
+3. Primer: ```ocenifilmnpservice-srv       NodePort       10.103.130.79    <none>        80:32530/TCP     36d``` (tukaj nas zanimajo vrata 32530)
+4. V brskalnik v tem primeru vpišemo ```localhost:32530``` oz. ```127.0.0.1:32530``` in prispemo na vstopno stran aplikacije
