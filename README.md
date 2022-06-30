@@ -12,23 +12,6 @@
   </p>
 </p>
 
-<!-- ABOUT THE PROJECT -->
-## Opis spletne aplikacije
-
-<p align="center">
-V luči demonstracije reševanja tipičnih razvojnih problemov bomo predstavili
-mikrostoritven pristop k razvoju aplikacije s pomočjo programskega jezika C#,
-ogrodja .NET, Dockerjevih zabojnikov in Kubernetes orkestratorja. Ustvarili bomo
-spletno aplikacijo, ki bo temeljila na prej omenjenih tehnologijah. Spletna aplikacija
-bo kot osrednjo funkcionalnost omogočala ocenjevanje in komentiranje filmov, poleg
-tega bodo uporabljene funkcionalnosti za izris čelnega dela, registracijo in prijavo
-uporabnikov, iskanje filmov, dodajanje filmov na različne sezname, itd.
-Osnovni protokol za komunikacijo med storitvami bo protokol HTTP. Funkcionalnosti
-bodo razdeljene v množico mikrostoritev, ki se bodo izvajale in bodo upravljane v
-svojem zabojniku. Orodje Kubernetes bo po potrebi skaliralo število instanc
-zabojnikov.
-</p>
-
 ## Pred zagonom potrebujete naslednje programe
 * [Docker desktop](https://www.docker.com/products/docker-desktop/) (z omogočeno Kubernetes integracijo v nastavitvah)
 * [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/)
