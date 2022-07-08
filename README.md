@@ -23,24 +23,22 @@
 2. ```kubectl apply -f pvc-claim.yaml```
 3. ```kubectl apply -f mssql-depl.yaml``` (po izvedbi tega ukaza počakajte nekaj sekund)
 4. ```kubectl apply -f identiteta-depl.yaml```
-5. ```kubectl apply -f igralci-depl.yaml```
-6. ```kubectl apply -f komentiranje-depl.yaml```
-7. ```kubectl apply -f ocenjevanje-depl.yaml```
-8. ```kubectl apply -f videoteka-depl.yaml```
-9. ```kubectl apply -f seznami-depl.yaml```
-10. ```kubectl apply -f ocenifilm-depl.yaml```
-11. ```kubectl apply -f ocenifilm-np-srv.yaml```
-12. ```kubectl apply -f ingress-depl.yaml```
+5. ```kubectl apply -f komentiranje-depl.yaml```
+6. ```kubectl apply -f ocenjevanje-depl.yaml```
+7. ```kubectl apply -f videoteka-depl.yaml```
+8. ```kubectl apply -f seznami-depl.yaml```
+9. ```kubectl apply -f ocenifilm-depl.yaml```
+10. ```kubectl apply -f ocenifilm-np-srv.yaml```
+11. ```kubectl apply -f ingress-depl.yaml```
 
 ## Če želite samodejno horizontalno skaliranje storitev
 
-13. ```kubectl -n kube-system apply -f metric-server-depl.yaml```
-14. ```kubectl autoscale deployment identiteta-depl --cpu-percent=95 --min=1 --max=3```
-15. ```kubectl autoscale deployment igralci-depl --cpu-percent=95 --min=1 --max=3```
-16. ```kubectl autoscale deployment komentiranje-depl --cpu-percent=95 --min=1 --max=3```
-17. ```kubectl autoscale deployment ocenjevanje-depl --cpu-percent=95 --min=1 --max=3```
-18. ```kubectl autoscale deployment seznami-depl --cpu-percent=95 --min=1 --max=3```
-19. ```kubectl autoscale deployment videoteka-depl --cpu-percent=95 --min=1 --max=3```
+12. ```kubectl -n kube-system apply -f metric-server-depl.yaml```
+13. ```kubectl autoscale deployment identiteta-depl --cpu-percent=95 --min=1 --max=3```
+14. ```kubectl autoscale deployment komentiranje-depl --cpu-percent=95 --min=1 --max=3```
+15. ```kubectl autoscale deployment ocenjevanje-depl --cpu-percent=95 --min=1 --max=3```
+16. ```kubectl autoscale deployment seznami-depl --cpu-percent=95 --min=1 --max=3```
+17. ```kubectl autoscale deployment videoteka-depl --cpu-percent=95 --min=1 --max=3```
 
 ## Dostopanje do spletne aplikacije preko brskalnika
 1. V ukazni vrstici izvedite ukaz ```kubectl get svc```
