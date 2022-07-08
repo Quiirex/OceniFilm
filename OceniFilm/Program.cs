@@ -23,7 +23,6 @@ builder.Services.AddHttpClient<IFilmService, FilmService>();
 builder.Services.AddHttpClient<ICommentService, CommentService>();
 builder.Services.AddHttpClient<IPlaylistService, PlaylistService>();
 builder.Services.AddHttpClient<IRatingService, RatingService>();
-builder.Services.AddHttpClient<IActorService, ActorService>();
 
 WebApplication? app = builder.Build();
 

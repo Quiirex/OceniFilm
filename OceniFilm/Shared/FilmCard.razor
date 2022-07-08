@@ -25,11 +25,11 @@
                 {
                     @if (!igralec.Equals(lastIgralec))
                     {
-                        <a class="actor-hover" @onclick="(() => ShowIgralecModal(igralec.Ime, igralec.Priimek))">&nbsp;@igralec.Ime @igralec.Priimek •</a>
+                        <a>&nbsp;@igralec.Ime @igralec.Priimek •</a>
                     }
                     else
                     {
-                        <a class="actor-hover" @onclick="(() => ShowIgralecModal(igralec.Ime, igralec.Priimek))">&nbsp;@igralec.Ime @igralec.Priimek</a>
+                        <a>&nbsp;@igralec.Ime @igralec.Priimek</a>
                     }
                 }
             }
@@ -51,13 +51,11 @@
 
 <PlaylistModal @bind-playlistModalVisible="playlistModalVisible" poster="@poster" naslovFilma="@naslov" letoIzdaje="@letoIzdaje"/>
 <TrailerModal @bind-trailerModalVisible="trailerModalVisible" Url="@napovednikUrl"/>
-<IgralecModal @bind-igralecModalVisible="igralecModalVisible" imeIgralca="@imeIgralcaPassed" priimekIgralca="@priimekIgralcaPassed"></IgralecModal>
 
 
 @code {
     public bool playlistModalVisible { get; set; } = false;
     public bool trailerModalVisible { get; set; } = false;
-    public bool igralecModalVisible { get; set; } = false;
 
     [Parameter]
     public string poster { get; set; } = string.Empty;
@@ -82,10 +80,6 @@
 
     private IgralecFilma? lastIgralec { get; set; }
 
-    public string imeIgralcaPassed { get; set; } = string.Empty;
-
-    public string priimekIgralcaPassed { get; set; } = string.Empty;
-
     protected override async Task OnInitializedAsync()
     {
         if (seznamIgralcev.Any())
@@ -103,14 +97,6 @@
     private Task ShowTrailerModal()
     {
         trailerModalVisible = true;
-        return Task.CompletedTask;
-    }
-
-    private Task ShowIgralecModal(string imeIgralca, string priimekIgralca)
-    {
-        imeIgralcaPassed = imeIgralca;
-        priimekIgralcaPassed = priimekIgralca;
-        igralecModalVisible = true;
         return Task.CompletedTask;
     }
 }

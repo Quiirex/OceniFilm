@@ -28,7 +28,6 @@ else
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(authenticationOptions =>
 {
@@ -52,14 +51,6 @@ builder.Services.AddAuthentication(authenticationOptions =>
 
 
 WebApplication? app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
-    //app.UseSwagger();
-    //app.UseSwaggerUI();
-}
-
-//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
