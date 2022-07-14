@@ -31,7 +31,7 @@
 10. ```kubectl apply -f ocenifilm-np-srv.yaml```
 11. ```kubectl apply -f ingress-depl.yaml```
 
-## Če želite samodejno horizontalno skaliranje storitev
+## Samodejno horizontalno skaliranje mikrostoritev
 
 12. ```kubectl -n kube-system apply -f metric-server-depl.yaml```
 13. ```kubectl autoscale deployment identiteta-depl --cpu-percent=95 --min=1 --max=3```
